@@ -33,7 +33,8 @@ verificado-em: 2026-11-04
 ## 🖥️ Sistemas
 
 - **Windows**: verificado (`npm run verify` completo).
-- **Linux e macOS**: **não verificado**. O monorepo ainda não tem CI; a primeira execução em Linux acontece no workflow de CI.
+- **Linux (Ubuntu)**: verificado no CI (`verify` e E2E nos três navegadores).
+- **macOS**: **não verificado**.
 
 ## 🔗 Por que ESLint 9
 

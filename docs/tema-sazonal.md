@@ -41,7 +41,7 @@ sequenceDiagram
 Legenda: seta cheia = pedido; tracejada = resposta. Qualquer falha em qualquer passo deixa a SPA no tema padrão.
 
 > [!IMPORTANT]
-> **Estado nesta data:** o pacote `theme` (validação, contraste, aplicação, E2E) está pronto. O endpoint `GET /bff/theme` do `TEC.Bff` e o repositório `themes` seguem o contrato abaixo; confira o CHANGELOG deles para saber se já foram publicados.
+> **Estado (2026-11-04):** o pacote `theme` está publicado. O endpoint `GET /bff/theme` está no `TEC.Bff` ([documentação](https://github.com/tudoemcodigo/lib-tec-bff/blob/main/docs/tema-sazonal.md)) e o repositório [`themes`](https://github.com/tudoemcodigo/themes) publica o `themes.json` no GitHub Pages. O BFF real, com o handler de produção, já buscou e validou esse documento publicado. **Ainda não verificado:** uma SPA real consumindo o tema ponta a ponta (a migração do `web-templatetec` é a próxima etapa).
 
 ## 📄 O manifesto
 

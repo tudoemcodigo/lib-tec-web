@@ -99,7 +99,7 @@ npm install --save-dev @tudoemcodigo/tooling
 ```
 
 > [!WARNING]
-> **Não verificado:** a instalação pelo registro só vale depois da primeira publicação. Até lá, use o clone deste repositório (veja [Início rápido](#-início-rápido)).
+> **Verificado** (2026-11-04): instalação do registro numa pasta limpa e atestado de procedência (SLSA) do tarball, que aponta o workflow `release.yml` da `main`. Para trabalhar no próprio monorepo, use o clone (veja [Início rápido](#-início-rápido)).
 
 ---
 
@@ -169,7 +169,7 @@ export default defineConfig(
 
 - **Node**: 24 (LTS), npm 11
 - **TypeScript**: 5.9 (`>=5.9 <6`); **ESLint**: 9.39 (o `eslint-plugin-jsx-a11y` ainda não suporta o 10, FRT-BAS-03); **Prettier**: 3
-- **Sistemas**: o monorepo é verificado no Windows; Linux e macOS **não verificados** nesta etapa (CI ainda inexistente)
+- **Sistemas**: o monorepo é verificado no Windows (local) e no Linux (CI, Ubuntu); macOS **não verificado**
 
 ---
 
@@ -177,7 +177,7 @@ export default defineConfig(
 
 - **Lint como controle**: as regras de segurança do frontend (FRT-SEG-01/04, FRT-API-02) viram erro de build; veja [Segurança](https://github.com/tudoemcodigo/lib-tec-web/blob/main/docs/seguranca.md) para os limites.
 - **Supply chain**: `ignore-scripts=true`, `engine-strict`, `exports` por subcaminho e `files` em lista permitida (conferidos por `npm run check:packages`). `npm audit` acusa 1 advisory `moderate` na cadeia de desenvolvimento do ESLint (`minimatch`), sem correção sem salto de major: risco residual registrado.
-- **Testes**: 187 unitários (Vitest, cobertura `v8` de 98,96% das instruções e 98,98% dos ramos sobre o `src` de todos os pacotes) e 42 E2E do `theme` em Chromium, Firefox e WebKit sob CSP estrita (`npm run e2e`). O gate de 90% é imposto pela própria configuração, que também recusa `coverageInclude` com curinga que mediria zero arquivos.
+- **Testes**: 189 unitários (Vitest, cobertura `v8` de 98,97% das instruções e 98,67% dos ramos sobre o `src` de todos os pacotes) e 42 E2E do `theme` em Chromium, Firefox e WebKit sob CSP estrita (`npm run e2e`). O gate de 90% é imposto pela própria configuração, que também recusa `coverageInclude` com curinga que mediria zero arquivos.
 
 ---
 

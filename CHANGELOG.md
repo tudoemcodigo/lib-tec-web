@@ -8,8 +8,8 @@ Todas as mudanças relevantes do **lib-tec-web** são registradas aqui. O format
 
 - Estrutura do monorepo (npm workspaces em `packages/*`), `.npmrc` com `ignore-scripts`, Node 24, Prettier, ESLint, `tsconfig` e Vitest com cobertura mínima de 90%.
 - `scripts/check-packages.mjs`: confere o `package.json` de cada pacote contra FRT-PKG-04.
-- Pacote `@tudoemcodigo/tooling` `0.0.1` (não publicado).
-- Pacote `@tudoemcodigo/theme` `0.0.1` (não publicado): tokens, preferências e tema sazonal por manifesto fechado, com E2E em Chromium, Firefox e WebKit.
+- Pacote `@tudoemcodigo/tooling` `0.0.1`, publicado em 2026-11-04 (tag `tooling-v0.0.1`).
+- Pacote `@tudoemcodigo/theme` `0.0.1`, publicado em 2026-11-04 (tag `theme-v0.0.1`): tokens, preferências e tema sazonal por manifesto fechado, com E2E em Chromium, Firefox e WebKit.
 - `npm run build` e `npm run e2e`.
 - Documentação no padrão dos componentes TEC: README, `docs/` (índice, uso, opções, erros, segurança, compatibilidade, tema e tema sazonal).
 

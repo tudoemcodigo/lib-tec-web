@@ -188,9 +188,14 @@ export function selectActiveTheme(document: ThemesDocument, today: string): Seas
   const candidates = document.themes
     .filter((theme) => theme.from <= today && today <= theme.to)
     .sort((a, b) =>
-      a.from === b.from ? a.id.localeCompare(b.id, 'en') : b.from.localeCompare(a.from, 'en'),
+      a.from === b.from ? compareOrdinal(a.id, b.id) : compareOrdinal(b.from, a.from),
     );
   return candidates[0] ?? null;
+}
+
+/** Ordem por unidade de código (igual ao `StringComparer.Ordinal` do C#): nada de collation de locale. */
+function compareOrdinal(a: string, b: string): number {
+  return a < b ? -1 : a > b ? 1 : 0;
 }
 
 /** Converte o tema publicado no que o BFF entrega: assets viram URLs da mesma origem (FRT-TEM-05). */

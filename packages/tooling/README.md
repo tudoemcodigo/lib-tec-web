@@ -56,7 +56,7 @@ npm install --save-dev @tudoemcodigo/tooling eslint typescript prettier
 ```
 
 > [!WARNING]
-> **Não verificado:** a instalação pelo registro só vale depois da primeira publicação. `eslint`, `typescript` e `prettier` são peers: o sistema os instala.
+> **Verificado** (2026-11-04): instalação do registro numa pasta limpa e atestado de procedência (SLSA) do tarball, que aponta o workflow `release.yml` da `main`. `eslint`, `typescript` e `prettier` são peers: o sistema os instala.
 
 ---
 

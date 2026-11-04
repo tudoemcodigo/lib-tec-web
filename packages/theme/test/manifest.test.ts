@@ -88,6 +88,28 @@ describe('selectActiveTheme (casos compartilhados com o BFF)', () => {
   });
 });
 
+describe('selectActiveTheme: ordem ordinal (igual ao C#)', () => {
+  const theme = (id: string, from: string) => ({
+    id,
+    from,
+    to: '2026-12-31',
+    tokens: {},
+    assets: {},
+    animation: 'none' as const,
+  });
+  const pick = (ids: string[]) =>
+    selectActiveTheme(
+      { contract: 1, themes: ids.map((id) => theme(id, '2026-12-01')) },
+      '2026-12-10',
+    )?.id;
+
+  it('no empate de início vence o menor id por ordem de unidade de código (hífen antes de letra, dígito antes de letra)', () => {
+    expect(pick(['ab', 'a-b'])).toBe('a-b');
+    expect(pick(['b1', 'b-1', 'ba'])).toBe('b-1');
+    expect(pick(['a9', 'a10'])).toBe('a10');
+  });
+});
+
 describe('isRealDate', () => {
   it('só datas reais do calendário', () => {
     expect(isRealDate('2028-02-29')).toBe(true);

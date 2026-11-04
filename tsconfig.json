@@ -1,0 +1,11 @@
+{
+  "extends": "./packages/tooling/tsconfig/base.json",
+  "compilerOptions": { "noEmit": true },
+  "include": [
+    "packages/*/src/**/*",
+    "packages/*/test/**/*.ts",
+    "packages/*/test/**/*.tsx",
+    "packages/*/e2e/**/*.ts"
+  ],
+  "exclude": ["packages/*/dist", "packages/*/test/fixtures"]
+}

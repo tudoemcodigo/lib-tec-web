@@ -1,0 +1,51 @@
+{
+  "name": "@tudoemcodigo/tooling",
+  "version": "0.0.1",
+  "description": "Configuração compartilhada de ESLint, TypeScript, Prettier e Vitest dos frontends Tudo em Código (regras FRT da Doutrina).",
+  "license": "Apache-2.0",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tudoemcodigo/lib-tec-web.git",
+    "directory": "packages/tooling"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "exports": {
+    "./eslint": {
+      "types": "./src/eslint.d.ts",
+      "default": "./src/eslint.js"
+    },
+    "./vitest": {
+      "types": "./src/vitest.d.ts",
+      "default": "./src/vitest.js"
+    },
+    "./prettier": {
+      "types": "./src/prettier.d.ts",
+      "default": "./src/prettier.js"
+    },
+    "./tsconfig/base.json": "./tsconfig/base.json",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src",
+    "tsconfig",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "sideEffects": false,
+  "dependencies": {
+    "@eslint/js": "^9.39.5",
+    "eslint-config-prettier": "^10.1.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.0.0",
+    "typescript-eslint": "^8.72.1"
+  },
+  "peerDependencies": {
+    "eslint": "^9.39.0",
+    "prettier": "^3.0.0",
+    "typescript": ">=5.9.0 <6"
+  }
+}

@@ -1,0 +1,38 @@
+# Um PR semanal com todas as atualizações minor/patch (uma execução de CI em vez de várias); major em PR separado.
+# Cooldown: espera alguns dias por versões recém-lançadas (mitiga pacote comprometido publicado e retirado em seguida).
+version: 2
+
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    cooldown:
+      default-days: 7
+    commit-message:
+      prefix: 'deps'
+    groups:
+      npm:
+        patterns: ['*']
+        update-types: ['minor', 'patch']
+    # ESLint 10 e TypeScript 6 só sobem à mão: dependem de todos os plugins declararem suporte (FRT-BAS-03/04)
+    ignore:
+      - dependency-name: 'eslint'
+        update-types: ['version-update:semver-major']
+      - dependency-name: 'typescript'
+        update-types: ['version-update:semver-major']
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    cooldown:
+      default-days: 7
+    commit-message:
+      prefix: 'ci'
+    groups:
+      actions:
+        patterns: ['*']

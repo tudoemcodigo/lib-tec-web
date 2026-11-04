@@ -1,0 +1,44 @@
+{
+  "name": "@tudoemcodigo/theme",
+  "version": "0.0.1",
+  "description": "Tokens de identidade visual, preferências de exibição e tema sazonal por manifesto fechado dos frontends Tudo em Código.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tudoemcodigo/lib-tec-web.git",
+    "directory": "packages/theme"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./core": {
+      "types": "./dist/core.d.ts",
+      "default": "./dist/core.js"
+    },
+    "./tokens.css": "./dist/tokens.css",
+    "./animations.css": "./dist/animations.css",
+    "./schema/themes.schema.json": "./schema/themes.schema.json",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "schema",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json && node ../../scripts/copy-css.mjs"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0"
+  }
+}

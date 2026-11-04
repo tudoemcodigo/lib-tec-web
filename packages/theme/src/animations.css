@@ -1,0 +1,51 @@
+/*
+ * Animações do tema sazonal: um conjunto fechado, em CSS puro (FRT-TEM-01). O manifesto só escolhe o nome
+ * (`data-seasonal-animation`); nenhum código ou CSS vem dele. Desligada por `prefers-reduced-motion` e por
+ * `data-motion="reduced"` (FRT-TEM-04). É decoração: sem foco, sem clique e fora da árvore de acessibilidade.
+ */
+@layer tec-tokens, tec-seasonal;
+
+@layer tec-seasonal {
+  :root[data-seasonal-animation='snow']::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.85;
+    background-image:
+      radial-gradient(circle, #dbeeff 0 2px, transparent 3px),
+      radial-gradient(circle, #dbeeff 0 1.5px, transparent 2.5px),
+      radial-gradient(circle, #dbeeff 0 1px, transparent 2px);
+    background-size:
+      220px 220px,
+      340px 340px,
+      150px 150px;
+    animation: tec-snow 16s linear infinite;
+  }
+
+  @keyframes tec-snow {
+    from {
+      background-position:
+        0 0,
+        40px 0,
+        90px 0;
+    }
+    to {
+      background-position:
+        20px 220px,
+        10px 340px,
+        70px 150px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :root[data-seasonal-animation='snow']::before {
+      display: none;
+    }
+  }
+
+  :root[data-motion='reduced'][data-seasonal-animation='snow']::before {
+    display: none;
+  }
+}

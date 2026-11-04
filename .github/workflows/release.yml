@@ -1,0 +1,109 @@
+name: release
+
+# Publica UM pacote por execução no GitHub Packages, a partir da main, depois dos portões (FRT-PKG-08, CMP-PUB-05):
+# versão igual à do package.json e maior que a última tag do pacote, `ci-ok` verde do commit, zero PRs abertos.
+# A tag é `<pacote>-v<versão>`. O tarball recebe atestado de procedência (SLSA) e vai anexo ao Release.
+on:
+  workflow_dispatch:
+    inputs:
+      package:
+        description: Pacote (pasta em packages/)
+        required: true
+        type: choice
+        options:
+          - tooling
+          - theme
+      version:
+        description: Versão X.Y.Z (igual à do package.json do pacote)
+        required: true
+        type: string
+
+permissions: {}
+
+concurrency:
+  group: release-${{ inputs.package }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Publicar ${{ inputs.package }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment: publicacao
+    permissions:
+      contents: write # tag e Release
+      packages: write # GitHub Packages
+      id-token: write # atestado de procedência
+      attestations: write
+      checks: read # lê o ci-ok do commit
+      pull-requests: read # zero PRs abertos
+    env:
+      PACKAGE: ${{ inputs.package }}
+      VERSION: ${{ inputs.version }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Portões de release
+        env:
+          REF: ${{ github.ref }}
+          SHA: ${{ github.sha }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          [ "$REF" = "refs/heads/main" ] || { echo "Release só a partir da main (ref: $REF)"; exit 1; }
+          [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "Versão estável X.Y.Z exigida"; exit 1; }
+          [[ "$PACKAGE" =~ ^[a-z][a-z0-9-]*$ ]] || { echo "Nome de pacote inválido"; exit 1; }
+          declared=$(node -p "require('./packages/$PACKAGE/package.json').version")
+          [ "$declared" = "$VERSION" ] || { echo "package.json declara $declared, não $VERSION"; exit 1; }
+          tag="$PACKAGE-v$VERSION"
+          if git rev-parse -q --verify "refs/tags/$tag" >/dev/null; then echo "A tag $tag já existe"; exit 1; fi
+          last=$(git tag --list "$PACKAGE-v*" | sed "s/^$PACKAGE-v//" | sort -V | tail -n 1)
+          if [ -n "$last" ] && [ "$(printf '%s\n%s\n' "$last" "$VERSION" | sort -V | tail -n 1)" != "$VERSION" ]; then
+            echo "$VERSION não é maior que a última versão publicada ($last)"; exit 1
+          fi
+          conclusion=$(gh api "repos/$REPO/commits/$SHA/check-runs" --paginate \
+            --jq '[.check_runs[] | select(.name == "ci-ok" and .app.slug == "github-actions")] | sort_by(.completed_at) | last | .conclusion // "ausente"')
+          [ "$conclusion" = "success" ] || { echo "ci-ok do commit $SHA: $conclusion"; exit 1; }
+          open=$(gh api "repos/$REPO/pulls?state=open" --jq 'length')
+          [ "$open" = "0" ] || { echo "Há $open PR(s) aberto(s)"; exit 1; }
+          echo "TAG=$tag" >> "$GITHUB_ENV"
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          registry-url: https://npm.pkg.github.com
+
+      - run: npm ci
+      - run: npm run verify
+
+      - name: Empacotar
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          npm pack --workspace "@tudoemcodigo/$PACKAGE" --pack-destination out
+          ls -l out
+
+      - name: Atestado de procedência (SLSA)
+        uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject-path: out/*.tgz
+
+      - name: Publicar no GitHub Packages
+        env:
+          NODE_AUTH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          npm publish out/*.tgz --registry https://npm.pkg.github.com
+
+      - name: Tag e Release
+        env:
+          SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          gh release create "$TAG" out/*.tgz --target "$SHA" --title "@tudoemcodigo/$PACKAGE $VERSION" \
+            --notes "Pacote @tudoemcodigo/$PACKAGE $VERSION. Veja o CHANGELOG em packages/$PACKAGE/CHANGELOG.md."

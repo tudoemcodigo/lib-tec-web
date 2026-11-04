@@ -1,0 +1,117 @@
+name: ci
+
+# Verificação do monorepo: tipos, lint, formatação, check:packages, build, testes com cobertura (verify), E2E do tema
+# nos três motores de navegador, auditoria de dependências, CodeQL e auditoria dos workflows (zizmor). O job
+# `ci-ok` é o único que o ruleset da main exige. Nenhum job publica: pacote só sai pelo release.yml.
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  merge_group:
+  schedule:
+    - cron: '0 6 * * 1' # segunda, 06:00 UTC: CodeQL novo e vulnerabilidades novas
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  # PR: um push novo cancela a execução anterior. Fora de PR, cada execução tem o próprio grupo
+  group: ${{ github.event_name == 'pull_request' && format('ci-{0}', github.ref) || format('ci-{0}', github.run_id) }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Verificação (Node 24)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run verify
+
+  e2e:
+    name: E2E do tema (Chromium, Firefox, WebKit)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium firefox webkit
+      - run: npm run e2e
+
+  audit:
+    name: Auditoria de dependências
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      # high e critical quebram; o advisory moderate de minimatch na cadeia do ESLint é risco residual registrado
+      - run: npm audit --audit-level=high
+
+  codeql:
+    name: CodeQL (JavaScript e TypeScript)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: github/codeql-action/init@6f2ac81f5cd81fe351a197ba0b00d91d03cd2aee # v4.39.0
+        with:
+          languages: javascript-typescript
+          queries: security-extended
+      - uses: github/codeql-action/analyze@6f2ac81f5cd81fe351a197ba0b00d91d03cd2aee # v4.39.0
+
+  workflows:
+    name: Auditoria dos workflows (zizmor)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - run: pipx run 'zizmor==1.31.1' --min-severity low .
+
+  ci-ok:
+    name: ci-ok
+    if: always()
+    needs: [verify, e2e, audit, codeql, workflows]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Todos os jobs terminaram em sucesso
+        env:
+          RESULTS: ${{ join(needs.*.result, ' ') }}
+        run: |
+          for result in $RESULTS; do
+            if [ "$result" != "success" ]; then
+              echo "ci-ok falhou: resultados = $RESULTS"
+              exit 1
+            fi
+          done
+          echo "ci-ok: tudo verde ($RESULTS)"

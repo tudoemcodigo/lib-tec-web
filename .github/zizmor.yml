@@ -1,0 +1,10 @@
+# Configuração do zizmor (auditoria de segurança dos workflows): pipx run zizmor .
+rules:
+  unpinned-uses:
+    config:
+      policies:
+        # Actions de terceiros e do GitHub sempre fixadas por SHA (CMP-PUB-02)
+        '*': hash-pin
+  use-trusted-publishing:
+    # O GitHub Packages não tem trusted publishing (OIDC): o publish usa o GITHUB_TOKEN efêmero da execução
+    disable: true

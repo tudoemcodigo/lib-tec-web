@@ -30,4 +30,4 @@ Versão inaugural: identidade visual, preferências e tema sazonal.
 
 - O E2E usa uma CSP equivalente à do `TEC.Bff` e um servidor de teste; o endpoint `GET /bff/theme` está implementado no `TEC.Bff` (lib-tec-bff), com a mesma validação e os mesmos casos hostis.
 - Fontes (`--tec-font-*`) não são trocáveis por tema (carregar fonte exigiria origem extra na CSP).
-- Publicado em 2026-11-04 com atestado de procedência; o consumo por uma SPA real (migração do `web-templatetec`) ainda não foi feito.
+- Publicado em 2026-11-04 com atestado de procedência; o `web-templatetec` já o consome (E2E no app real em Chromium, Firefox e WebKit); o fluxo contra a pilha completa (Keycloak, API e BFF) ainda não foi exercitado.

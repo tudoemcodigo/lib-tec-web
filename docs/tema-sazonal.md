@@ -41,7 +41,7 @@ sequenceDiagram
 Legenda: seta cheia = pedido; tracejada = resposta. Qualquer falha em qualquer passo deixa a SPA no tema padrão.
 
 > [!IMPORTANT]
-> **Estado (2026-11-04):** o pacote `theme` está publicado. O endpoint `GET /bff/theme` está no `TEC.Bff` ([documentação](https://github.com/tudoemcodigo/lib-tec-bff/blob/main/docs/tema-sazonal.md)) e o repositório [`themes`](https://github.com/tudoemcodigo/themes) publica o `themes.json` no GitHub Pages. O BFF real, com o handler de produção, já buscou e validou esse documento publicado. **Ainda não verificado:** uma SPA real consumindo o tema ponta a ponta (a migração do `web-templatetec` é a próxima etapa).
+> **Estado (2026-11-04):** o pacote `theme` está publicado. O endpoint `GET /bff/theme` está no `TEC.Bff` ([documentação](https://github.com/tudoemcodigo/lib-tec-bff/blob/main/docs/tema-sazonal.md)) e o repositório [`themes`](https://github.com/tudoemcodigo/themes) publica o `themes.json` no GitHub Pages. O BFF real, com o handler de produção, já buscou e validou esse documento publicado. O `web-templatetec` já consome o pacote (tokens, preferências e `GET /bff/theme`), com 48 testes E2E no app real em Chromium, Firefox e WebKit: o Natal muda as cores de verdade, o alto contraste e "Não mostrar" vencem, resposta hostil não quebra a página e o axe não acusa violação. **Ainda não verificado:** o fluxo completo contra a pilha real (Keycloak, API e BFF) e um tema com banner e logo.
 
 ## 📄 O manifesto
 

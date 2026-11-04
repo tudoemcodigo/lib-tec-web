@@ -22,6 +22,8 @@ export interface ActionMenuProps {
   readonly items: readonly ActionMenuItem[];
   /** Cria o elemento do link do item (por exemplo, o `Link` do roteador). Padrão: `<a href>`. */
   readonly renderLink?: (item: ActionMenuItem) => ReactElement;
+  /** Abre o menu já na primeira renderização (para quem só monta o componente depois do clique no botão). */
+  readonly defaultOpen?: boolean;
 }
 
 /**
@@ -29,9 +31,9 @@ export interface ActionMenuProps {
  * item), foco e leitor de tela vêm do Base UI; Esc devolve o foco ao botão. Item de ação chama `onSelect` (que pode abrir um
  * diálogo de confirmação) e item de link navega.
  */
-export function ActionMenu({ label, items, renderLink }: ActionMenuProps) {
+export function ActionMenu({ label, items, renderLink, defaultOpen = false }: ActionMenuProps) {
   return (
-    <Menu.Root>
+    <Menu.Root defaultOpen={defaultOpen}>
       <Menu.Trigger className="ui-icon-action" data-tone="default" aria-label={label} title={label}>
         <IconMore />
       </Menu.Trigger>

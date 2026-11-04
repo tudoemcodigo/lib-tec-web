@@ -1,6 +1,4 @@
 import type { ComponentProps, ReactNode } from 'react';
-import { Dialog } from '@base-ui/react/dialog';
-import { useUiText } from './messages.js';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'ghost';
 
@@ -96,57 +94,5 @@ export function Badge({
     <span className="ui-badge" data-tone={tone}>
       {children}
     </span>
-  );
-}
-
-export interface ConfirmDialogProps {
-  readonly open: boolean;
-  readonly onOpenChange: (open: boolean) => void;
-  readonly title: string;
-  readonly description: string;
-  readonly confirmLabel: string;
-  readonly onConfirm: () => void;
-  readonly pending?: boolean | undefined;
-  /** Ação destrutiva: o botão de confirmar fica vermelho. */
-  readonly destructive?: boolean | undefined;
-  readonly children?: ReactNode;
-}
-
-/** Modal que prende o foco, fecha com Esc e devolve o foco ao gatilho (FRT-ACE-03). */
-export function ConfirmDialog({
-  open,
-  onOpenChange,
-  title,
-  description,
-  confirmLabel,
-  onConfirm,
-  pending,
-  destructive,
-  children,
-}: ConfirmDialogProps) {
-  const text = useUiText();
-  return (
-    <Dialog.Root open={open} onOpenChange={onOpenChange}>
-      <Dialog.Portal>
-        <Dialog.Backdrop className="ui-backdrop" />
-        <Dialog.Popup className="ui-dialog">
-          <Dialog.Title className="ui-dialog-title">{title}</Dialog.Title>
-          <Dialog.Description className="ui-dialog-text">{description}</Dialog.Description>
-          {children}
-          <div className="ui-dialog-actions">
-            <Dialog.Close render={<Button variant="secondary" />}>
-              {text('ui.confirm.cancel')}
-            </Dialog.Close>
-            <Button
-              variant={destructive === true ? 'danger' : 'primary'}
-              onClick={onConfirm}
-              loading={pending === true}
-            >
-              {confirmLabel}
-            </Button>
-          </div>
-        </Dialog.Popup>
-      </Dialog.Portal>
-    </Dialog.Root>
   );
 }

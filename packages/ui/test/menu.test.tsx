@@ -105,6 +105,17 @@ describe('ActionMenu', () => {
     expect(document.activeElement).toBe(botao);
   });
 
+  it('defaultOpen abre o menu na primeira renderização', async () => {
+    render(
+      <ActionMenu
+        label="Ações de Maria da Silva"
+        defaultOpen
+        items={[{ label: 'Inativar', onSelect: () => undefined }]}
+      />,
+    );
+    expect(await screen.findByRole('menuitem', { name: 'Inativar' })).toBeTruthy();
+  });
+
   it('rótulos hostis viram texto', async () => {
     const usuario = userEvent.setup();
     render(

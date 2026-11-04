@@ -4,6 +4,7 @@ export * from './toast.js';
 export * from './states.js';
 export * from './layout.js';
 export * from './controls.js';
+export * from './confirm-dialog.js';
 export * from './form.js';
 export * from './icons.js';
 export * from './menu.js';

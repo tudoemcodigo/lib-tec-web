@@ -29,6 +29,13 @@ export const uiMessages = {
     'ui.form.required': '(obrigatório)',
     'ui.form.errorSummary': 'Corrija os campos abaixo para continuar',
     'ui.scroll.region': 'Tabela com rolagem',
+    'ui.pagination.label': 'Paginação',
+    'ui.pagination.previous': 'Anterior',
+    'ui.pagination.next': 'Próxima',
+    'ui.pagination.page': 'Página {page}',
+    'ui.pagination.none': 'Nenhum registro',
+    'ui.pagination.one': '{count} registro',
+    'ui.pagination.other': '{count} registros',
   },
   en: {
     'ui.alert.dismiss': 'Dismiss notice',
@@ -54,6 +61,13 @@ export const uiMessages = {
     'ui.form.required': '(required)',
     'ui.form.errorSummary': 'Fix the fields below to continue',
     'ui.scroll.region': 'Scrollable table',
+    'ui.pagination.label': 'Pagination',
+    'ui.pagination.previous': 'Previous',
+    'ui.pagination.next': 'Next',
+    'ui.pagination.page': 'Page {page}',
+    'ui.pagination.none': 'No records',
+    'ui.pagination.one': '{count} record',
+    'ui.pagination.other': '{count} records',
   },
 } as const;
 
@@ -63,6 +77,7 @@ export type UiMessages = Readonly<Partial<Record<UiMessageKey, string>>>;
 const DEFAULT_LOCALE = 'pt-BR';
 
 const TextContext = createContext<UiMessages>(uiMessages[DEFAULT_LOCALE]);
+const LocaleContext = createContext<string>(DEFAULT_LOCALE);
 
 export interface UiProviderProps {
   /** Idioma dos textos padrão do pacote. Idioma sem catálogo cai em pt-BR. */
@@ -78,11 +93,30 @@ export function UiProvider({ locale = DEFAULT_LOCALE, messages, children }: UiPr
     ? uiMessages[locale as keyof typeof uiMessages]
     : uiMessages[DEFAULT_LOCALE];
   const value = useMemo<UiMessages>(() => ({ ...base, ...messages }), [base, messages]);
-  return createElement(TextContext.Provider, { value }, children);
+  return createElement(
+    LocaleContext.Provider,
+    { value: locale },
+    createElement(TextContext.Provider, { value }, children),
+  );
 }
 
 /** Texto do componente para a chave; chave sem texto devolve o pt-BR padrão, nunca vazio. */
 export function useUiText(): (key: UiMessageKey) => string {
   const messages = useContext(TextContext);
   return (key) => messages[key] ?? uiMessages[DEFAULT_LOCALE][key];
+}
+
+/** Idioma do `UiProvider` (padrão pt-BR), para formatar números com o locale certo. */
+export function useUiLocale(): string {
+  return useContext(LocaleContext);
+}
+
+/** Texto com `{nome}` trocado pelos valores (sem ICU: os textos do pacote só interpolam). */
+export function fillUiText(
+  template: string,
+  values: Readonly<Record<string, string | number>>,
+): string {
+  return template.replaceAll(/\{(\w+)\}/g, (inteiro, nome: string) =>
+    Object.hasOwn(values, nome) ? String(values[nome]) : inteiro,
+  );
 }

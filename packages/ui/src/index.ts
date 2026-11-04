@@ -7,3 +7,5 @@ export * from './controls.js';
 export * from './form.js';
 export * from './icons.js';
 export * from './menu.js';
+export * from './pagination.js';
+export * from './hooks.js';

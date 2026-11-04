@@ -16,6 +16,7 @@ import {
   faCompass,
   faEllipsisVertical,
   faEye,
+  faFloppyDisk,
   faFilter,
   faHouse,
   faInbox,
@@ -95,3 +96,5 @@ export const IconHelp = make(faCircleQuestion);
 export const IconCollapse = make(faAnglesLeft);
 export const IconExpand = make(faAnglesRight);
 export const IconTop = make(faArrowUp);
+/** Salvar: disquete. */
+export const IconSave = make(faFloppyDisk);

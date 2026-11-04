@@ -234,6 +234,17 @@
     margin: var(--tec-space-1) 0;
     background: var(--tec-color-border-subtle);
   }
+  .ui-pagination {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--tec-space-3);
+    margin-block-start: var(--tec-space-4);
+  }
+  .ui-pagination-total {
+    color: var(--tec-color-text-muted);
+    font-size: 0.875rem;
+  }
   .ui-row-actions {
     display: inline-flex;
     gap: var(--tec-space-1);

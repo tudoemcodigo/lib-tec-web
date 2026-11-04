@@ -1,0 +1,35 @@
+{
+  "name": "@tudoemcodigo/api-client",
+  "version": "0.0.1",
+  "description": "Cliente HTTP único dos frontends Tudo em Código: timeout, cancelamento, retentativa segura, CSRF, idempotência, correlação e ApiError tipado, com validação de contrato na borda.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tudoemcodigo/lib-tec-web.git",
+    "directory": "packages/api-client"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json"
+  },
+  "peerDependencies": {
+    "openapi-fetch": "^0.17.0",
+    "zod": "^4.0.0"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "name": "@tudoemcodigo/telemetry",
+  "version": "0.0.1",
+  "description": "Telemetria do cliente sem dado pessoal: redação de CPF, CNPJ, e-mail, token e identificadores, rota parametrizada e destino escolhido pelo sistema.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tudoemcodigo/lib-tec-web.git",
+    "directory": "packages/telemetry"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json"
+  }
+}

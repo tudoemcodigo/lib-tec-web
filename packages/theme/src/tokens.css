@@ -26,15 +26,15 @@
     --tec-color-text-muted: light-dark(#3a4160, #b6bcd2);
     --tec-color-border: light-dark(#6b7390, #7f88a8);
     --tec-color-border-subtle: light-dark(#d5d9e6, #444d6b);
-    --tec-color-accent: light-dark(#4f5be8, #8c97fa);
+    --tec-color-accent: light-dark(#5562d6, #8c97fa);
     --tec-color-on-accent: light-dark(#ffffff, #0f1426);
-    --tec-color-accent-subtle: light-dark(#eceefd, #283058);
+    --tec-color-accent-subtle: light-dark(#eef0fc, #283058);
     --tec-color-error: light-dark(#b42318, #fda29b);
     --tec-color-error-bg: light-dark(#fef3f2, #3d2a30);
     --tec-color-success: light-dark(#05603a, #6ce9a6);
     --tec-color-warning: light-dark(#8a4b00, #fec84b);
     --tec-color-table-header: light-dark(#eef1f7, #2a3247);
-    --tec-color-row-hover: light-dark(#f3f4fd, #343d5a);
+    --tec-color-row-hover: light-dark(#f4f5fd, #343d5a);
 
     --tec-font-text: 'Inter', system-ui, sans-serif;
     --tec-font-heading: 'Manrope', system-ui, sans-serif;
@@ -51,14 +51,14 @@
     --tec-focus: 3px solid var(--tec-color-accent);
 
     /* Casca (cabeçalho e menu lateral): tinta fixa; foco e ação usam o acento claro */
-    --tec-shell-bg: light-dark(#0b1230, #181e30);
-    --tec-shell-hover: light-dark(#141c40, #222a40);
-    --tec-shell-active: light-dark(#18214a, #2b3450);
-    --tec-shell-border: light-dark(#232d5c, #353e5c);
+    --tec-shell-bg: light-dark(#2a3558, #1f2640);
+    --tec-shell-hover: light-dark(#323e66, #2a3252);
+    --tec-shell-active: light-dark(#3a466f, #343d60);
+    --tec-shell-border: light-dark(#46517a, #414a6c);
     --tec-shell-text: #e6e9f7;
-    --tec-shell-text-muted: #aab3dc;
+    --tec-shell-text-muted: #b9c1e6;
     --tec-shell-accent: #8c97fa;
-    --tec-shell-header-height: 3rem;
+    --tec-shell-header-height: 4rem;
     --tec-shell-menu-width: 15rem;
     --tec-shell-menu-collapsed-width: 3.5rem;
     --tec-shell-footer-height: 2rem;

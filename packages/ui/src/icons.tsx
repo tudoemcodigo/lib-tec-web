@@ -84,3 +84,59 @@ export const IconCompass = () => (
     <path d="m12.5 7.5-1.25 3.75L7.5 12.5l1.25-3.75L12.5 7.5Z" />
   </Icon>
 );
+
+export const IconEye = () => (
+  <Icon>
+    <path d="M1.75 10S4.75 4.5 10 4.5 18.25 10 18.25 10 15.25 15.5 10 15.5 1.75 10 1.75 10Z" />
+    <circle cx="10" cy="10" r="2.25" />
+  </Icon>
+);
+
+export const IconPencil = () => (
+  <Icon>
+    <path d="m12.5 4.5 3 3L7 16H4v-3l8.5-8.5Z" />
+    <path d="m11 6 3 3" />
+  </Icon>
+);
+
+export const IconTrash = () => (
+  <Icon>
+    <path d="M4 6h12M8 6V4h4v2M5.5 6l.75 10h7.5L14.5 6M8.5 9v4.5M11.5 9v4.5" />
+  </Icon>
+);
+
+/** Inativar: círculo com pausa. */
+export const IconPause = () => (
+  <Icon>
+    <circle cx="10" cy="10" r="7.5" />
+    <path d="M8.25 7.5v5M11.75 7.5v5" />
+  </Icon>
+);
+
+/** Ativar: círculo com seta de retomar. */
+export const IconPlay = () => (
+  <Icon>
+    <circle cx="10" cy="10" r="7.5" />
+    <path d="m8.5 7 4.5 3-4.5 3V7Z" />
+  </Icon>
+);
+
+export const IconUser = () => (
+  <Icon>
+    <circle cx="10" cy="7" r="3" />
+    <path d="M3.75 16.5c.75-3 3.25-4.5 6.25-4.5s5.5 1.5 6.25 4.5" />
+  </Icon>
+);
+
+export const IconSearch = () => (
+  <Icon>
+    <circle cx="9" cy="9" r="5.25" />
+    <path d="m13 13 3.5 3.5" />
+  </Icon>
+);
+
+export const IconFilter = () => (
+  <Icon>
+    <path d="M3 5h14l-5.25 6.25V16l-3.5-1.75v-3L3 5Z" />
+  </Icon>
+);

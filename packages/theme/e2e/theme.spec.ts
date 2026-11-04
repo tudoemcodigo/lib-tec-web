@@ -16,7 +16,7 @@ interface TecWindow {
   __ready: boolean;
 }
 
-const DEFAULT_ACCENT_LIGHT = 'rgb(79, 91, 232)'; // #4f5be8
+const DEFAULT_ACCENT_LIGHT = 'rgb(85, 98, 214)'; // #5562d6
 const DEFAULT_ACCENT_DARK = 'rgb(140, 151, 250)'; // #8c97fa
 const HIGH_CONTRAST_ACCENT_LIGHT = 'rgb(34, 41, 176)'; // #2229b0
 const CHRISTMAS_ACCENT_LIGHT = 'rgb(179, 0, 27)'; // #b3001b

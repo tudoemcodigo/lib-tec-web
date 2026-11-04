@@ -14,11 +14,12 @@ Versão inaugural (`0.0.1`): feedback, página, controles e formulário padroniz
 - **Formulário:** `TextField`, `SelectField`, `TextAreaField` e `FormErrorSummary` (foco no resumo; link leva ao campo).
 - **Textos:** `uiMessages` em pt-BR e en, `UiProvider` com idioma e sobrescrita, ícones decorativos.
 - **CSS** (`ui.css`) na camada `tec-ui`, só com tokens `--tec-*`; funciona com o tema sazonal e o alto contraste.
+- **Ações de linha:** `IconButton` (rótulo obrigatório vira nome acessível e dica) e `iconButtonAttributes` (para links), com classes `ui-icon-action` e `ui-row-actions`; ícones `IconEye`, `IconPencil`, `IconTrash`, `IconPause`, `IconPlay`, `IconUser`, `IconSearch`, `IconFilter`.
 - `headingLevel` em `EmptyState` e `ErrorState`: o título é `h1` quando o estado ocupa a página inteira (404, acesso negado).
 
 ### 🧪 Testes
 
-- 45 testes unitários com casos hostis (marcação em título e mensagem, texto gigante, nome de campo malicioso, `clipboard` negado, relógio simulado).
+- 49 testes unitários com casos hostis (marcação em título e mensagem, texto gigante, nome de campo malicioso, `clipboard` negado, relógio simulado).
 - Exercitado no app real do `web-templatetec`: E2E em Chromium e Firefox com axe em todas as rotas e estados.
 
 ### ⚠️ Limites e itens não verificados

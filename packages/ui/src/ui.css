@@ -143,6 +143,43 @@
     color: var(--tec-color-text);
   }
 
+  /* Ação só com ícone (linha de tabela) */
+  .ui-icon-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    border: 1px solid transparent;
+    border-radius: var(--tec-radius);
+    background: transparent;
+    color: var(--tec-color-text-muted);
+    font-size: 1.0625rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+      background-color 0.12s,
+      color 0.12s;
+  }
+  .ui-icon-action:hover:not(:disabled) {
+    background: var(--tec-color-accent-subtle);
+    color: var(--tec-color-accent);
+  }
+  .ui-icon-action[data-tone='danger']:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--tec-color-error) 10%, var(--tec-color-surface));
+    color: var(--tec-color-error);
+  }
+  .ui-icon-action:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+  .ui-row-actions {
+    display: inline-flex;
+    gap: var(--tec-space-1);
+    justify-content: flex-end;
+  }
+
   /* Situação */
   .ui-badge {
     display: inline-flex;

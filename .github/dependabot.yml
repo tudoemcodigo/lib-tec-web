@@ -17,11 +17,16 @@ updates:
       npm:
         patterns: ['*']
         update-types: ['minor', 'patch']
-    # ESLint 10 e TypeScript 6 só sobem à mão: dependem de todos os plugins declararem suporte (FRT-BAS-03/04)
+    # ESLint 10 e TypeScript 6 só sobem à mão: dependem de todos os plugins declararem suporte (FRT-BAS-03/04).
+    # @types/node acompanha o Node do projeto (24, .nvmrc), não a última major.
     ignore:
       - dependency-name: 'eslint'
         update-types: ['version-update:semver-major']
+      - dependency-name: '@eslint/js'
+        update-types: ['version-update:semver-major']
       - dependency-name: 'typescript'
+        update-types: ['version-update:semver-major']
+      - dependency-name: '@types/node'
         update-types: ['version-update:semver-major']
 
   - package-ecosystem: github-actions

@@ -1,0 +1,34 @@
+{
+  "name": "@tudoemcodigo/i18n",
+  "version": "0.0.1",
+  "description": "Tradução ICU, escolha de idioma, catálogos combináveis e formatadores com locale explícito dos frontends Tudo em Código.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tudoemcodigo/lib-tec-web.git",
+    "directory": "packages/i18n"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json"
+  },
+  "dependencies": {
+    "intl-messageformat": "^12.1.4"
+  }
+}

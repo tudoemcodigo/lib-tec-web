@@ -44,6 +44,44 @@ export function Button({
   );
 }
 
+export interface IconButtonProps extends Omit<ComponentProps<'button'>, 'children' | 'aria-label'> {
+  /** Nome da ação ("Editar cliente"): vira o nome acessível e a dica ao passar o mouse. Obrigatório: ícone sozinho não tem texto. */
+  readonly label: string;
+  readonly icon: ReactNode;
+  readonly tone?: 'default' | 'danger';
+}
+
+/** Atributos de um botão de ícone: para dar a aparência a um link do roteador (`<Link {...iconButtonAttributes()} aria-label=...>`). */
+export function iconButtonAttributes(tone: 'default' | 'danger' = 'default'): {
+  readonly className: string;
+  readonly 'data-tone': 'default' | 'danger';
+} {
+  return { className: 'ui-icon-action', 'data-tone': tone };
+}
+
+/** Ação compacta só com ícone (linha de tabela): alvo mínimo de 24 px, nome e dica pelo `label`. */
+export function IconButton({
+  label,
+  icon,
+  tone = 'default',
+  type = 'button',
+  className,
+  ...rest
+}: IconButtonProps) {
+  return (
+    <button
+      type={type}
+      aria-label={label}
+      title={label}
+      className={`ui-icon-action ${className ?? ''}`.trim()}
+      data-tone={tone}
+      {...rest}
+    >
+      {icon}
+    </button>
+  );
+}
+
 export type BadgeTone = 'neutral' | 'success' | 'warning' | 'error' | 'info';
 
 /** Situação de um registro. O texto informa; a cor e o ponto só reforçam (nunca só cor). */

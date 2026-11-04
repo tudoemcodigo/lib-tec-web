@@ -4,6 +4,11 @@ Todas as mudanças relevantes do **@tudoemcodigo/theme** são registradas aqui. 
 
 ## [Não lançado]
 
+### 🎨 Alterado
+
+- **Paleta mais suave:** o acento do tema claro passa de `#4f5be8` para `#5562d6` (5,1:1 sobre branco, mantém AA) e a casca (cabeçalho e menu lateral) deixa o azul-marinho `#0b1230` pelo azul acinzentado `#2a3558` (texto 9,9:1), com hover, ativo e borda acompanhando; no escuro, `#181e30` vira `#1f2640`. `--tec-shell-text-muted` passa de `#aab3dc` para `#b9c1e6` para manter o contraste sobre a casca mais clara.
+- **Cabeçalho mais alto:** `--tec-shell-header-height` de `3rem` para `4rem`, para a marca ter o tamanho que o logo pede.
+
 ### 🐛 Corrigido
 
 - O desempate do `selectActiveTheme` usa ordem por unidade de código (igual ao `StringComparer.Ordinal` do C#) em vez de `localeCompare`; teste cobre hífen, dígito e letra.

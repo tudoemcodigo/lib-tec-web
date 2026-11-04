@@ -46,14 +46,14 @@ Alert · Toast · ErrorState · EmptyState · LoadingState · PageHeader · Sect
 
 ## 📦 O que tem dentro
 
-| Grupo      | Componentes                                                                                          |
-| ---------- | ---------------------------------------------------------------------------------------------------- |
-| Feedback   | `Alert`, `ToastProvider` e `useToast`, `ErrorState`, `EmptyState`, `LoadingState`                    |
-| Página     | `PageHeader` (trilha, título, situação, ações), `Section`, `DataList`, `SummaryList`, `ScrollRegion` |
-| Controles  | `Button` e `buttonAttributes`, `Badge`, `ConfirmDialog`                                              |
-| Formulário | `TextField`, `SelectField`, `TextAreaField`, `FormErrorSummary`                                      |
-| Base       | `UiProvider` e `uiMessages` (textos pt-BR e en), ícones (`IconSuccess`, `IconError`...)              |
-| CSS        | `@tudoemcodigo/ui/ui.css`, na camada `tec-ui` (CSS do sistema sem camada sempre vence)               |
+| Grupo      | Componentes                                                                                                        |
+| ---------- | ------------------------------------------------------------------------------------------------------------------ |
+| Feedback   | `Alert`, `ToastProvider` e `useToast`, `ErrorState`, `EmptyState`, `LoadingState`                                  |
+| Página     | `PageHeader` (trilha, título, situação, ações), `Section`, `DataList`, `SummaryList`, `ScrollRegion`               |
+| Controles  | `Button` e `buttonAttributes`, `IconButton` e `iconButtonAttributes` (ação só com ícone), `Badge`, `ConfirmDialog` |
+| Formulário | `TextField`, `SelectField`, `TextAreaField`, `FormErrorSummary`                                                    |
+| Base       | `UiProvider` e `uiMessages` (textos pt-BR e en), ícones (`IconSuccess`, `IconError`...)                            |
+| CSS        | `@tudoemcodigo/ui/ui.css`, na camada `tec-ui` (CSS do sistema sem camada sempre vence)                             |
 
 ---
 
@@ -128,7 +128,7 @@ Textos dos componentes (por exemplo, "Fechar notificação") vêm de `uiMessages
 - Todo texto vira **texto**, nunca HTML: título, mensagem e valores com marcação aparecem literais. Não há `dangerouslySetInnerHTML`.
 - A notificação limita o tamanho da mensagem (500 caracteres) e a quantidade na tela (4); erro nunca é descartado por excesso.
 - Mensagem de erro não carrega texto do servidor: o sistema passa o texto do catálogo.
-- **Testes:** 45 unitários do pacote, com casos hostis (marcação, texto gigante, nome de campo malicioso, área de transferência negada).
+- **Testes:** 49 unitários do pacote, com casos hostis (marcação, texto gigante, nome de campo malicioso, área de transferência negada).
 
 ---
 

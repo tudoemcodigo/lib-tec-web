@@ -6,6 +6,16 @@ import {
   Button,
   buttonAttributes,
   ConfirmDialog,
+  IconButton,
+  iconButtonAttributes,
+  IconEye,
+  IconFilter,
+  IconPause,
+  IconPencil,
+  IconPlay,
+  IconSearch,
+  IconTrash,
+  IconUser,
   DataList,
   FormErrorSummary,
   PageHeader,
@@ -298,5 +308,53 @@ describe('FormErrorSummary', () => {
     (document.activeElement as HTMLElement).blur();
     rerender(<FormErrorSummary errors={[{ field: 'a', message: 'dois' }]} />);
     expect(document.activeElement).toBe(screen.getByRole('alert'));
+  });
+});
+
+describe('IconButton', () => {
+  it('o rótulo vira nome acessível e dica; ícone é decorativo', () => {
+    const onClick = vi.fn();
+    render(<IconButton label="Editar cliente" icon={<IconPencil />} onClick={onClick} />);
+    const botao = screen.getByRole('button', { name: 'Editar cliente' });
+    expect(botao.getAttribute('title')).toBe('Editar cliente');
+    expect(botao.getAttribute('type')).toBe('button');
+    expect(botao.querySelector('svg')?.getAttribute('aria-hidden')).toBe('true');
+    fireEvent.click(botao);
+    expect(onClick).toHaveBeenCalledTimes(1);
+  });
+
+  it('tom de perigo e desabilitado', () => {
+    const onClick = vi.fn();
+    render(
+      <IconButton label="Excluir" icon={<IconTrash />} tone="danger" disabled onClick={onClick} />,
+    );
+    const botao = screen.getByRole('button', { name: 'Excluir' });
+    expect(botao.getAttribute('data-tone')).toBe('danger');
+    fireEvent.click(botao);
+    expect(onClick).not.toHaveBeenCalled();
+  });
+
+  it('atributos dão a aparência de ícone a um link', () => {
+    expect(iconButtonAttributes()).toEqual({ className: 'ui-icon-action', 'data-tone': 'default' });
+    expect(iconButtonAttributes('danger')['data-tone']).toBe('danger');
+    render(
+      <a href="/c/1" aria-label="Ver" {...iconButtonAttributes()}>
+        <IconEye />
+      </a>,
+    );
+    expect(screen.getByRole('link', { name: 'Ver' }).className).toBe('ui-icon-action');
+  });
+
+  it('todos os ícones novos renderizam como SVG decorativo', () => {
+    const { container } = render(
+      <>
+        <IconPause />
+        <IconPlay />
+        <IconUser />
+        <IconSearch />
+        <IconFilter />
+      </>,
+    );
+    expect(container.querySelectorAll('svg[aria-hidden="true"]')).toHaveLength(5);
   });
 });

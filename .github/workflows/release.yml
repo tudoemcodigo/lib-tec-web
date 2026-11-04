@@ -98,7 +98,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          npm publish out/*.tgz --registry https://npm.pkg.github.com
+          npm publish ./out/*.tgz --registry https://npm.pkg.github.com
 
       - name: Tag e Release
         env:

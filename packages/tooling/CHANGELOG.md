@@ -2,7 +2,7 @@
 
 Todas as mudanças relevantes do **@tudoemcodigo/tooling** são registradas aqui. O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e o projeto usa [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
-## [0.0.1] - não lançado
+## [0.0.1] - 2026-11-04
 
 Versão inaugural: configuração compartilhada dos frontends TEC.
 
@@ -20,4 +20,4 @@ Versão inaugural: configuração compartilhada dos frontends TEC.
 ### ⚠️ Limites e itens não verificados
 
 - Regras são seletores de AST: formas indiretas (`window['eval']`, alias de `Function`) **não foram testadas**.
-- Ainda não consumido por um sistema real; instalação pelo registro **não verificada** (nada publicado).
+- Ainda não consumido por um sistema real (a migração do `web-templatetec` é uma etapa seguinte). Publicado em 2026-11-04 com atestado de procedência.

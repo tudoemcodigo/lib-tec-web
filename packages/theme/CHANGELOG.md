@@ -2,7 +2,17 @@
 
 Todas as mudanças relevantes do **@tudoemcodigo/theme** são registradas aqui. O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e o projeto usa [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
-## [0.0.1] - não lançado
+## [Não lançado]
+
+### 🐛 Corrigido
+
+- O desempate do `selectActiveTheme` usa ordem por unidade de código (igual ao `StringComparer.Ordinal` do C#) em vez de `localeCompare`; teste cobre hífen, dígito e letra.
+
+### 🧪 Testes
+
+- Guarda de SHA-256 do arquivo de casos compartilhado com o TEC.Bff: mudar o arquivo sem atualizar a cópia do BFF reprova o teste.
+
+## [0.0.1] - 2026-11-04
 
 Versão inaugural: identidade visual, preferências e tema sazonal.
 
@@ -18,6 +28,6 @@ Versão inaugural: identidade visual, preferências e tema sazonal.
 
 ### ⚠️ Limites e itens não verificados
 
-- A CSP real do `TEC.Bff` e o endpoint `/bff/theme` ainda não existem neste repositório de componentes; o E2E usa uma CSP equivalente e um servidor de teste.
+- O E2E usa uma CSP equivalente à do `TEC.Bff` e um servidor de teste; o endpoint `GET /bff/theme` está implementado no `TEC.Bff` (lib-tec-bff), com a mesma validação e os mesmos casos hostis.
 - Fontes (`--tec-font-*`) não são trocáveis por tema (carregar fonte exigiria origem extra na CSP).
-- Instalação pelo registro **não verificada** (nada publicado).
+- Publicado em 2026-11-04 com atestado de procedência; o consumo por uma SPA real (migração do `web-templatetec`) ainda não foi feito.

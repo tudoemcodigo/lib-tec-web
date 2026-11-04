@@ -70,7 +70,7 @@ npm install @tudoemcodigo/theme
 ```
 
 > [!WARNING]
-> **Não verificado:** a instalação pelo registro só vale depois da primeira publicação. `react` ^19 é peer.
+> **Verificado** (2026-11-04): instalação do registro numa pasta limpa e atestado de procedência (SLSA) do tarball, que aponta o workflow `release.yml` da `main`. `react` ^19 é peer.
 
 ---
 
@@ -139,7 +139,7 @@ await loadSeasonalTheme((signal) => getTheme(signal), { timeoutMs: 3000 });
 
 - O tema é **dado, nunca código**: sem CSS, sem URL, sem script. Aplicado por `adoptedStyleSheets`, sem `unsafe-inline` (FRT-TEM-01/02).
 - Tokens `color-error`, `color-error-bg`, `color-success` e `color-warning` não são trocáveis; contraste recalculado no cliente.
-- **Testes:** 187 unitários do monorepo (cobertura `v8` de 98,96% das instruções e 98,98% dos ramos) e 42 E2E nos três motores; o JSON Schema e o validador são conferidos com os mesmos casos hostis, compartilhados com a validação em C# do BFF.
+- **Testes:** 189 unitários do monorepo (cobertura `v8` de 98,97% das instruções e 98,67% dos ramos) e 42 E2E nos três motores; o JSON Schema e o validador são conferidos com os mesmos casos hostis, compartilhados com a validação em C# do BFF.
 
 ---
 

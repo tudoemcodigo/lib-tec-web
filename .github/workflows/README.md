@@ -31,4 +31,4 @@ Protegida (PR obrigatório, check `ci-ok`, sem force-push nem exclusão, convers
 
 ## ⚠️ Não verificado
 
-- O primeiro `release.yml` ainda não foi executado de ponta a ponta; o `ci.yml` só tem prova depois da primeira execução remota.
+- Primeiro release (2026-11-04): a primeira tentativa falhou em `npm publish out/x.tgz` (o npm leu como atalho de repositório GitHub; corrigido com `./`) antes de publicar qualquer coisa. Depois da correção, `tooling` e `theme` `0.0.1` saíram, com atestado verificado.

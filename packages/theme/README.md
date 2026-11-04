@@ -130,7 +130,7 @@ await loadSeasonalTheme((signal) => getTheme(signal), { timeoutMs: 3000 });
 ## ⚡ Compatibilidade
 
 - **React** 19 (peer); **navegadores** com `light-dark()` e `adoptedStyleSheets`.
-- **Verificado em navegador real:** Chromium, Firefox e WebKit (Playwright 1.64.1, 42 testes E2E sob CSP estrita, nesta data).
+- **Verificado em navegador real:** Chromium, Firefox e WebKit (Playwright 1.64.1): 42 testes E2E do pacote sob CSP estrita e 48 no app real do `web-templatetec`, nesta data.
 - **Não verificado:** a CSP real emitida pelo `TEC.Bff`; leitor de tela; navegadores fora desses três motores.
 
 ---

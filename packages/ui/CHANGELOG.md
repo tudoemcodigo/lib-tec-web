@@ -14,12 +14,14 @@ Versão inaugural (`0.0.1`): feedback, página, controles e formulário padroniz
 - **Formulário:** `TextField`, `SelectField`, `TextAreaField` e `FormErrorSummary` (foco no resumo; link leva ao campo).
 - **Textos:** `uiMessages` em pt-BR e en, `UiProvider` com idioma e sobrescrita, ícones decorativos.
 - **CSS** (`ui.css`) na camada `tec-ui`, só com tokens `--tec-*`; funciona com o tema sazonal e o alto contraste.
+- **Menu de ações:** `ActionMenu` (botão de três pontos que abre a lista; itens de ação ou de link com `renderLink`, tom de perigo, separador e desabilitado; teclado, foco e leitor de tela pelo Base UI).
+- **Ícones do Font Awesome Free** no lugar dos desenhos próprios: `FaIcon` desenha só os dados do ícone (sem `fontawesome-svg-core` nem CSS em tempo de execução, por causa da CSP estrita) e os nomes `Icon*` seguem os mesmos; novos `IconMore`, `IconPlus`, `IconHome`, `IconUsers`, `IconReceipt`, `IconSignOut`, `IconMenu`, `IconContrast`, `IconHelp`, `IconCollapse`, `IconExpand`, `IconTop`, `IconChevronDown`.
 - **Ações de linha:** `IconButton` (rótulo obrigatório vira nome acessível e dica) e `iconButtonAttributes` (para links), com classes `ui-icon-action` e `ui-row-actions`; ícones `IconEye`, `IconPencil`, `IconTrash`, `IconPause`, `IconPlay`, `IconUser`, `IconSearch`, `IconFilter`.
 - `headingLevel` em `EmptyState` e `ErrorState`: o título é `h1` quando o estado ocupa a página inteira (404, acesso negado).
 
 ### 🧪 Testes
 
-- 49 testes unitários com casos hostis (marcação em título e mensagem, texto gigante, nome de campo malicioso, `clipboard` negado, relógio simulado).
+- 58 testes unitários com casos hostis (marcação em título e mensagem, texto gigante, nome de campo malicioso, `clipboard` negado, relógio simulado).
 - Exercitado no app real do `web-templatetec`: E2E em Chromium e Firefox com axe em todas as rotas e estados.
 
 ### ⚠️ Limites e itens não verificados

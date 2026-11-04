@@ -14,6 +14,7 @@ on:
           - tooling
           - theme
           - i18n
+          - ui
       version:
         description: Versão X.Y.Z (igual à do package.json do pacote)
         required: true

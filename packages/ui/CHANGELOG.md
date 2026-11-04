@@ -1,0 +1,28 @@
+# 📝 Changelog
+
+Todas as mudanças relevantes do **@tudoemcodigo/ui** são registradas aqui. O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e o projeto usa [Versionamento Semântico](https://semver.org/lang/pt-BR/).
+
+## [Não lançado]
+
+Versão inaugural (`0.0.1`): feedback, página, controles e formulário padronizados.
+
+### ✨ Adicionado
+
+- **Feedback:** `Alert` (tom em ícone, texto e cor), `ToastProvider` e `useToast` (fila de 4, pausa com mouse e foco, erro fica até fechar), `ErrorState` (código de suporte copiável e nova tentativa), `EmptyState`, `LoadingState` (esqueleto, `aria-busy`).
+- **Página:** `PageHeader` (trilha com `renderLink`, único `h1`, situação e ações), `Section` (com `flush`), `DataList`, `SummaryList` (total em destaque), `ScrollRegion` (rolável por teclado).
+- **Controles:** `Button` (variantes, `loading` sem duplo clique), `buttonAttributes`, `Badge`, `ConfirmDialog` (Base UI).
+- **Formulário:** `TextField`, `SelectField`, `TextAreaField` e `FormErrorSummary` (foco no resumo; link leva ao campo).
+- **Textos:** `uiMessages` em pt-BR e en, `UiProvider` com idioma e sobrescrita, ícones decorativos.
+- **CSS** (`ui.css`) na camada `tec-ui`, só com tokens `--tec-*`; funciona com o tema sazonal e o alto contraste.
+- `headingLevel` em `EmptyState` e `ErrorState`: o título é `h1` quando o estado ocupa a página inteira (404, acesso negado).
+
+### 🧪 Testes
+
+- 45 testes unitários com casos hostis (marcação em título e mensagem, texto gigante, nome de campo malicioso, `clipboard` negado, relógio simulado).
+- Exercitado no app real do `web-templatetec`: E2E em Chromium e Firefox com axe em todas as rotas e estados.
+
+### ⚠️ Limites e itens não verificados
+
+- Ainda não publicado: depende do workflow `release.yml`.
+- Sem componente de tabela de dados (ordenação, seleção) nem de combobox: o `web-templatetec` usa `select` nativo.
+- WebKit, leitor de tela e idiomas da direita para a esquerda não foram verificados.

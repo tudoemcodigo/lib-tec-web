@@ -54,10 +54,11 @@ Monorepo npm · Um pacote por responsabilidade · SemVer por pacote · Regras FR
 
 ## 📦 Pacotes
 
-| Pacote                                                                                                      | Para que serve                                                                        | Quando instalar   | Depende de                                 |
-| ----------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ----------------- | ------------------------------------------ |
-| [`@tudoemcodigo/theme`](https://github.com/tudoemcodigo/lib-tec-web/blob/main/packages/theme/README.md)     | Tokens `--tec-*`, preferências de acessibilidade e tema sazonal por manifesto fechado | Todo frontend TEC | `react` (peer)                             |
-| [`@tudoemcodigo/tooling`](https://github.com/tudoemcodigo/lib-tec-web/blob/main/packages/tooling/README.md) | ESLint com as regras FRT, `tsconfig` estrito, Prettier e Vitest com cobertura mínima  | Todo frontend TEC | `eslint`, `typescript`, `prettier` (peers) |
+| Pacote                                                                                                      | Para que serve                                                                             | Quando instalar   | Depende de                                 |
+| ----------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ | ----------------- | ------------------------------------------ |
+| [`@tudoemcodigo/theme`](https://github.com/tudoemcodigo/lib-tec-web/blob/main/packages/theme/README.md)     | Tokens `--tec-*`, preferências de acessibilidade e tema sazonal por manifesto fechado      | Todo frontend TEC | `react` (peer)                             |
+| [`@tudoemcodigo/i18n`](https://github.com/tudoemcodigo/lib-tec-web/blob/main/packages/i18n/README.md)       | Tradução ICU, escolha do idioma, catálogos combináveis e formatadores com locale explícito | Todo frontend TEC | `intl-messageformat`                       |
+| [`@tudoemcodigo/tooling`](https://github.com/tudoemcodigo/lib-tec-web/blob/main/packages/tooling/README.md) | ESLint com as regras FRT, `tsconfig` estrito, Prettier e Vitest com cobertura mínima       | Todo frontend TEC | `eslint`, `typescript`, `prettier` (peers) |
 
 > [!NOTE]
 > Os demais pacotes (`i18n`, `api-client`, `auth`, `ui`, `shell`, `telemetry`, `testing`) estão **planejados** no [ADR 0008](https://github.com/tudoemcodigo/Doutrina/blob/main/familias/frontend/adr/0008-componentes-web-em-monorepo-npm-e-identificadores-em-ingles.md) e **ainda não existem**. Só se extrai para pacote o que o `web-templatetec` já usa e tem teste.

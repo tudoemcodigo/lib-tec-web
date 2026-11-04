@@ -17,6 +17,11 @@
     --ui-tone-info: var(--tec-color-accent);
   }
 
+  /* Densidade compacta (tabela e filtros): todo controle abaixo lê a altura densa, sem repetir regra por componente */
+  [data-density='compact'] {
+    --tec-target-min: var(--tec-control-height-dense);
+  }
+
   .ui-sr {
     position: absolute;
     width: 1px;
@@ -104,14 +109,26 @@
   .ui-button[aria-busy='true'] {
     cursor: progress;
   }
-  .ui-button[aria-busy='true']::after {
-    content: '';
-    width: 0.875em;
-    height: 0.875em;
+  .ui-button-spinner {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
     border: 2px solid currentColor;
     border-inline-end-color: transparent;
     border-radius: 50%;
     animation: ui-spin 0.7s linear infinite;
+  }
+  /* Sem ícone para trocar: o indicador fica sobre o texto, que segue ocupando o lugar (a largura não muda) */
+  .ui-button[data-overlay] {
+    position: relative;
+  }
+  .ui-button[data-overlay] > .ui-button-spinner {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+  }
+  .ui-button[data-overlay] > .ui-button-label {
+    opacity: 0;
   }
   .ui-button-icon {
     display: inline-flex;
@@ -265,7 +282,12 @@
     font-weight: 600;
     white-space: nowrap;
   }
-  .ui-badge::before {
+  .ui-badge-icon {
+    display: inline-flex;
+    font-size: 0.75rem;
+    color: var(--ui-tone);
+  }
+  .ui-badge[data-tone='neutral']::before {
     content: '';
     width: 0.4375rem;
     height: 0.4375rem;
@@ -416,6 +438,47 @@
   .ui-skeleton[data-line='2'] {
     width: 64%;
   }
+  /* Esqueleto com a geometria da tabela (cabeçalho e linhas na altura real): a carga não desloca o que vem depois */
+  .ui-skeleton-table {
+    display: grid;
+    border: 1px solid var(--tec-color-border-subtle);
+    border-radius: var(--ui-radius);
+    background: var(--tec-color-surface);
+    overflow: hidden;
+  }
+  .ui-skeleton-row {
+    display: grid;
+    grid-template-columns: repeat(var(--ui-columns), minmax(0, 1fr));
+    gap: var(--tec-space-4);
+    align-items: center;
+    min-height: 2.75rem;
+    padding: 0 var(--tec-space-4);
+    border-block-end: 1px solid var(--tec-color-border-subtle);
+  }
+  .ui-skeleton-row:last-child {
+    border-block-end: 0;
+  }
+  .ui-skeleton-row[data-head] {
+    background: var(--tec-color-table-header);
+    border-block-end-color: var(--tec-color-border);
+  }
+  .ui-skeleton-row[data-head] .ui-skeleton {
+    height: 0.75rem;
+    width: 55%;
+  }
+  .ui-refresh {
+    height: 2px;
+    overflow: hidden;
+    background: transparent;
+  }
+  .ui-refresh[data-active]::after {
+    content: '';
+    display: block;
+    width: 35%;
+    height: 100%;
+    background: var(--tec-color-accent);
+    animation: ui-refresh 1.1s ease-in-out infinite;
+  }
 
   /* Cabeçalho de página */
   .ui-page-header {
@@ -492,7 +555,6 @@
     border: 1px solid var(--tec-color-border-subtle);
     border-radius: var(--ui-radius);
     background: var(--tec-color-surface);
-    box-shadow: var(--ui-shadow);
   }
   .ui-section-header {
     display: flex;
@@ -576,7 +638,18 @@
     border: 1px solid var(--tec-color-border-subtle);
     border-radius: var(--ui-radius);
     background: var(--tec-color-surface);
-    box-shadow: var(--ui-shadow);
+  }
+  /* Cabeçalho fixo: a região passa a rolar também na vertical, e o foco por teclado nunca fica sob o cabeçalho (WCAG 2.4.11) */
+  .ui-scroll[data-sticky-header] {
+    max-height: min(70dvh, 40rem);
+    overflow: auto;
+    scroll-padding-block-start: 3rem;
+  }
+  .ui-scroll[data-sticky-header] thead th {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: 1;
+    box-shadow: inset 0 -1px 0 var(--tec-color-border);
   }
 
   /* Campos */
@@ -692,6 +765,209 @@
     margin-block-start: var(--tec-space-6);
   }
 
+  /* Painel lateral (master-detail): sobrepõe a lista sem tirar a pessoa dela; vem da direita e ocupa a altura toda */
+  .ui-sheet {
+    position: fixed;
+    inset-block: 0;
+    inset-inline-end: 0;
+    display: flex;
+    flex-direction: column;
+    width: min(28rem, 100vw);
+    border-inline-start: 1px solid var(--tec-color-border);
+    background: var(--tec-color-surface);
+    box-shadow: var(--ui-shadow-raised);
+    animation: ui-sheet-in 0.16s ease-out;
+  }
+  .ui-sheet-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--tec-space-3);
+    padding: var(--tec-space-4);
+    border-block-end: 1px solid var(--tec-color-border-subtle);
+  }
+  .ui-sheet-title {
+    margin: 0;
+    font-family: var(--tec-font-heading);
+    font-size: 1.125rem;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+  }
+  .ui-sheet-description {
+    margin: var(--tec-space-1) 0 0;
+    color: var(--tec-color-text-muted);
+    font-size: 0.875rem;
+  }
+  .ui-sheet-body {
+    flex: 1;
+    overflow: auto;
+    padding: var(--tec-space-4);
+  }
+  .ui-sheet-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: var(--tec-space-2);
+    padding: var(--tec-space-3) var(--tec-space-4);
+    border-block-start: 1px solid var(--tec-color-border-subtle);
+  }
+  .ui-sheet-footer:empty {
+    display: none;
+  }
+
+  /* Modo de cores forçadas (Alto Contraste do Windows): sem sombra nem cor de fundo, o limite é sempre uma borda */
+  @media (forced-colors: active) {
+    .ui-badge,
+    .ui-skeleton-table,
+    .ui-sheet,
+    .ui-palette,
+    .ui-busy-card {
+      border: 1px solid CanvasText;
+    }
+    .ui-scroll[data-sticky-header] thead th {
+      border-block-end: 1px solid CanvasText;
+      box-shadow: none;
+    }
+    .ui-refresh[data-active]::after {
+      background: Highlight;
+    }
+    .ui-skeleton {
+      background: GrayText;
+    }
+    .ui-button-spinner {
+      border-color: ButtonText;
+      border-inline-end-color: transparent;
+    }
+  }
+
+  /* Bloqueio total com a marca animada: janela modal nativa; o fundo escurece e o resto da página fica inerte */
+  .ui-busy {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    max-width: none;
+    height: 100dvh;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--tec-shell-text);
+  }
+  .ui-busy[open] {
+    display: grid;
+    place-items: center;
+  }
+  .ui-busy::backdrop {
+    background: color-mix(in srgb, var(--tec-shell-bg) 78%, transparent);
+    backdrop-filter: blur(3px);
+  }
+  .ui-busy-card {
+    display: grid;
+    justify-items: center;
+    gap: var(--tec-space-4);
+    padding: var(--tec-space-8);
+    border: 1px solid var(--tec-shell-border);
+    border-radius: var(--tec-radius-lg);
+    background: var(--tec-shell-bg);
+  }
+  .ui-busy-card .ui-brand-mark {
+    font-size: 5rem;
+  }
+  .ui-busy-label {
+    margin: 0;
+    font-weight: 600;
+  }
+  .ui-brand-mark {
+    display: inline-block;
+    color: var(--tec-shell-text, currentColor);
+    overflow: visible;
+  }
+  /* O arco gira ao redor do centro; os três nós pulsam em sequência, como um sinal passando pela árvore */
+  .ui-brand-mark[data-animated] .ui-brand-arc {
+    transform-origin: 50px 50px;
+    animation: ui-brand-spin 1.6s linear infinite;
+  }
+  .ui-brand-mark[data-animated] .ui-brand-node {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: ui-brand-pulse 1.2s ease-in-out infinite;
+  }
+  .ui-brand-mark[data-animated] .ui-brand-node:nth-of-type(2) {
+    animation-delay: 0.2s;
+  }
+  .ui-brand-mark[data-animated] .ui-brand-node:nth-of-type(3) {
+    animation-delay: 0.4s;
+  }
+
+  /* Paleta de comandos: janela no alto da tela, campo de busca e lista; a opção ativa leva o acento */
+  .ui-palette {
+    position: fixed;
+    top: 12dvh;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    width: min(36rem, calc(100vw - 2rem));
+    max-height: 70dvh;
+    border: 1px solid var(--tec-color-border-subtle);
+    border-radius: var(--tec-radius-lg);
+    background: var(--tec-color-surface);
+    box-shadow: var(--ui-shadow-raised);
+    overflow: hidden;
+  }
+  .ui-palette-input {
+    width: 100%;
+    min-height: 3rem;
+    padding: 0 var(--tec-space-4);
+    border: 0;
+    border-block-end: 1px solid var(--tec-color-border-subtle);
+    background: transparent;
+    font: inherit;
+    font-size: 1rem;
+  }
+  .ui-palette-list {
+    flex: 1;
+    margin: 0;
+    padding: var(--tec-space-2);
+    overflow: auto;
+    list-style: none;
+  }
+  .ui-palette-option {
+    display: flex;
+    align-items: center;
+    gap: var(--tec-space-3);
+    min-height: var(--tec-control-height);
+    padding: 0 var(--tec-space-3);
+    border-radius: var(--tec-radius);
+    cursor: pointer;
+  }
+  .ui-palette-option[aria-selected='true'] {
+    background: var(--tec-color-accent-subtle);
+    outline: 2px solid var(--tec-color-accent);
+    outline-offset: -2px;
+  }
+  .ui-palette-icon {
+    display: inline-flex;
+    color: var(--tec-color-text-muted);
+  }
+  .ui-palette-text {
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .ui-palette-group {
+    color: var(--tec-color-text-muted);
+    font-size: 0.75rem;
+  }
+  .ui-palette-status {
+    margin: 0;
+    padding: var(--tec-space-2) var(--tec-space-4);
+    border-block-start: 1px solid var(--tec-color-border-subtle);
+    color: var(--tec-color-text-muted);
+    font-size: 0.8125rem;
+  }
+
   @media (max-width: 40rem) {
     .ui-toasts {
       inset-inline: var(--tec-space-3);
@@ -710,6 +986,31 @@
     }
   }
 
+  @keyframes ui-refresh {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(290%);
+    }
+  }
+  @keyframes ui-sheet-in {
+    from {
+      transform: translateX(1.5rem);
+      opacity: 0;
+    }
+  }
+  @keyframes ui-brand-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes ui-brand-pulse {
+    50% {
+      transform: scale(1.35);
+      opacity: 0.65;
+    }
+  }
   @keyframes ui-spin {
     to {
       transform: rotate(360deg);

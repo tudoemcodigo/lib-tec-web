@@ -1,4 +1,5 @@
 import type { ComponentProps, ReactNode } from 'react';
+import { IconError, IconInfo, IconSuccess, IconWarning } from './icons.js';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'ghost';
 
@@ -12,7 +13,10 @@ export function buttonAttributes(variant: ButtonVariant = 'primary'): {
 
 export interface ButtonProps extends ComponentProps<'button'> {
   readonly variant?: ButtonVariant;
-  /** Ação em andamento: bloqueia novo clique e anuncia `aria-busy`, sem trocar o texto do botão. */
+  /**
+   * Ação em andamento: bloqueia novo clique e anuncia `aria-busy`. A largura não muda: o indicador toma o lugar do ícone ou,
+   * sem ícone, fica sobre o texto (que segue ocupando o espaço e dando o nome ao botão).
+   */
   readonly loading?: boolean;
   readonly icon?: ReactNode;
 }
@@ -27,17 +31,23 @@ export function Button({
   disabled,
   ...rest
 }: ButtonProps) {
+  const spinner = <span className="ui-button-spinner" aria-hidden="true" />;
+  const overlay = loading && icon === undefined;
   return (
     <button
       type={type}
       className={`ui-button ${className ?? ''}`.trim()}
       data-variant={variant}
+      data-overlay={overlay || undefined}
       aria-busy={loading || undefined}
       disabled={disabled === true || loading}
       {...rest}
     >
-      {icon !== undefined ? <span className="ui-button-icon">{icon}</span> : null}
-      {children}
+      {icon !== undefined ? (
+        <span className="ui-button-icon">{loading ? spinner : icon}</span>
+      ) : null}
+      <span className="ui-button-label">{children}</span>
+      {overlay ? spinner : null}
     </button>
   );
 }
@@ -82,7 +92,14 @@ export function IconButton({
 
 export type BadgeTone = 'neutral' | 'success' | 'warning' | 'error' | 'info';
 
-/** Situação de um registro. O texto informa; a cor e o ponto só reforçam (nunca só cor). */
+const BADGE_ICONS: Readonly<Record<Exclude<BadgeTone, 'neutral'>, () => ReactNode>> = {
+  success: IconSuccess,
+  warning: IconWarning,
+  error: IconError,
+  info: IconInfo,
+};
+
+/** Situação de um registro: texto, ícone próprio do tom (neutro tem só um ponto) e cor. Nunca só cor (WCAG 1.4.1). */
 export function Badge({
   tone,
   children,
@@ -90,8 +107,14 @@ export function Badge({
   readonly tone: BadgeTone;
   readonly children: ReactNode;
 }) {
+  const Icon = tone === 'neutral' ? null : BADGE_ICONS[tone];
   return (
     <span className="ui-badge" data-tone={tone}>
+      {Icon !== null ? (
+        <span className="ui-badge-icon">
+          <Icon />
+        </span>
+      ) : null}
       {children}
     </span>
   );

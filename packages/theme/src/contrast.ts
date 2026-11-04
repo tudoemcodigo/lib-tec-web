@@ -59,6 +59,8 @@ export const CONTRAST_REQUIREMENTS: readonly Requirement[] = [
   text('color-success', 'color-surface'),
   text('color-warning', 'color-bg'),
   text('color-warning', 'color-surface'),
+  text('color-info', 'color-bg'),
+  text('color-info', 'color-surface'),
   text('shell-text', 'shell-bg'),
   text('shell-text', 'shell-hover'),
   text('shell-text', 'shell-active'),

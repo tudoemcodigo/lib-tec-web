@@ -42,7 +42,7 @@ Legenda: seta = "alimenta". O tema sazonal entra por cima dos tokens, exceto no 
 | Acento                     | `color-accent`, `color-on-accent`, `color-accent-subtle`                                                    | Sim                                  |
 | Tabela                     | `color-table-header`, `color-row-hover`                                                                     | Sim                                  |
 | Casca                      | `shell-bg`, `shell-hover`, `shell-active`, `shell-border`, `shell-text`, `shell-text-muted`, `shell-accent` | Sim                                  |
-| Estado                     | `color-error`, `color-error-bg`, `color-success`, `color-warning`                                           | **Não** (protegidos)                 |
+| Estado                     | `color-error`, `color-error-bg`, `color-success`, `color-warning`, `color-info`                             | **Não** (protegidos)                 |
 | Marca                      | `brand-blue`, `brand-indigo`, `brand-violet`, `brand-gradient`                                              | Não (decoração; reprovam como texto) |
 | Tipografia, espaço e forma | `font-text`, `font-heading`, `font-code`, `space-1`…`space-8`, `radius`, `target-min`, `focus`              | Não                                  |
 

@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { Dialog } from '@base-ui/react/dialog';
 import { Button } from './controls.js';
+import { focusAfterClose, type ReturnFocus } from './focus.js';
 import { useUiText } from './messages.js';
 
 /*
@@ -19,6 +20,8 @@ export interface ConfirmDialogProps {
   /** Ação destrutiva: o botão de confirmar fica vermelho. */
   readonly destructive?: boolean | undefined;
   readonly children?: ReactNode;
+  /** Elemento que recebe o foco ao fechar, quando o que abriu a janela deixa de existir (item de menu). */
+  readonly returnFocus?: ReturnFocus | undefined;
 }
 
 /** Modal que prende o foco, fecha com Esc e devolve o foco ao gatilho (FRT-ACE-03). */
@@ -32,13 +35,14 @@ export function ConfirmDialog({
   pending,
   destructive,
   children,
+  returnFocus,
 }: ConfirmDialogProps) {
   const text = useUiText();
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
         <Dialog.Backdrop className="ui-backdrop" />
-        <Dialog.Popup className="ui-dialog">
+        <Dialog.Popup className="ui-dialog" finalFocus={focusAfterClose(returnFocus)}>
           <Dialog.Title className="ui-dialog-title">{title}</Dialog.Title>
           <Dialog.Description className="ui-dialog-text">{description}</Dialog.Description>
           {children}

@@ -10,3 +10,7 @@ export * from './icons.js';
 export * from './menu.js';
 export * from './pagination.js';
 export * from './hooks.js';
+export * from './sheet.js';
+export type { ReturnFocus } from './focus.js';
+export * from './busy.js';
+export * from './command-palette.js';

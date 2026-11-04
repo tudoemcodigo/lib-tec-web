@@ -151,7 +151,10 @@ describe('Button, Badge e buttonAttributes', () => {
     expect(botao.getAttribute('aria-busy')).toBe('true');
     fireEvent.click(botao);
     expect(onClick).not.toHaveBeenCalled();
-    expect(screen.getByTestId('ic')).toBeTruthy();
+    // o indicador toma o lugar do icone: a largura do botao nao muda
+    expect(screen.queryByTestId('ic')).toBeNull();
+    expect(botao.querySelector('.ui-button-spinner')).not.toBeNull();
+    expect(botao.hasAttribute('data-overlay')).toBe(false);
   });
 
   it('disabled sem loading não marca aria-busy; type submit é respeitado', () => {

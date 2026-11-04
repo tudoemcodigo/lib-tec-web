@@ -138,7 +138,7 @@ await loadSeasonalTheme((signal) => getTheme(signal), { timeoutMs: 3000 });
 ## 🛡️ Segurança · 🧪 Testes
 
 - O tema é **dado, nunca código**: sem CSS, sem URL, sem script. Aplicado por `adoptedStyleSheets`, sem `unsafe-inline` (FRT-TEM-01/02).
-- Tokens `color-error`, `color-error-bg`, `color-success` e `color-warning` não são trocáveis; contraste recalculado no cliente.
+- Tokens `color-error`, `color-error-bg`, `color-success`, `color-warning` e `color-info` não são trocáveis; contraste recalculado no cliente.
 - **Testes:** 189 unitários do monorepo (cobertura `v8` de 98,97% das instruções e 98,67% dos ramos) e 42 E2E nos três motores; o JSON Schema e o validador são conferidos com os mesmos casos hostis, compartilhados com a validação em C# do BFF.
 
 ---

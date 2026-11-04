@@ -8,6 +8,10 @@ Versão inaugural (`0.0.1`): feedback, página, controles e formulário padroniz
 
 ### ✨ Adicionado
 
+- **Design system (FRT-DSG):** `Sheet` (painel lateral modal para master-detail), `LoadingState variant="table"` (esqueleto com a geometria da tabela), `RefreshBar` (atualização em segundo plano, 2 px fixos), `ScrollRegion stickyHeader`, densidade `data-density="compact"`, selo `Badge` com ícone próprio do tom, `returnFocus` em `Sheet` e `ConfirmDialog` (o foco volta ao botão do menu quando o item que abriu a janela deixa de existir), regras de `forced-colors`.
+- **Bloqueio e paleta (FRT-DSG-10 e 11):** `BusyOverlay` (bloqueio total da tela com a marca animada, janela modal nativa, atraso de 250 ms e mínimo de 600 ms), `BrandMark` (símbolo da marca em SVG próprio), `useBusyVisible`; `CommandPalette` (`Ctrl/Cmd+K`, combobox com lista, filtro sem acento) e `filterCommands`.
+- `Button` em `loading` mantém a largura: o indicador toma o lugar do ícone ou fica sobre o texto. Seções e regiões de tabela passam a ter só borda (sombra é das camadas flutuantes).
+
 - **Feedback:** `Alert` (tom em ícone, texto e cor), `ToastProvider` e `useToast` (fila de 4, pausa com mouse e foco, erro fica até fechar), `ErrorState` (código de suporte copiável e nova tentativa), `EmptyState`, `LoadingState` (esqueleto, `aria-busy`).
 - **Página:** `PageHeader` (trilha com `renderLink`, único `h1`, situação e ações), `Section` (com `flush`), `DataList`, `SummaryList` (total em destaque), `ScrollRegion` (rolável por teclado).
 - **Controles:** `Button` (variantes, `loading` sem duplo clique), `buttonAttributes`, `Badge`, `ConfirmDialog` (Base UI).

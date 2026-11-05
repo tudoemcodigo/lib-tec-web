@@ -22,7 +22,14 @@ function Frame({
     <Field.Root name={name} className="ui-field" invalid={Boolean(error)}>
       <Field.Label>
         {label}
-        {required === true ? <span className="ui-sr">{` ${text('ui.form.required')}`}</span> : null}
+        {required === true ? (
+          <>
+            <span className="ui-field-required" aria-hidden="true">
+              {' *'}
+            </span>
+            <span className="ui-sr">{` ${text('ui.form.required')}`}</span>
+          </>
+        ) : null}
       </Field.Label>
       {children}
       {help ? <Field.Description className="ui-field-help">{help}</Field.Description> : null}
@@ -82,6 +89,15 @@ export function TextAreaField({ label, error, help, required, name, ...input }: 
       <Field.Control render={<textarea required={required} {...input} />} />
     </Frame>
   );
+}
+
+/**
+ * Legenda do asterisco (`*`) dos campos obrigatórios. Coloque uma vez, no topo do formulário: sem ela o símbolo não diz o que
+ * significa (WCAG 3.3.2). O asterisco é só marca visual; o leitor de tela já ouve "obrigatório" em cada campo.
+ */
+export function RequiredLegend() {
+  const text = useUiText();
+  return <p className="ui-required-legend">{text('ui.form.requiredLegend')}</p>;
 }
 
 export interface FormErrorItem {

@@ -24,7 +24,9 @@ import {
   SelectField,
   SummaryList,
   TextAreaField,
+  RequiredLegend,
   TextField,
+  UiProvider,
 } from '../src/index.js';
 
 afterEach(cleanup);
@@ -245,6 +247,39 @@ describe('Campos de formulário', () => {
     expect(screen.getByText('(obrigatório)', { exact: false })).toBeTruthy();
     expect(screen.getByText('Como no documento')).toBeTruthy();
     expect(screen.getByRole('alert').textContent).toBe('Informe o nome');
+  });
+
+  it('campo obrigatório mostra * visível, escondido do leitor de tela; opcional não mostra', () => {
+    render(
+      <>
+        <TextField name="nome" label="Nome" required />
+        <TextField name="apelido" label="Apelido" />
+        <SelectField name="tipo" label="Tipo" required options={[{ value: 'a', text: 'A' }]} />
+      </>,
+    );
+    const marcas = document.querySelectorAll('.ui-field-required');
+    expect(marcas).toHaveLength(2);
+    marcas.forEach((marca) => {
+      expect(marca.textContent.trim()).toBe('*');
+      expect(marca.getAttribute('aria-hidden')).toBe('true');
+    });
+    // o nome acessível diz "obrigatório" e não lê o asterisco
+    expect(screen.getByRole('textbox', { name: /^Nome\s*\(obrigatório\)$/ })).toBeTruthy();
+    expect(screen.getByRole('textbox', { name: 'Apelido' })).toBeTruthy();
+    expect(
+      screen.getByLabelText('Apelido').closest('.ui-field')!.querySelector('.ui-field-required'),
+    ).toBeNull();
+  });
+
+  it('RequiredLegend explica o asterisco e segue o idioma', () => {
+    const { rerender } = render(<RequiredLegend />);
+    expect(screen.getByText('Campos marcados com * são obrigatórios.')).toBeTruthy();
+    rerender(
+      <UiProvider locale="en">
+        <RequiredLegend />
+      </UiProvider>,
+    );
+    expect(screen.getByText('Fields marked with * are required.')).toBeTruthy();
   });
 
   it('sem erro não há alerta', () => {

@@ -4,6 +4,10 @@ Todas as mudanças relevantes do **@tudoemcodigo/theme** são registradas aqui. 
 
 ## [Não lançado]
 
+### ✨ Adicionado
+
+- **Tokens de design system (FRT-DSG):** `--tec-color-info` (protegido, com par de contraste testado e versão de alto contraste), `--tec-control-height` (36 px), `--tec-control-height-dense` (32 px) e `--tec-radius-lg`.
+
 ### 🎨 Alterado
 
 - **Paleta mais suave:** o acento do tema claro passa de `#4f5be8` para `#5562d6` (5,1:1 sobre branco, mantém AA) e a casca (cabeçalho e menu lateral) deixa o azul-marinho `#0b1230` pelo azul acinzentado `#2a3558` (texto 9,9:1), com hover, ativo e borda acompanhando; no escuro, `#181e30` vira `#1f2640`. `--tec-shell-text-muted` passa de `#aab3dc` para `#b9c1e6` para manter o contraste sobre a casca mais clara.

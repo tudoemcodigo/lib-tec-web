@@ -35,5 +35,8 @@
     "@base-ui/react": "^1.9.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
+  },
+  "dependencies": {
+    "@fortawesome/free-solid-svg-icons": "^7.3.1"
   }
 }

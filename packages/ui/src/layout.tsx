@@ -140,15 +140,19 @@ export function SummaryList({ rows }: { readonly rows: readonly SummaryRow[] }) 
  */
 export function ScrollRegion({
   label,
+  stickyHeader = false,
   children,
 }: {
   readonly label?: string;
+  /** Cabeçalho da tabela fixo no topo da região, que passa a ter altura máxima e rolar na vertical. */
+  readonly stickyHeader?: boolean;
   readonly children: ReactNode;
 }) {
   const text = useUiText();
   return (
     <div
       className="ui-scroll"
+      data-sticky-header={stickyHeader || undefined}
       role="region"
       aria-label={label ?? text('ui.scroll.region')}
       // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- região rolável exige foco por teclado (WCAG 2.1.1)

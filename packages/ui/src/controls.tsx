@@ -1,6 +1,5 @@
 import type { ComponentProps, ReactNode } from 'react';
-import { Dialog } from '@base-ui/react/dialog';
-import { useUiText } from './messages.js';
+import { IconError, IconInfo, IconSuccess, IconWarning } from './icons.js';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'ghost';
 
@@ -14,7 +13,10 @@ export function buttonAttributes(variant: ButtonVariant = 'primary'): {
 
 export interface ButtonProps extends ComponentProps<'button'> {
   readonly variant?: ButtonVariant;
-  /** Ação em andamento: bloqueia novo clique e anuncia `aria-busy`, sem trocar o texto do botão. */
+  /**
+   * Ação em andamento: bloqueia novo clique e anuncia `aria-busy`. A largura não muda: o indicador toma o lugar do ícone ou,
+   * sem ícone, fica sobre o texto (que segue ocupando o espaço e dando o nome ao botão).
+   */
   readonly loading?: boolean;
   readonly icon?: ReactNode;
 }
@@ -29,17 +31,23 @@ export function Button({
   disabled,
   ...rest
 }: ButtonProps) {
+  const spinner = <span className="ui-button-spinner" aria-hidden="true" />;
+  const overlay = loading && icon === undefined;
   return (
     <button
       type={type}
       className={`ui-button ${className ?? ''}`.trim()}
       data-variant={variant}
+      data-overlay={overlay || undefined}
       aria-busy={loading || undefined}
       disabled={disabled === true || loading}
       {...rest}
     >
-      {icon !== undefined ? <span className="ui-button-icon">{icon}</span> : null}
-      {children}
+      {icon !== undefined ? (
+        <span className="ui-button-icon">{loading ? spinner : icon}</span>
+      ) : null}
+      <span className="ui-button-label">{children}</span>
+      {overlay ? spinner : null}
     </button>
   );
 }
@@ -84,7 +92,14 @@ export function IconButton({
 
 export type BadgeTone = 'neutral' | 'success' | 'warning' | 'error' | 'info';
 
-/** Situação de um registro. O texto informa; a cor e o ponto só reforçam (nunca só cor). */
+const BADGE_ICONS: Readonly<Record<Exclude<BadgeTone, 'neutral'>, () => ReactNode>> = {
+  success: IconSuccess,
+  warning: IconWarning,
+  error: IconError,
+  info: IconInfo,
+};
+
+/** Situação de um registro: texto, ícone próprio do tom (neutro tem só um ponto) e cor. Nunca só cor (WCAG 1.4.1). */
 export function Badge({
   tone,
   children,
@@ -92,61 +107,15 @@ export function Badge({
   readonly tone: BadgeTone;
   readonly children: ReactNode;
 }) {
+  const Icon = tone === 'neutral' ? null : BADGE_ICONS[tone];
   return (
     <span className="ui-badge" data-tone={tone}>
+      {Icon !== null ? (
+        <span className="ui-badge-icon">
+          <Icon />
+        </span>
+      ) : null}
       {children}
     </span>
-  );
-}
-
-export interface ConfirmDialogProps {
-  readonly open: boolean;
-  readonly onOpenChange: (open: boolean) => void;
-  readonly title: string;
-  readonly description: string;
-  readonly confirmLabel: string;
-  readonly onConfirm: () => void;
-  readonly pending?: boolean | undefined;
-  /** Ação destrutiva: o botão de confirmar fica vermelho. */
-  readonly destructive?: boolean | undefined;
-  readonly children?: ReactNode;
-}
-
-/** Modal que prende o foco, fecha com Esc e devolve o foco ao gatilho (FRT-ACE-03). */
-export function ConfirmDialog({
-  open,
-  onOpenChange,
-  title,
-  description,
-  confirmLabel,
-  onConfirm,
-  pending,
-  destructive,
-  children,
-}: ConfirmDialogProps) {
-  const text = useUiText();
-  return (
-    <Dialog.Root open={open} onOpenChange={onOpenChange}>
-      <Dialog.Portal>
-        <Dialog.Backdrop className="ui-backdrop" />
-        <Dialog.Popup className="ui-dialog">
-          <Dialog.Title className="ui-dialog-title">{title}</Dialog.Title>
-          <Dialog.Description className="ui-dialog-text">{description}</Dialog.Description>
-          {children}
-          <div className="ui-dialog-actions">
-            <Dialog.Close render={<Button variant="secondary" />}>
-              {text('ui.confirm.cancel')}
-            </Dialog.Close>
-            <Button
-              variant={destructive === true ? 'danger' : 'primary'}
-              onClick={onConfirm}
-              loading={pending === true}
-            >
-              {confirmLabel}
-            </Button>
-          </div>
-        </Dialog.Popup>
-      </Dialog.Portal>
-    </Dialog.Root>
   );
 }

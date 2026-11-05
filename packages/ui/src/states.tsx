@@ -1,4 +1,4 @@
-import { useId, useState, type ReactNode } from 'react';
+import { useId, useState, type CSSProperties, type ReactNode } from 'react';
 import { IconError, IconInbox } from './icons.js';
 import { useUiText } from './messages.js';
 
@@ -106,12 +106,47 @@ export interface LoadingStateProps {
   readonly label?: string;
   /** Número de linhas de esqueleto. */
   readonly rows?: number;
+  /** `table` espelha a geometria de uma tabela (cabeçalho e linhas), para a carga não deslocar a página. */
+  readonly variant?: 'lines' | 'table';
+  /** Colunas do esqueleto de tabela (1 a 12). */
+  readonly columns?: number;
 }
 
+/** Limita ao intervalo; valor que não é número finito (NaN, Infinity) cai no mínimo, nunca em zero itens. */
+const clamp = (value: number, min: number, max: number): number =>
+  Number.isFinite(value) ? Math.min(Math.max(Math.trunc(value), min), max) : min;
+
 /** Esqueleto de carga: ocupa o lugar do conteúdo (sem salto de layout) e anuncia "Carregando…" uma vez. */
-export function LoadingState({ label, rows = 4 }: LoadingStateProps) {
+export function LoadingState({
+  label,
+  rows = 4,
+  variant = 'lines',
+  columns = 4,
+}: LoadingStateProps) {
   const text = useUiText();
-  const count = Math.min(Math.max(Math.trunc(rows), 1), 12);
+  const count = clamp(rows, 1, 12);
+  if (variant === 'table') {
+    const cols = clamp(columns, 1, 12);
+    const cells = Array.from({ length: cols }, (_, index) => index);
+    return (
+      <div role="status" aria-busy="true">
+        <span className="ui-sr">{label ?? text('ui.loading')}</span>
+        <div
+          className="ui-skeleton-table"
+          aria-hidden="true"
+          style={{ '--ui-columns': cols } as CSSProperties}
+        >
+          {Array.from({ length: count + 1 }, (_, row) => (
+            <div key={row} className="ui-skeleton-row" data-head={row === 0 || undefined}>
+              {cells.map((cell) => (
+                <span key={cell} className="ui-skeleton" data-line={(row + cell) % 3} />
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
   return (
     <div role="status" aria-busy="true" className="ui-skeleton-group">
       <span className="ui-sr">{label ?? text('ui.loading')}</span>
@@ -120,4 +155,13 @@ export function LoadingState({ label, rows = 4 }: LoadingStateProps) {
       ))}
     </div>
   );
+}
+
+/**
+ * Atualização em segundo plano (os dados já na tela continuam legíveis): uma linha fina no topo da região. Ocupa sempre os
+ * mesmos 2 px, ativa ou não, para ligar e desligar não deslocar nada. É só visual; quem lê com leitor de tela tem o `aria-busy`
+ * da região.
+ */
+export function RefreshBar({ active }: { readonly active: boolean }) {
+  return <div className="ui-refresh" aria-hidden="true" data-active={active || undefined} />;
 }

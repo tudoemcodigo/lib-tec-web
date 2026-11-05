@@ -8,7 +8,7 @@
 
 **Os componentes de interface do ecossistema TEC: avisos, notificações, estados de erro, vazio e carregando, cabeçalho de página, campos e diálogo, todos com o mesmo jeito de dizer as coisas.**
 
-Alert · Toast · ErrorState · EmptyState · LoadingState · PageHeader · Section · Campos · ConfirmDialog · Só tokens `--tec-*`
+Alert · Toast · ErrorState · EmptyState · LoadingState · PageHeader · Section · Campos · ConfirmDialog · Sheet · BusyOverlay · CommandPalette · Só tokens `--tec-*`
 
 [![CI](https://github.com/tudoemcodigo/lib-tec-web/actions/workflows/ci.yml/badge.svg)](https://github.com/tudoemcodigo/lib-tec-web/actions/workflows/ci.yml)
 [![React](https://img.shields.io/badge/React-19-149ECA?logo=react&logoColor=white)](https://github.com/tudoemcodigo/lib-tec-web/blob/main/docs/compatibilidade.md)
@@ -46,14 +46,27 @@ Alert · Toast · ErrorState · EmptyState · LoadingState · PageHeader · Sect
 
 ## 📦 O que tem dentro
 
-| Grupo      | Componentes                                                                                                        |
-| ---------- | ------------------------------------------------------------------------------------------------------------------ |
-| Feedback   | `Alert`, `ToastProvider` e `useToast`, `ErrorState`, `EmptyState`, `LoadingState`                                  |
-| Página     | `PageHeader` (trilha, título, situação, ações), `Section`, `DataList`, `SummaryList`, `ScrollRegion`               |
-| Controles  | `Button` e `buttonAttributes`, `IconButton` e `iconButtonAttributes` (ação só com ícone), `Badge`, `ConfirmDialog` |
-| Formulário | `TextField`, `SelectField`, `TextAreaField`, `FormErrorSummary`                                                    |
-| Base       | `UiProvider` e `uiMessages` (textos pt-BR e en), ícones (`IconSuccess`, `IconError`...)                            |
-| CSS        | `@tudoemcodigo/ui/ui.css`, na camada `tec-ui` (CSS do sistema sem camada sempre vence)                             |
+| Grupo      | Componentes                                                                                                                                                                                                                                                               |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Feedback   | `Alert`, `ToastProvider` e `useToast`, `ErrorState`, `EmptyState`, `LoadingState` (linhas ou `variant="table"`, com a geometria da tabela), `RefreshBar` (atualização em segundo plano), `BusyOverlay` e `BrandMark` (bloqueio total da tela com a marca animada)         |
+| Página     | `Pagination`, `PageHeader` (trilha, título, situação, ações), `Section`, `DataList`, `SummaryList`, `ScrollRegion` (com `stickyHeader`)                                                                                                                                   |
+| Controles  | `Button` e `buttonAttributes`, `IconButton` e `iconButtonAttributes` (ação só com ícone), `ActionMenu` (menu suspenso de ações), `Badge` (texto, ícone do tom e cor), `ConfirmDialog`, `Sheet` (painel lateral modal), `CommandPalette` e `filterCommands` (`Ctrl/Cmd+K`) |
+| Formulário | `TextField`, `SelectField`, `TextAreaField`, `FormErrorSummary`                                                                                                                                                                                                           |
+| Base       | `UiProvider`, `useUiLocale`, `useDebouncedValue` e `uiMessages` (textos pt-BR e en), ícones do Font Awesome Free (`FaIcon`, `IconSuccess`, `IconEye`, `IconSave`...)                                                                                                      |
+| CSS        | `@tudoemcodigo/ui/ui.css`, na camada `tec-ui` (CSS do sistema sem camada sempre vence)                                                                                                                                                                                    |
+
+---
+
+## 🎛️ Contrato de design
+
+O contrato visual verificável está no padrão FRT-DSG da Doutrina (padrão 10 do frontend):
+
+- **Superfície só com borda:** seção e região de tabela não têm sombra; sombra é das camadas flutuantes (menu, diálogo, painel, notificação).
+- **Botão em carga mantém a largura:** `Button loading` troca o ícone pelo indicador ou, sem ícone, põe o indicador sobre o texto.
+- **Densidade:** `data-density="compact"` numa região baixa os controles para `--tec-control-height-dense` (32 px).
+- **`BusyOverlay`:** bloqueia a tela só depois de 250 ms e fica no mínimo 600 ms; use para processamento e troca de página, não para dado que chega dentro da tela (use `LoadingState` e `RefreshBar`).
+- **`returnFocus`** em `Sheet`, `ConfirmDialog` e `CommandPalette`: quando a janela abre de um item de menu, que some ao fechar, aponte o botão que abriu o menu.
+- **Cores forçadas** (Alto Contraste do Windows) têm regras próprias no CSS.
 
 ---
 
@@ -128,7 +141,7 @@ Textos dos componentes (por exemplo, "Fechar notificação") vêm de `uiMessages
 - Todo texto vira **texto**, nunca HTML: título, mensagem e valores com marcação aparecem literais. Não há `dangerouslySetInnerHTML`.
 - A notificação limita o tamanho da mensagem (500 caracteres) e a quantidade na tela (4); erro nunca é descartado por excesso.
 - Mensagem de erro não carrega texto do servidor: o sistema passa o texto do catálogo.
-- **Testes:** 49 unitários do pacote, com casos hostis (marcação, texto gigante, nome de campo malicioso, área de transferência negada).
+- **Testes:** 66 unitários do pacote, com casos hostis (marcação, texto gigante, nome de campo malicioso, área de transferência negada).
 
 ---
 
@@ -136,4 +149,4 @@ Textos dos componentes (por exemplo, "Fechar notificação") vêm de `uiMessages
 
 - **Contribuição**: veja o [README do monorepo](https://github.com/tudoemcodigo/lib-tec-web/blob/main/README.md#-contribuição--versionamento--licença).
 - **Versionamento**: [SemVer 2.0](https://semver.org/lang/pt-BR/); nomes, props, classes `ui-*` e chaves `ui.*` só mudam com versão (FRT-PKG-02).
-- **Licença**: [Apache 2.0](https://github.com/tudoemcodigo/lib-tec-web/blob/main/LICENSE).
+- **Licença**: [Apache 2.0](https://github.com/tudoemcodigo/lib-tec-web/blob/main/LICENSE). Os ícones são do [Font Awesome Free](https://fontawesome.com/license/free) (CC BY 4.0), embutidos como SVG sem modificação; a atribuição está no `NOTICE` do monorepo.

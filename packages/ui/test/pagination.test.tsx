@@ -3,6 +3,8 @@ import { act, cleanup, fireEvent, render, renderHook, screen } from '@testing-li
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   fillUiText,
+  DEFAULT_PAGE_SIZE,
+  PAGE_SIZES,
   Pagination,
   UiProvider,
   useDebouncedValue,
@@ -12,6 +14,49 @@ import {
 afterEach(cleanup);
 
 const base = { page: 2, totalPages: 5, total: 83, hasPrevious: true, hasNext: true };
+
+describe('Pagination: registros por página', () => {
+  it('sem onPageSizeChange não mostra o seletor (uso antigo segue igual)', () => {
+    render(<Pagination {...base} pageSize={20} onChange={() => undefined} />);
+    expect(screen.queryByRole('combobox')).toBeNull();
+  });
+
+  it('mostra as opções padrão, marca a atual e avisa a escolha', () => {
+    const onPageSizeChange = vi.fn();
+    render(
+      <Pagination
+        {...base}
+        pageSize={DEFAULT_PAGE_SIZE}
+        onPageSizeChange={onPageSizeChange}
+        onChange={() => undefined}
+      />,
+    );
+    const seletor = screen.getByRole<HTMLSelectElement>('combobox', {
+      name: 'Registros por página',
+    });
+    expect(Array.from(seletor.options).map((o) => Number(o.value))).toEqual([...PAGE_SIZES]);
+    expect(seletor.value).toBe('20');
+    fireEvent.change(seletor, { target: { value: '50' } });
+    expect(onPageSizeChange).toHaveBeenCalledExactlyOnceWith(50);
+  });
+
+  it('tamanho fora da lista entra ordenado; opções próprias valem; idioma e milhar seguem o provedor', () => {
+    render(
+      <UiProvider locale="en">
+        <Pagination
+          {...base}
+          pageSize={1500}
+          pageSizeOptions={[5, 1000]}
+          onPageSizeChange={() => undefined}
+          onChange={() => undefined}
+        />
+      </UiProvider>,
+    );
+    const seletor = screen.getByRole<HTMLSelectElement>('combobox', { name: 'Records per page' });
+    expect(Array.from(seletor.options).map((o) => o.textContent)).toEqual(['5', '1,000', '1,500']);
+    expect(seletor.value).toBe('1500');
+  });
+});
 
 describe('Pagination', () => {
   it('mostra a página, o total real de registros e muda de página', () => {

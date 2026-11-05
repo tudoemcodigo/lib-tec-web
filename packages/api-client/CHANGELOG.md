@@ -4,6 +4,10 @@ Todas as mudanças relevantes do **@tudoemcodigo/api-client** são registradas a
 
 ## [Não lançado]
 
+### 📝 Documentação
+
+- README e comentário de `validation.ts` deixam claro que o `jitless` do pacote não basta no bundle (`sideEffects: false` e ordem de execução): o sistema deve configurá-lo no próprio módulo do `z`.
+
 ### ✨ Adicionado
 
 - `createApiClient<Paths>` e `createRequester`: transporte único com timeout, cancelamento, retentativa segura (GET e 429), `X-TEC-CSRF` em métodos que mudam estado e `X-Correlation-ID`.

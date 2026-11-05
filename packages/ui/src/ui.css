@@ -262,6 +262,25 @@
     color: var(--tec-color-text-muted);
     font-size: 0.875rem;
   }
+  .ui-pagination-size {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--tec-space-2);
+    margin-inline-start: auto;
+    color: var(--tec-color-text-muted);
+    font-size: 0.875rem;
+  }
+  .ui-pagination-size select {
+    min-height: var(--tec-target-min);
+    padding: 0 var(--tec-space-2);
+    border: 1px solid var(--tec-color-border);
+    border-radius: var(--tec-radius);
+    background: var(--tec-color-surface);
+    color: var(--tec-color-text);
+  }
+  .ui-pagination-size select:hover {
+    border-color: var(--tec-color-text-muted);
+  }
   .ui-row-actions {
     display: inline-flex;
     gap: var(--tec-space-1);

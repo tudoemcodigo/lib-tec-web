@@ -46,17 +46,17 @@ openapi-fetch tipado · Zod sem JIT (CSP estrita) · ETag/If-Match · Idempotenc
 
 ## 📦 O que tem dentro
 
-| Export                                     | Entrega                                                                                        |
-| ------------------------------------------ | ---------------------------------------------------------------------------------------------- |
-| `createApiClient<Paths>`                   | Cliente `openapi-fetch` tipado pelos `paths` gerados do OpenAPI do sistema                     |
-| `createRequester`                          | Mesmo transporte para chamadas fora do OpenAPI (ex.: BFF), devolve `Response`                  |
-| `ApiError` · `ClientErrorCode`             | Erro tipado e códigos do cliente (`Network`, `Timeout`, `InvalidResponse`, ...)                |
-| `newTraceparent` · `traceIdOf`             | W3C Trace Context: o cliente já envia `traceparent` em toda requisição; use para correlacionar |
-| `newIdempotencyKey` · `etagOf`             | Chave por intenção do usuário; leitura do ETag para o `If-Match`                               |
-| `CSRF_HEADER` · `CORRELATION_HEADER` · ... | Nomes dos cabeçalhos do contrato com o BFF                                                     |
-| `apiEnvelope` · `apiPage` · `readContract` | Esquemas Zod do envelope e da paginação; validação na borda                                    |
-| `apiId` · `apiInstant` · `apiNumber` · ... | Primitivas do contrato (GUID, instante, número do JSON)                                        |
-| `z`                                        | Zod já com `jitless` (sem `eval` sob CSP): importe sempre daqui                                |
+| Export                                     | Entrega                                                                                           |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------- |
+| `createApiClient<Paths>`                   | Cliente `openapi-fetch` tipado pelos `paths` gerados do OpenAPI do sistema                        |
+| `createRequester`                          | Mesmo transporte para chamadas fora do OpenAPI (ex.: BFF), devolve `Response`                     |
+| `ApiError` · `ClientErrorCode`             | Erro tipado e códigos do cliente (`Network`, `Timeout`, `InvalidResponse`, ...)                   |
+| `newTraceparent` · `traceIdOf`             | W3C Trace Context: o cliente já envia `traceparent` em toda requisição; use para correlacionar    |
+| `newIdempotencyKey` · `etagOf`             | Chave por intenção do usuário; leitura do ETag para o `If-Match`                                  |
+| `CSRF_HEADER` · `CORRELATION_HEADER` · ... | Nomes dos cabeçalhos do contrato com o BFF                                                        |
+| `apiEnvelope` · `apiPage` · `readContract` | Esquemas Zod do envelope e da paginação; validação na borda                                       |
+| `apiId` · `apiInstant` · `apiNumber` · ... | Primitivas do contrato (GUID, instante, número do JSON)                                           |
+| `z`                                        | Zod com `jitless` pedido pelo pacote; o sistema também precisa configurá-lo (veja o aviso abaixo) |
 
 ---
 
@@ -119,7 +119,7 @@ Nos testes, injete `fetchImpl`, `wait` e `random` por `createApiClient({ ... })`
 - Lê o envelope `ApiResponse` e também `application/problem+json` (RFC 9457: `errors` por campo, extensões `code` e `traceId`); em 5xx `title`, `detail` e mensagens nunca chegam à interface, só o `traceId`.
 - O CSRF (`X-TEC-CSRF`) vai só em métodos que mudam estado; `credentials` é definido aqui e em nenhum outro lugar.
 - Retentativa: no máximo 3 tentativas, backoff com jitter, `Retry-After` limitado a 30 s; mutação só repete com `Idempotency-Key`.
-- O Zod é importado em um único arquivo, com `jitless`, para não gerar violação de CSP.
+- O Zod é importado em um único arquivo, com `jitless`, para não gerar violação de CSP. **Aviso:** o pacote declara `sideEffects: false` (FRT-PKG-04), então o bundler resolve `z` direto até o zod e pode descartar o `z.config({ jitless: true })` do pacote; além disso, o chunk do pacote pode executar depois de código do sistema que já valida com o Zod. Por isso o sistema deve chamar `z.config({ jitless: true })` no próprio módulo que reexporta o `z` (no web-templatetec, `src/shared/validacao.ts`) e provar com um teste de CSP (`script-src eval` não pode aparecer).
 - **Testes:** 50 unitários do pacote, com MSW e casos hostis (corpo gigante, código malformado, timeout, cancelamento).
 
 ---

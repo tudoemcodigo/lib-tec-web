@@ -5,6 +5,10 @@ import { z } from 'zod';
  * `unsafe-eval` a sonda gera violação nos relatórios (FRT-SEG-04/05). A configuração mora aqui, na cadeia de dependência de
  * todo esquema, porque a ordem de importação do ponto de entrada não garante nada: o bundler junta o núcleo do Zod e os
  * esquemas num chunk compartilhado que pode executar antes do corpo do ponto de entrada do sistema.
+ *
+ * ATENÇÃO: isto sozinho NÃO basta no bundle do sistema. O pacote declara `sideEffects: false` (FRT-PKG-04) e o bundler resolve
+ * `z` direto até o zod, descartando este módulo; e, mesmo mantido, ele pode executar depois de código do sistema que já valida.
+ * O sistema deve repetir `z.config({ jitless: true })` no módulo que reexporta o `z` (README, seção Notas).
  */
 z.config({ jitless: true });
 

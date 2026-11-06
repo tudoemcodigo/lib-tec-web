@@ -313,7 +313,7 @@
       display: block;
     }
 
-    /* Com o botão do menu à esquerda, um filete separa o nome do símbolo; em telas muito estreitas o nome some */
+    /* Com o botão do menu à esquerda, um filete separa o nome do símbolo; abaixo de 20 rem o nome some */
     .shell-app-name {
       padding-inline-start: var(--tec-space-3);
       border-inline-start: 1px solid var(--tec-shell-border);
@@ -389,7 +389,7 @@
     color: var(--tec-shell-text);
   }
 
-  @media (max-width: 25.999rem) {
+  @media (max-width: 19.999rem) {
     .shell-app-name {
       display: none;
     }

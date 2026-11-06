@@ -1,0 +1,42 @@
+{
+  "name": "@tudoemcodigo/shell",
+  "version": "0.0.1",
+  "description": "Casca padrão dos frontends Tudo em Código: cabeçalho, menu lateral, menu do usuário, paleta de comandos, painel de aparência, atalhos e páginas de perfil, ajuda e acessibilidade, configuráveis por props.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tudoemcodigo/lib-tec-web.git",
+    "directory": "packages/shell"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./shell.css": "./dist/shell.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json && node ../../scripts/copy-css.mjs"
+  },
+  "peerDependencies": {
+    "@base-ui/react": "^1.9.0",
+    "@tanstack/react-router": "^1.170.0",
+    "@tudoemcodigo/theme": "^0.0.1",
+    "@tudoemcodigo/ui": "^0.0.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  }
+}

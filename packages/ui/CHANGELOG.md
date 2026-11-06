@@ -17,6 +17,10 @@ Versão inaugural (`0.0.1`): feedback, página, controles e formulário padroniz
 ### ✨ Adicionado
 
 - **Estilos de base e entrada única:** `@tudoemcodigo/ui/base.css` (reset, tipografia, tabela, foco, movimento reduzido, contraste alto e as classes `ui-numeric`, `ui-code`, `ui-help`, `ui-skip-link`, `ui-toolbar`, `ui-prose`, `ui-form-grid`, `ui-form-actions`, `ui-repeat-item`, `ui-filter-bar`, `ui-filter-panel`, `ui-filter-row`, `ui-filter-clear`, `ui-actions-column`) e `@tudoemcodigo/ui/styles.css`, que declara `@layer tec-tokens, tec-reset, tec-ui, tec-base;` e importa os tokens e animações do `theme`, o `ui.css` e o `base.css`. O reset fica em `tec-reset` e o resto em `tec-base`, depois de `tec-ui`; o CSS do sistema, sem camada, vence todas. `@tudoemcodigo/theme` passa a peer (`^0.0.1`). Teste de contrato em `test/styles.test.ts`.
+- **Ordenação na URL:** `parseSort` (lê `campo` ou `-campo` e só aceita campo da lista fechada; texto livre, `__proto__` e valor que não é texto voltam à ordem padrão), `formatSort` e `nextSortValue` (ciclo do clique sobre o valor da URL). O esquema de validação (zod) continua no sistema: o `ui` não depende de zod.
+- **`SortableColumn`:** liga a ordenação ativa da lista ao `SortableHeader` (só a coluna do `field` mostra o sentido).
+- **`LazyRowActions`:** botão de ações da linha cujo menu só é baixado no primeiro clique, com um botão idêntico no lugar enquanto o código não chega (orçamento de JavaScript, FRT-OPE-02).
+- **`CancelAnchor`:** "Cancelar" como link com aparência de botão secundário e ícone, com o texto `ui.cancel` (pt-BR e en). Não conhece roteador: o sistema o liga ao dele (`createLink(CancelAnchor)`), sem dependência nova.
 
 - **Registros por página:** `Pagination` ganha o seletor "Registros por página" (`pageSize`, `onPageSizeChange`, `pageSizeOptions`); `PAGE_SIZES` (10, 20, 50, 100) e `DEFAULT_PAGE_SIZE` (20) padronizam as opções em todos os sistemas. Sem `onPageSizeChange` nada muda.
 - **Campo obrigatório:** os campos com `required` mostram um `*` visível no rótulo (escondido do leitor de tela, que já ouve "obrigatório"), e `RequiredLegend` explica o símbolo uma vez por formulário.

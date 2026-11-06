@@ -10,6 +10,8 @@ export * from './icons.js';
 export * from './menu.js';
 export * from './pagination.js';
 export * from './sorting.js';
+export * from './row-actions.js';
+export * from './cancel-anchor.js';
 export * from './hooks.js';
 export * from './sheet.js';
 export type { ReturnFocus } from './focus.js';

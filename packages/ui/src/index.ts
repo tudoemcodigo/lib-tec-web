@@ -9,6 +9,7 @@ export * from './form.js';
 export * from './icons.js';
 export * from './menu.js';
 export * from './pagination.js';
+export * from './sorting.js';
 export * from './hooks.js';
 export * from './sheet.js';
 export type { ReturnFocus } from './focus.js';

@@ -1,5 +1,13 @@
 import type { ComponentProps, ReactNode } from 'react';
-import { IconError, IconInfo, IconSuccess, IconWarning } from './icons.js';
+import {
+  IconError,
+  IconInfo,
+  IconSuccess,
+  IconToneDiamond,
+  IconToneRing,
+  IconToneSquare,
+  IconWarning,
+} from './icons.js';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'ghost';
 
@@ -90,13 +98,21 @@ export function IconButton({
   );
 }
 
-export type BadgeTone = 'neutral' | 'success' | 'warning' | 'error' | 'info';
+/**
+ * Tons semânticos (`success`, `warning`, `error`, `info`) dizem o resultado de algo; os categóricos (`blue`, `violet`, `teal`)
+ * só distinguem etapas de um fluxo (por exemplo, a situação de um pedido) e não carregam sentido de estado.
+ */
+export type BadgeTone =
+  'neutral' | 'success' | 'warning' | 'error' | 'info' | 'blue' | 'violet' | 'teal';
 
 const BADGE_ICONS: Readonly<Record<Exclude<BadgeTone, 'neutral'>, () => ReactNode>> = {
   success: IconSuccess,
   warning: IconWarning,
   error: IconError,
   info: IconInfo,
+  blue: IconToneRing,
+  violet: IconToneDiamond,
+  teal: IconToneSquare,
 };
 
 /** Situação de um registro: texto, ícone próprio do tom (neutro tem só um ponto) e cor. Nunca só cor (WCAG 1.4.1). */

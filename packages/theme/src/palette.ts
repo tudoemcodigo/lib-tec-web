@@ -38,38 +38,40 @@ export const PROTECTED_TOKEN_NAMES = [
   'color-success',
   'color-warning',
   'color-info',
+  'color-tone-violet',
+  'color-tone-teal',
 ] as const;
 
 export type ProtectedTokenName = (typeof PROTECTED_TOKEN_NAMES)[number];
 export type PaletteName = TokenName | ProtectedTokenName;
 export type Palette = Readonly<Record<PaletteName, ColorPair>>;
 
-const both = (value: string): ColorPair => ({ light: value, dark: value });
-
 export const DEFAULT_PALETTE: Palette = {
-  'color-bg': { light: '#f7f9f9', dark: '#222a3f' },
-  'color-surface': { light: '#ffffff', dark: '#2c344b' },
-  'color-text': { light: '#0b1020', dark: '#e8eaf2' },
-  'color-text-muted': { light: '#3a4160', dark: '#b6bcd2' },
-  'color-border': { light: '#6b7390', dark: '#7f88a8' },
-  'color-border-subtle': { light: '#d5d9e6', dark: '#444d6b' },
-  'color-accent': { light: '#5562d6', dark: '#8c97fa' },
-  'color-on-accent': { light: '#ffffff', dark: '#0f1426' },
-  'color-accent-subtle': { light: '#eef0fc', dark: '#283058' },
-  'color-table-header': { light: '#eef1f7', dark: '#2a3247' },
-  'color-row-hover': { light: '#f4f5fd', dark: '#343d5a' },
-  'shell-bg': { light: '#2a3558', dark: '#1f2640' },
-  'shell-hover': { light: '#323e66', dark: '#2a3252' },
-  'shell-active': { light: '#3a466f', dark: '#343d60' },
-  'shell-border': { light: '#46517a', dark: '#414a6c' },
-  'shell-text': both('#e6e9f7'),
-  'shell-text-muted': both('#b9c1e6'),
-  'shell-accent': both('#8c97fa'),
-  'color-error': { light: '#b42318', dark: '#fda29b' },
-  'color-error-bg': { light: '#fef3f2', dark: '#3d2a30' },
-  'color-success': { light: '#05603a', dark: '#6ce9a6' },
-  'color-warning': { light: '#8a4b00', dark: '#fec84b' },
+  'color-bg': { light: '#f4f6fb', dark: '#0c0e14' },
+  'color-surface': { light: '#ffffff', dark: '#141722' },
+  'color-text': { light: '#0f1424', dark: '#eceef6' },
+  'color-text-muted': { light: '#424a69', dark: '#a9afc5' },
+  'color-border': { light: '#6f7795', dark: '#6a7290' },
+  'color-border-subtle': { light: '#dde1ee', dark: '#262b3b' },
+  'color-accent': { light: '#4a55d4', dark: '#9aa5ff' },
+  'color-on-accent': { light: '#ffffff', dark: '#0b0e24' },
+  'color-accent-subtle': { light: '#ecedfd', dark: '#1e2350' },
+  'color-table-header': { light: '#eef0f8', dark: '#181b27' },
+  'color-row-hover': { light: '#f3f4fd', dark: '#1b1f2e' },
+  'shell-bg': { light: '#ffffff', dark: '#0a0c11' },
+  'shell-hover': { light: '#f0f2f9', dark: '#151824' },
+  'shell-active': { light: '#e7e9fc', dark: '#1d2240' },
+  'shell-border': { light: '#dde1ee', dark: '#232838' },
+  'shell-text': { light: '#1b2140', dark: '#e8eaf3' },
+  'shell-text-muted': { light: '#4a5170', dark: '#a3a9bf' },
+  'shell-accent': { light: '#4a55d4', dark: '#9aa5ff' },
+  'color-error': { light: '#b42318', dark: '#ff9d96' },
+  'color-error-bg': { light: '#fef2f1', dark: '#2b1719' },
+  'color-success': { light: '#05603a', dark: '#5fe3a1' },
+  'color-warning': { light: '#8a4b00', dark: '#f5c04a' },
   'color-info': { light: '#1d4ed8', dark: '#8fb8ff' },
+  'color-tone-violet': { light: '#6d28d9', dark: '#c4a8ff' },
+  'color-tone-teal': { light: '#0f766e', dark: '#5eead4' },
 };
 
 const TOKEN_SET: ReadonlySet<string> = new Set(TOKEN_NAMES);

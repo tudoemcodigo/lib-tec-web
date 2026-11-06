@@ -27,6 +27,25 @@ function cssPair(name: string): { light: string; dark: string } | undefined {
   return single?.[1] === undefined ? undefined : { light: single[1], dark: single[1] };
 }
 
+describe('alto contraste (WCAG 1.4.6)', () => {
+  const block = /:root\[data-contrast='high'\]\s*\{[^}]*\}/.exec(css)?.[0] ?? '';
+  const pair = (name: string) => {
+    const found = new RegExp(
+      `--tec-${name}:\\s*light-dark\\((#[0-9a-f]{6}),\\s*(#[0-9a-f]{6})\\)`,
+    ).exec(block);
+    return { light: found?.[1] ?? '', dark: found?.[2] ?? '' };
+  };
+
+  it.each(['color-tone-violet', 'color-tone-teal', 'color-info'])(
+    '%s tem 9:1 ou mais sobre o fundo do alto contraste, claro e escuro',
+    (name) => {
+      const { light, dark } = pair(name);
+      expect(contrastRatio(light, '#ffffff')).toBeGreaterThanOrEqual(9);
+      expect(contrastRatio(dark, '#000000')).toBeGreaterThanOrEqual(9);
+    },
+  );
+});
+
 describe('paleta padrão', () => {
   it('tokens.css e palette.ts não divergem (todo token, claro e escuro)', () => {
     for (const [name, pair] of Object.entries(DEFAULT_PALETTE)) {

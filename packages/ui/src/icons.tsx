@@ -7,6 +7,7 @@ import {
   faChevronDown,
   faChevronRight,
   faCircleCheck,
+  faCircleDot,
   faCircleHalfStroke,
   faCircleInfo,
   faCirclePause,
@@ -14,6 +15,7 @@ import {
   faCircleQuestion,
   faCircleXmark,
   faCompass,
+  faDiamond,
   faEllipsisVertical,
   faEye,
   faFloppyDisk,
@@ -26,6 +28,10 @@ import {
   faPlus,
   faReceipt,
   faRightFromBracket,
+  faSort,
+  faSortDown,
+  faSortUp,
+  faSquare,
   faTrashCan,
   faTriangleExclamation,
   faUser,
@@ -66,6 +72,14 @@ export const IconSuccess = make(faCircleCheck);
 export const IconInfo = make(faCircleInfo);
 export const IconWarning = make(faTriangleExclamation);
 export const IconError = make(faCircleXmark);
+/** Tons categóricos do selo: formas diferentes (anel, losango, quadrado), para a cor não ser o único sinal. */
+/** Cabeçalho ordenável: sem ordem, crescente e decrescente. */
+export const IconSort = make(faSort);
+export const IconSortUp = make(faSortUp);
+export const IconSortDown = make(faSortDown);
+export const IconToneRing = make(faCircleDot);
+export const IconToneDiamond = make(faDiamond);
+export const IconToneSquare = make(faSquare);
 export const IconClose = make(faXmark);
 export const IconChevron = make(faChevronRight);
 export const IconChevronDown = make(faChevronDown);

@@ -59,21 +59,26 @@ describe('Button em andamento: largura fixa', () => {
 });
 
 describe('Badge: texto, ícone do tom e cor', () => {
-  it.each<BadgeTone>(['success', 'warning', 'error', 'info'])('%s tem ícone próprio', (tone) => {
-    render(<Badge tone={tone}>Situação</Badge>);
-    const selo = screen.getByText('Situação');
-    expect(selo.querySelector('.ui-badge-icon svg')).not.toBeNull();
-    expect(selo.getAttribute('data-tone')).toBe(tone);
-  });
+  it.each<BadgeTone>(['success', 'warning', 'error', 'info', 'blue', 'violet', 'teal'])(
+    '%s tem ícone próprio',
+    (tone) => {
+      render(<Badge tone={tone}>Situação</Badge>);
+      const selo = screen.getByText('Situação');
+      expect(selo.querySelector('.ui-badge-icon svg')).not.toBeNull();
+      expect(selo.getAttribute('data-tone')).toBe(tone);
+    },
+  );
 
   it('cada tom usa um ícone diferente (a cor não é o único sinal)', () => {
-    const formas = (['success', 'warning', 'error', 'info'] as const).map((tone) => {
-      const { container, unmount } = render(<Badge tone={tone}>x</Badge>);
-      const forma = container.querySelector('path')?.getAttribute('d') ?? '';
-      unmount();
-      return forma;
-    });
-    expect(new Set(formas).size).toBe(4);
+    const formas = (['success', 'warning', 'error', 'info', 'blue', 'violet', 'teal'] as const).map(
+      (tone) => {
+        const { container, unmount } = render(<Badge tone={tone}>x</Badge>);
+        const forma = container.querySelector('path')?.getAttribute('d') ?? '';
+        unmount();
+        return forma;
+      },
+    );
+    expect(new Set(formas).size).toBe(7);
     expect(formas.every((forma) => forma.length > 0)).toBe(true);
   });
 

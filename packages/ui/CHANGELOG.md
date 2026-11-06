@@ -6,6 +6,10 @@ Todas as mudanças relevantes do **@tudoemcodigo/ui** são registradas aqui. O f
 
 Versão inaugural (`0.0.1`): feedback, página, controles e formulário padronizados.
 
+### 🎨 Alterado
+
+- **Redesenho visual:** camadas flutuantes (menu, janela, painel lateral, paleta e notificação) usam uma superfície um degrau acima no escuro (`--ui-surface-raised`) e fundo de escurecimento fixo (`--ui-scrim`), pois a casca clara não serve de escurecimento; campos ficam um degrau abaixo do cartão no escuro (`--ui-input-bg`) e ganham borda de acento no foco; o selo `Badge` ganhou contorno do tom; cabeçalho de página em 24 px/700; a tabela com cabeçalho fixo cabe na janela (altura máxima por `dvh`) com a paginação à vista. Sem mudança de API.
+
 ### ✨ Adicionado
 
 - **Registros por página:** `Pagination` ganha o seletor "Registros por página" (`pageSize`, `onPageSizeChange`, `pageSizeOptions`); `PAGE_SIZES` (10, 20, 50, 100) e `DEFAULT_PAGE_SIZE` (20) padronizam as opções em todos os sistemas. Sem `onPageSizeChange` nada muda.

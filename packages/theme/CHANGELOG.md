@@ -10,8 +10,9 @@ Todas as mudanças relevantes do **@tudoemcodigo/theme** são registradas aqui. 
 
 ### 🎨 Alterado
 
-- **Paleta mais suave:** o acento do tema claro passa de `#4f5be8` para `#5562d6` (5,1:1 sobre branco, mantém AA) e a casca (cabeçalho e menu lateral) deixa o azul-marinho `#0b1230` pelo azul acinzentado `#2a3558` (texto 9,9:1), com hover, ativo e borda acompanhando; no escuro, `#181e30` vira `#1f2640`. `--tec-shell-text-muted` passa de `#aab3dc` para `#b9c1e6` para manter o contraste sobre a casca mais clara.
-- **Cabeçalho mais alto:** `--tec-shell-header-height` de `3rem` para `4rem`, para a marca ter o tamanho que o logo pede.
+- **Redesenho visual (paleta, casca e escala):** o escuro deixa o azul-marinho e passa a um zinc neutro com tinta de marca, em quatro degraus de luminância (canvas `#0c0e14`, superfície `#141722`, casca `#0a0c11`, bordas `#262b3b`), como o painel do TudoIA. O claro usa canvas `#f4f6fb` com superfícies brancas. Acento `#4a55d4` (5,9:1 sobre branco) no claro e `#9aa5ff` (7,8:1 sobre a superfície) no escuro. Texto principal 15:1 ou mais e secundário 8:1 ou mais nos dois modos; borda de controle 3,7:1 ou mais. Todos os pares continuam no teste de contraste.
+- **A casca acompanha o tema:** `--tec-shell-*` agora é `light-dark()` (branca no claro, mais funda que o canvas no escuro). `--tec-shell-text`, `--tec-shell-text-muted` e `--tec-shell-accent` deixam de ser fixos e viram pares claro/escuro. **Um manifesto sazonal que troque `shell-bg` para uma cor escura no modo claro precisa trocar também `shell-text`, `shell-text-muted` e `shell-accent`**, senão o contraste reprova e o tema é recusado (o app fica no padrão, sem quebrar).
+- **Geometria:** `--tec-radius` de `0.25rem` para `0.375rem` (controle) e `--tec-radius-lg` de `0.5rem` para `0.625rem` (cartão, tabela, janela); `--tec-shell-header-height` de `4rem` para `3.5rem`; `--tec-shell-menu-width` de `15rem` para `14.5rem`.
 
 ### 🐛 Corrigido
 

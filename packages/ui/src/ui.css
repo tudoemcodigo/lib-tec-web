@@ -4,13 +4,19 @@
  */
 @layer tec-ui {
   :root {
-    --ui-radius: calc(var(--tec-radius) * 1.5);
-    --ui-shadow:
-      0 1px 2px color-mix(in srgb, var(--tec-color-text) 8%, transparent),
-      0 4px 12px color-mix(in srgb, var(--tec-color-text) 6%, transparent);
+    --ui-radius: var(--tec-radius-lg);
+    /* Claro: a profundidade vem de sombra curta. Escuro: sombra some, então o que flutua fica um degrau mais claro (Material 3 / Carbon) */
+    --ui-shadow: 0 1px 2px color-mix(in srgb, var(--tec-color-text) 7%, transparent);
     --ui-shadow-raised:
-      0 2px 4px color-mix(in srgb, var(--tec-color-text) 10%, transparent),
-      0 12px 32px color-mix(in srgb, var(--tec-color-text) 16%, transparent);
+      0 2px 6px color-mix(in srgb, #000 12%, transparent),
+      0 16px 40px color-mix(in srgb, #000 22%, transparent);
+    --ui-surface-raised: light-dark(
+      var(--tec-color-surface),
+      color-mix(in srgb, var(--tec-color-surface) 93%, var(--tec-color-text))
+    );
+    --ui-scrim: rgb(6 8 18 / 0.6);
+    /* Campo: branco no claro; no escuro, um degrau mais fundo que o cartão, como um vazado */
+    --ui-input-bg: light-dark(var(--tec-color-surface), var(--tec-color-bg));
     --ui-tone-success: var(--tec-color-success);
     --ui-tone-warning: var(--tec-color-warning);
     --ui-tone-error: var(--tec-color-error);
@@ -204,8 +210,8 @@
     min-width: 12rem;
     padding: var(--tec-space-1);
     border: 1px solid var(--tec-color-border-subtle);
-    border-radius: calc(var(--tec-radius) * 1.5);
-    background: var(--tec-color-surface);
+    border-radius: var(--ui-radius);
+    background: var(--ui-surface-raised);
     box-shadow: var(--ui-shadow-raised);
   }
   .ui-menu-item {
@@ -275,7 +281,7 @@
     padding: 0 var(--tec-space-2);
     border: 1px solid var(--tec-color-border);
     border-radius: var(--tec-radius);
-    background: var(--tec-color-surface);
+    background: var(--ui-input-bg);
     color: var(--tec-color-text);
   }
   .ui-pagination-size select:hover {
@@ -293,9 +299,10 @@
     align-items: center;
     gap: 0.375rem;
     min-height: 1.5rem;
-    padding: 0 var(--tec-space-3);
+    padding: 0 var(--tec-space-2) 0 0.625rem;
     border-radius: 999px;
-    background: color-mix(in srgb, var(--ui-tone) 12%, var(--tec-color-surface));
+    border: 1px solid color-mix(in srgb, var(--ui-tone) 30%, transparent);
+    background: color-mix(in srgb, var(--ui-tone) 11%, var(--tec-color-surface));
     color: color-mix(in srgb, var(--ui-tone) 85%, var(--tec-color-text));
     font-size: 0.75rem;
     font-weight: 600;
@@ -324,7 +331,7 @@
     border: 1px solid color-mix(in srgb, var(--ui-tone) 35%, var(--tec-color-border-subtle));
     border-inline-start: 4px solid var(--ui-tone);
     border-radius: var(--tec-radius);
-    background: color-mix(in srgb, var(--ui-tone) 7%, var(--tec-color-surface));
+    background: color-mix(in srgb, var(--ui-tone) 8%, var(--tec-color-surface));
     color: var(--tec-color-text);
   }
   .ui-alert {
@@ -373,7 +380,7 @@
   }
   .ui-toast {
     pointer-events: auto;
-    background: var(--tec-color-surface);
+    background: var(--ui-surface-raised);
     box-shadow: var(--ui-shadow-raised);
     animation: ui-toast-in 0.18s ease-out;
   }
@@ -502,7 +509,7 @@
   /* Cabeçalho de página */
   .ui-page-header {
     display: grid;
-    gap: var(--tec-space-2);
+    gap: var(--tec-space-1);
     margin-block-end: var(--tec-space-6);
   }
   .ui-breadcrumb ol {
@@ -552,9 +559,9 @@
   }
   .ui-page-header h1 {
     margin: 0;
-    font-size: 1.625rem;
-    font-weight: 800;
-    letter-spacing: -0.015em;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
     overflow-wrap: anywhere;
   }
   .ui-page-header-actions {
@@ -581,12 +588,13 @@
     align-items: center;
     justify-content: space-between;
     gap: var(--tec-space-2) var(--tec-space-4);
-    padding: var(--tec-space-4) var(--tec-space-6);
+    padding: var(--tec-space-3) var(--tec-space-6);
     border-block-end: 1px solid var(--tec-color-border-subtle);
   }
   .ui-section-header h2 {
     margin: 0;
-    font-size: 1rem;
+    font-size: 0.9375rem;
+    font-weight: 700;
   }
   .ui-section-text {
     margin: var(--tec-space-1) 0 0;
@@ -660,7 +668,7 @@
   }
   /* Cabeçalho fixo: a região passa a rolar também na vertical, e o foco por teclado nunca fica sob o cabeçalho (WCAG 2.4.11) */
   .ui-scroll[data-sticky-header] {
-    max-height: min(70dvh, 40rem);
+    max-height: max(18rem, calc(100dvh - var(--tec-shell-header-height) - 25rem));
     overflow: auto;
     scroll-padding-block-start: 3rem;
   }
@@ -668,7 +676,7 @@
     position: sticky;
     inset-block-start: 0;
     z-index: 1;
-    box-shadow: inset 0 -1px 0 var(--tec-color-border);
+    box-shadow: inset 0 -1px 0 var(--tec-color-border-subtle);
   }
 
   /* Campos */
@@ -681,6 +689,7 @@
   .ui-field > label {
     font-size: 0.8125rem;
     font-weight: 600;
+    color: var(--tec-color-text);
   }
   .ui-field-required {
     color: var(--tec-color-error);
@@ -699,7 +708,7 @@
     padding: 0 var(--tec-space-3);
     border: 1px solid var(--tec-color-border);
     border-radius: var(--tec-radius);
-    background: var(--tec-color-surface);
+    background: var(--ui-input-bg);
     transition:
       border-color 0.12s,
       box-shadow 0.12s;
@@ -707,6 +716,14 @@
   .ui-field textarea {
     min-height: 5.5rem;
     padding-block: var(--tec-space-2);
+  }
+  .ui-field :is(input, select, textarea)::placeholder {
+    color: var(--tec-color-text-muted);
+    opacity: 1;
+  }
+  .ui-field :is(input, select, textarea):focus-visible {
+    border-color: var(--tec-color-accent);
+    outline-offset: 0;
   }
   .ui-field input:hover:not(:disabled, :read-only),
   .ui-field select:hover:not(:disabled),
@@ -727,6 +744,7 @@
     margin: 0;
     color: var(--tec-color-text-muted);
     font-size: 0.8125rem;
+    line-height: 1.4;
   }
   .ui-field-error {
     margin: 0;
@@ -759,7 +777,7 @@
   .ui-backdrop {
     position: fixed;
     inset: 0;
-    background: color-mix(in srgb, var(--tec-shell-bg) 60%, transparent);
+    background: var(--ui-scrim);
   }
   .ui-dialog {
     position: fixed;
@@ -772,7 +790,7 @@
     padding: var(--tec-space-6);
     border: 1px solid var(--tec-color-border-subtle);
     border-radius: var(--ui-radius);
-    background: var(--tec-color-surface);
+    background: var(--ui-surface-raised);
     box-shadow: var(--ui-shadow-raised);
   }
   .ui-dialog-title {
@@ -801,8 +819,8 @@
     display: flex;
     flex-direction: column;
     width: min(28rem, 100vw);
-    border-inline-start: 1px solid var(--tec-color-border);
-    background: var(--tec-color-surface);
+    border-inline-start: 1px solid var(--tec-color-border-subtle);
+    background: var(--ui-surface-raised);
     box-shadow: var(--ui-shadow-raised);
     animation: ui-sheet-in 0.16s ease-out;
   }
@@ -887,7 +905,7 @@
     place-items: center;
   }
   .ui-busy::backdrop {
-    background: color-mix(in srgb, var(--tec-shell-bg) 78%, transparent);
+    background: var(--ui-scrim);
     backdrop-filter: blur(3px);
   }
   .ui-busy-card {
@@ -940,7 +958,7 @@
     max-height: 70dvh;
     border: 1px solid var(--tec-color-border-subtle);
     border-radius: var(--tec-radius-lg);
-    background: var(--tec-color-surface);
+    background: var(--ui-surface-raised);
     box-shadow: var(--ui-shadow-raised);
     overflow: hidden;
   }

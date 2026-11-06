@@ -47,13 +47,15 @@ Tokens `--tec-*` · `light-dark()` · Alto contraste · Preferências em `localS
 
 ## 📦 O que tem dentro
 
-| Subcaminho                                      | Entrega                                                                         | Roda em                      |
-| ----------------------------------------------- | ------------------------------------------------------------------------------- | ---------------------------- |
-| `@tudoemcodigo/theme`                           | tudo abaixo, mais os hooks React                                                | Navegador (React 19)         |
-| `@tudoemcodigo/theme/core`                      | paleta, contraste, validação e seleção do manifesto                             | Navegador e Node (sem React) |
-| `@tudoemcodigo/theme/tokens.css`                | variáveis `--tec-*` e atributos `data-theme`, `data-contrast`, `data-text-size` | CSS                          |
-| `@tudoemcodigo/theme/animations.css`            | neve em CSS puro, desligada por movimento reduzido                              | CSS                          |
-| `@tudoemcodigo/theme/schema/themes.schema.json` | JSON Schema do manifesto (fonte da verdade)                                     | Qualquer linguagem           |
+| Subcaminho                                      | Entrega                                                                                                | Roda em                      |
+| ----------------------------------------------- | ------------------------------------------------------------------------------------------------------ | ---------------------------- |
+| `@tudoemcodigo/theme`                           | tudo abaixo, mais os hooks React                                                                       | Navegador (React 19)         |
+| `@tudoemcodigo/theme/core`                      | paleta, contraste, validação e seleção do manifesto                                                    | Navegador e Node (sem React) |
+| `@tudoemcodigo/theme/tokens.css`                | variáveis `--tec-*` e atributos `data-theme`, `data-contrast`, `data-text-size`                        | CSS                          |
+| `@tudoemcodigo/theme/animations.css`            | neve em CSS puro, desligada por movimento reduzido                                                     | CSS                          |
+| `@tudoemcodigo/theme/brand.css`                 | variáveis `--tec-brand-logo-*` e `--tec-brand-symbol-*` (claro e escuro) com `url()` dos SVG do pacote | CSS                          |
+| `@tudoemcodigo/theme/brand/*.svg`               | `logo-light`, `logo-dark`, `symbol-light`, `symbol-dark`: arquivos originais da marca, sem alteração   | SVG                          |
+| `@tudoemcodigo/theme/schema/themes.schema.json` | JSON Schema do manifesto (fonte da verdade)                                                            | Qualquer linguagem           |
 
 ---
 

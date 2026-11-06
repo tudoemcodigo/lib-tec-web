@@ -84,7 +84,7 @@ function checkExports(exportsField, problems) {
       problems.push(`exports "${key}" deve ser "." ou um subcaminho "./..."`);
       continue;
     }
-    const isData = key.endsWith('.json') || key.endsWith('.css');
+    const isData = key.endsWith('.json') || key.endsWith('.css') || key.endsWith('.svg');
     if (isData) {
       continue;
     }

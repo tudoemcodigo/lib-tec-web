@@ -13,7 +13,7 @@ Versão inaugural (`0.0.1`): a casca do `web-templatetec` extraída para pacote 
 - **`ProfilePage`, `HelpPage` e `AccessibilityPage`:** páginas padrão para as rotas do sistema (`/perfil`, `/ajuda`, `/acessibilidade`). A ajuda monta a tabela de atalhos a partir do menu (`shortcut` e `shortcutDescription` de cada item); o perfil traduz permissões por `permissionLabels` e mostra o código cru quando não há texto.
 - **`ShellIcon`:** ícone decorativo no tamanho da casca, para o sistema usar o mesmo aspecto.
 - **Textos:** `shellMessages` (pt-BR e en), `ShellTextProvider` e `useShellText`; o sistema sobrescreve qualquer chave `shell.*` por `messages` (FRT-PKG-06).
-- **CSS:** `@tudoemcodigo/shell/shell.css`, na camada `tec-shell` (depois de `tec-base`, na mesma ordem declarada pelo `ui`), só tokens `--tec-*`, classes `shell-*` e contraste alto próprio. A marca vem das variáveis `--shell-logo-light`, `--shell-logo-dark`, `--shell-symbol-light` e `--shell-symbol-dark` (padrão: `/marca/*.svg` do sistema).
+- **CSS:** `@tudoemcodigo/shell/shell.css`, na camada `tec-shell` (depois de `tec-base`, na mesma ordem declarada pelo `ui`), só tokens `--tec-*`, classes `shell-*` e contraste alto próprio. A marca vem das variáveis `--tec-brand-logo-light`, `--tec-brand-logo-dark`, `--tec-brand-symbol-light` e `--tec-brand-symbol-dark` do `@tudoemcodigo/theme/brand.css` (importado pelo `ui/styles.css`); o sistema não copia os SVG para `public/` e, para outra marca, redefine essas quatro em `:root`. A casca só escolhe a versão clara ou escura (`--shell-logo` e `--shell-symbol`, internas).
 - Ids fixos: `shell-content`, `shell-menu`, `shell-search`, `shell-search-drawer` e `shell-help-shortcuts`.
 
 ### 🧪 Testes

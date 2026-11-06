@@ -52,28 +52,25 @@
   /*
    * Marca: o logo horizontal tem largura mínima de 140 px (guia da marca); por isso mora no topo do menu, onde cabe a ~176 px.
    * Menu recolhido e cabeçalho estreito usam só o símbolo (mínimo de 16 px). A versão para fundo claro ou escuro vem de variável.
-   * O sistema troca a marca definindo `--shell-logo-light`, `--shell-logo-dark`, `--shell-symbol-light` e `--shell-symbol-dark`
-   * (`url(...)`) em `:root`, sem camada; o padrão aponta para `/marca/`, na pasta pública do sistema.
+   * Os arquivos e as variáveis `--tec-brand-logo-light`, `--tec-brand-logo-dark`, `--tec-brand-symbol-light` e
+   * `--tec-brand-symbol-dark` vêm de `@tudoemcodigo/theme/brand.css` (importado por `@tudoemcodigo/ui/styles.css`). O sistema
+   * que usa outra marca redefine essas quatro em `:root`, sem camada. Aqui só se escolhe a versão pelo tema.
    */
   :root {
-    --shell-logo-light: url('/marca/tudoemcodigo-horizontal-transparente-texto-escuro.svg');
-    --shell-logo-dark: url('/marca/tudoemcodigo-horizontal-transparente-texto-branco.svg');
-    --shell-symbol-light: url('/marca/tudoemcodigo-simbolo-cores-fundo-claro.svg');
-    --shell-symbol-dark: url('/marca/tudoemcodigo-simbolo-cores-fundo-escuro.svg');
-    --shell-logo: var(--shell-logo-light);
-    --shell-symbol: var(--shell-symbol-light);
+    --shell-logo: var(--tec-brand-logo-light);
+    --shell-symbol: var(--tec-brand-symbol-light);
   }
 
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme='light']) {
-      --shell-logo: var(--shell-logo-dark);
-      --shell-symbol: var(--shell-symbol-dark);
+      --shell-logo: var(--tec-brand-logo-dark);
+      --shell-symbol: var(--tec-brand-symbol-dark);
     }
   }
 
   :root[data-theme='dark'] {
-    --shell-logo: var(--shell-logo-dark);
-    --shell-symbol: var(--shell-symbol-dark);
+    --shell-logo: var(--tec-brand-logo-dark);
+    --shell-symbol: var(--tec-brand-symbol-dark);
   }
 
   .shell-menu-brand {

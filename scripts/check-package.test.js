@@ -10,6 +10,7 @@ const valid = () => ({
   exports: {
     '.': { types: './dist/index.d.ts', default: './dist/index.js' },
     './styles.css': './dist/styles.css',
+    './brand/logo.svg': './dist/brand/logo.svg',
     './package.json': './package.json',
   },
   files: ['dist'],

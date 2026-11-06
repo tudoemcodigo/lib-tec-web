@@ -159,14 +159,14 @@ O tipo das rotas é gerado pelo sistema (`Register` do roteador). Um pacote que 
 
 `shell.css` declara `@layer tec-tokens, tec-reset, tec-ui, tec-base, tec-shell;` (a ordem de `@tudoemcodigo/ui/styles.css` mais `tec-shell`) e põe tudo em `tec-shell`: vence o `ui`, como a casca sempre fez, e o CSS do sistema, sem camada, vence a casca. Importe **depois** do `ui/styles.css`. Só tokens `--tec-*` (`--tec-shell-*` para a tinta fixa da casca).
 
-O logo e o símbolo vêm de variáveis, em `url(...)`, que o sistema pode trocar em `:root` (sem camada):
+O logo e o símbolo vêm do `theme` (`@tudoemcodigo/theme/brand.css`, que o `ui/styles.css` já importa): o sistema **não** copia a marca para `public/`. Para trocar de marca, redefina em `:root` (sem camada) as variáveis `--tec-brand-*`; a casca só escolhe a versão clara ou escura pelo tema.
 
-| Variável                                      | Uso                                | Padrão                                                    |
-| --------------------------------------------- | ---------------------------------- | --------------------------------------------------------- |
-| `--shell-logo-light`, `--shell-logo-dark`     | Logo horizontal (menu), por tema   | `/marca/tudoemcodigo-horizontal-transparente-texto-*.svg` |
-| `--shell-symbol-light`, `--shell-symbol-dark` | Símbolo (menu recolhido e celular) | `/marca/tudoemcodigo-simbolo-cores-fundo-*.svg`           |
+| Variável                                              | Uso                                | Padrão (arquivos do `theme`)                   |
+| ----------------------------------------------------- | ---------------------------------- | ---------------------------------------------- |
+| `--tec-brand-logo-light`, `--tec-brand-logo-dark`     | Logo horizontal (menu), por tema   | `tudoemcodigo-horizontal-transparente-texto-*` |
+| `--tec-brand-symbol-light`, `--tec-brand-symbol-dark` | Símbolo (menu recolhido e celular) | `tudoemcodigo-simbolo-cores-fundo-*`           |
 
-Os SVG hoje ficam em `public/marca/` do sistema; uma versão futura do `theme` os entregará.
+As variáveis `--shell-logo-light`, `--shell-logo-dark`, `--shell-symbol-light` e `--shell-symbol-dark` deixaram de existir (a versão `0.0.1` ainda não foi publicada).
 
 ---
 

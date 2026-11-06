@@ -55,6 +55,7 @@ describe('styles.css: ordem das camadas e entrada única', () => {
     expect([...styles.matchAll(/@import\s+'([^']+)'/g)].map((m) => m[1])).toEqual([
       '@tudoemcodigo/theme/tokens.css',
       '@tudoemcodigo/theme/animations.css',
+      '@tudoemcodigo/theme/brand.css',
       './ui.css',
       './base.css',
     ]);

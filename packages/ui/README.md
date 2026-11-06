@@ -59,7 +59,7 @@ Alert · Toast · ErrorState · EmptyState · LoadingState · PageHeader · Sect
 
 ## 🧱 CSS: camadas e classes utilitárias
 
-`styles.css` declara `@layer tec-tokens, tec-reset, tec-ui, tec-base;` e importa `@tudoemcodigo/theme/tokens.css`, `animations.css`, `ui.css` e `base.css`. Quem usa o pacote importa só `styles.css` (FRT-PKG-01: o sistema não copia UI nem tokens). O CSS do sistema fica **sem camada** e vence todas; `tec-base` vence `tec-ui`, e `tec-reset` (cor de link, fonte dos controles) perde para tudo.
+`styles.css` declara `@layer tec-tokens, tec-reset, tec-ui, tec-base;` e importa `@tudoemcodigo/theme/tokens.css`, `animations.css`, `brand.css` (logo e símbolo da marca), `ui.css` e `base.css`. Quem usa o pacote importa só `styles.css` (FRT-PKG-01: o sistema não copia UI nem tokens). O CSS do sistema fica **sem camada** e vence todas; `tec-base` vence `tec-ui`, e `tec-reset` (cor de link, fonte dos controles) perde para tudo.
 
 `base.css` traz o reset, a tipografia (h1 24 px, h2 17 px, h3 15 px), a tabela, o foco visível, o movimento reduzido (`prefers-reduced-motion` e `data-motion="reduced"`), o contraste alto (`data-contrast="high"`) e as classes públicas, todas em inglês com prefixo `ui-` (FRT-PKG-03):
 

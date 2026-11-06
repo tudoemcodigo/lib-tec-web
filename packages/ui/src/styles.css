@@ -6,5 +6,6 @@
 @layer tec-tokens, tec-reset, tec-ui, tec-base;
 @import '@tudoemcodigo/theme/tokens.css';
 @import '@tudoemcodigo/theme/animations.css';
+@import '@tudoemcodigo/theme/brand.css';
 @import './ui.css';
 @import './base.css';

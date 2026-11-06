@@ -1,6 +1,12 @@
 {
   "extends": "./packages/tooling/tsconfig/base.json",
-  "compilerOptions": { "noEmit": true },
+  "compilerOptions": {
+    "noEmit": true,
+    "paths": {
+      "@tudoemcodigo/theme": ["./packages/theme/src/index.ts"],
+      "@tudoemcodigo/ui": ["./packages/ui/src/index.ts"]
+    }
+  },
   "include": [
     "packages/*/src/**/*",
     "packages/*/test/**/*.ts",

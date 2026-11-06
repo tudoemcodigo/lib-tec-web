@@ -15,7 +15,7 @@
   "scripts": {
     "lint": "eslint . --max-warnings 0",
     "typecheck": "tsc --noEmit",
-    "build": "npm run build --workspaces --if-present",
+    "build": "npm run build -w @tudoemcodigo/theme -w @tudoemcodigo/ui && npm run build --workspaces --if-present",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "check:packages": "node scripts/check-packages.mjs",

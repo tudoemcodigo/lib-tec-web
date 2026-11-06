@@ -299,6 +299,40 @@
   .ui-pagination-size select:hover {
     border-color: var(--tec-color-text-muted);
   }
+  /* Cabeçalho ordenável: o botão herda a tipografia do th; o ícone fica apagado até a coluna ser a ordenada */
+  .ui-sort {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--tec-space-2);
+    min-height: var(--tec-control-height-dense);
+    margin-inline: calc(var(--tec-space-2) * -1);
+    padding: 0 var(--tec-space-2);
+    border: 0;
+    border-radius: var(--tec-radius);
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+  }
+  .ui-sort:hover {
+    background: color-mix(in srgb, var(--tec-color-text) 7%, transparent);
+    color: var(--tec-color-text);
+  }
+  .ui-sort-icon {
+    display: inline-flex;
+    font-size: 0.75rem;
+    opacity: 0.45;
+  }
+  .ui-sort:hover .ui-sort-icon,
+  .ui-sort[data-active] .ui-sort-icon {
+    opacity: 1;
+  }
+  .ui-sort[data-active] {
+    color: var(--tec-color-text);
+  }
+  .ui-sort[data-active] .ui-sort-icon {
+    color: var(--tec-color-accent);
+  }
   .ui-row-actions {
     display: inline-flex;
     gap: var(--tec-space-1);

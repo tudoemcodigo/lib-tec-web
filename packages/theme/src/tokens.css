@@ -34,6 +34,9 @@
     --tec-color-success: light-dark(#05603a, #5fe3a1);
     --tec-color-warning: light-dark(#8a4b00, #f5c04a);
     --tec-color-info: light-dark(#1d4ed8, #8fb8ff);
+    /* Tons categóricos de selo (etapas de um fluxo, sem sentido de estado): protegidos, como os semânticos */
+    --tec-color-tone-violet: light-dark(#6d28d9, #c4a8ff);
+    --tec-color-tone-teal: light-dark(#0f766e, #5eead4);
     --tec-color-table-header: light-dark(#eef0f8, #181b27);
     --tec-color-row-hover: light-dark(#f3f4fd, #1b1f2e);
 
@@ -92,6 +95,8 @@
     --tec-color-success: light-dark(#004d00, #7dffb3);
     --tec-color-warning: light-dark(#6b3a00, #ffd24a);
     --tec-color-info: light-dark(#0b2a8a, #b3d0ff);
+    --tec-color-tone-violet: light-dark(#4c1d95, #e4d6ff);
+    --tec-color-tone-teal: light-dark(#0b4f4a, #99f6e4);
     --tec-color-table-header: light-dark(#e6e6e6, #1f1f1f);
     --tec-color-row-hover: light-dark(#e8e9fb, #1a1f4d);
     --tec-shell-bg: #000000;

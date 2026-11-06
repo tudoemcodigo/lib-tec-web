@@ -38,6 +38,8 @@ export const PROTECTED_TOKEN_NAMES = [
   'color-success',
   'color-warning',
   'color-info',
+  'color-tone-violet',
+  'color-tone-teal',
 ] as const;
 
 export type ProtectedTokenName = (typeof PROTECTED_TOKEN_NAMES)[number];
@@ -68,6 +70,8 @@ export const DEFAULT_PALETTE: Palette = {
   'color-success': { light: '#05603a', dark: '#5fe3a1' },
   'color-warning': { light: '#8a4b00', dark: '#f5c04a' },
   'color-info': { light: '#1d4ed8', dark: '#8fb8ff' },
+  'color-tone-violet': { light: '#6d28d9', dark: '#c4a8ff' },
+  'color-tone-teal': { light: '#0f766e', dark: '#5eead4' },
 };
 
 const TOKEN_SET: ReadonlySet<string> = new Set(TOKEN_NAMES);

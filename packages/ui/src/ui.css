@@ -21,6 +21,9 @@
     --ui-tone-warning: var(--tec-color-warning);
     --ui-tone-error: var(--tec-color-error);
     --ui-tone-info: var(--tec-color-accent);
+    --ui-tone-blue: var(--tec-color-info);
+    --ui-tone-violet: var(--tec-color-tone-violet);
+    --ui-tone-teal: var(--tec-color-tone-teal);
   }
 
   /* Densidade compacta (tabela e filtros): todo controle abaixo lê a altura densa, sem repetir regra por componente */
@@ -49,6 +52,15 @@
   }
   [data-tone='info'] {
     --ui-tone: var(--ui-tone-info);
+  }
+  [data-tone='blue'] {
+    --ui-tone: var(--ui-tone-blue);
+  }
+  [data-tone='violet'] {
+    --ui-tone: var(--ui-tone-violet);
+  }
+  [data-tone='teal'] {
+    --ui-tone: var(--ui-tone-teal);
   }
   [data-tone='neutral'] {
     --ui-tone: var(--tec-color-text-muted);

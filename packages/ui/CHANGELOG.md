@@ -8,6 +8,8 @@ Versão inaugural (`0.0.1`): feedback, página, controles e formulário padroniz
 
 ### 🎨 Alterado
 
+- **Mais tons no `Badge`:** `BadgeTone` ganha `blue`, `violet` e `teal` (tons categóricos, para etapas de um fluxo, sem sentido de estado), cada um com ícone de forma própria (`IconToneRing`, `IconToneDiamond`, `IconToneSquare`), pois a cor não pode ser o único sinal (FRT-DSG-03). Sem quebra: os tons anteriores seguem iguais.
+
 - **Redesenho visual:** camadas flutuantes (menu, janela, painel lateral, paleta e notificação) usam uma superfície um degrau acima no escuro (`--ui-surface-raised`) e fundo de escurecimento fixo (`--ui-scrim`), pois a casca clara não serve de escurecimento; campos ficam um degrau abaixo do cartão no escuro (`--ui-input-bg`) e ganham borda de acento no foco; o selo `Badge` ganhou contorno do tom; cabeçalho de página em 24 px/700; a tabela com cabeçalho fixo cabe na janela (altura máxima por `dvh`) com a paginação à vista. Sem mudança de API.
 
 ### ✨ Adicionado

@@ -10,6 +10,8 @@ Todas as mudanças relevantes do **@tudoemcodigo/theme** são registradas aqui. 
 
 ### 🎨 Alterado
 
+- **Tons categóricos de selo:** tokens protegidos `--tec-color-tone-violet` (`#6d28d9`/`#c4a8ff`) e `--tec-color-tone-teal` (`#0f766e`/`#5eead4`), com versão de alto contraste (9:1 ou mais, testada) e pares de contraste no padrão. O tom `blue` do selo reaproveita `--tec-color-info`. Tema sazonal não os altera.
+
 - **Redesenho visual (paleta, casca e escala):** o escuro deixa o azul-marinho e passa a um zinc neutro com tinta de marca, em quatro degraus de luminância (canvas `#0c0e14`, superfície `#141722`, casca `#0a0c11`, bordas `#262b3b`), como o painel do TudoIA. O claro usa canvas `#f4f6fb` com superfícies brancas. Acento `#4a55d4` (5,9:1 sobre branco) no claro e `#9aa5ff` (7,8:1 sobre a superfície) no escuro. Texto principal 15:1 ou mais e secundário 8:1 ou mais nos dois modos; borda de controle 3,7:1 ou mais. Todos os pares continuam no teste de contraste.
 - **A casca acompanha o tema:** `--tec-shell-*` agora é `light-dark()` (branca no claro, mais funda que o canvas no escuro). `--tec-shell-text`, `--tec-shell-text-muted` e `--tec-shell-accent` deixam de ser fixos e viram pares claro/escuro. **Um manifesto sazonal que troque `shell-bg` para uma cor escura no modo claro precisa trocar também `shell-text`, `shell-text-muted` e `shell-accent`**, senão o contraste reprova e o tema é recusado (o app fica no padrão, sem quebrar).
 - **Geometria:** `--tec-radius` de `0.25rem` para `0.375rem` (controle) e `--tec-radius-lg` de `0.5rem` para `0.625rem` (cartão, tabela, janela); `--tec-shell-header-height` de `4rem` para `3.5rem`; `--tec-shell-menu-width` de `15rem` para `14.5rem`.

@@ -112,7 +112,7 @@ describe('base.css: tudo em camada', () => {
     expect(selectors.length).toBeGreaterThan(0);
     for (const selector of selectors) {
       expect(selector).toMatch(
-        /^:root\[data-contrast='high'\] (a|\.ui-skip-link|input|select|textarea)$/,
+        /^:root\[data-contrast='high'\] (a|\.ui-skip-link|\.ui-banner|\.ui-slot|input|select|textarea)$/,
       );
     }
   });

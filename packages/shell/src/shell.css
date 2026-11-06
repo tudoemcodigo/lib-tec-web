@@ -1,0 +1,731 @@
+/*
+ * @tudoemcodigo/shell: casca da aplicação (cabeçalho, menu lateral, área de trabalho e rodapé) e as partes que moram nela
+ * (menu do usuário, busca do cabeçalho, painel de aparência, voltar ao topo, perfil e ajuda). Só tokens --tec-*; classes em
+ * inglês com prefixo `shell-` (FRT-PKG-03).
+ *
+ * Camada `tec-shell`, a última da ordem declarada abaixo (a mesma de `@tudoemcodigo/ui/styles.css`): vence `tec-ui` e `tec-base`,
+ * como a casca sempre fez, e o CSS do sistema, sem camada, vence esta. Importe depois de `@tudoemcodigo/ui/styles.css`.
+ *
+ * Telas largas: grade fixa com menu recolhível. Telas estreitas (< 48rem): o menu vira gaveta.
+ * A casca acompanha o tema (clara no claro, mais funda que o canvas no escuro). Hierarquia por borda de 1 px e variação de
+ * luminância, sem sombra em superfície estática (FRT-DSG-01); sombra só em camada flutuante (menus e janelas).
+ */
+@layer tec-tokens, tec-reset, tec-ui, tec-base, tec-shell;
+
+@layer tec-shell {
+  .shell {
+    --shell-menu-width: var(--tec-shell-menu-width);
+    display: grid;
+    grid-template-columns: var(--shell-menu-width) minmax(0, 1fr);
+    grid-template-rows: var(--tec-shell-header-height) minmax(0, 1fr);
+    grid-template-areas:
+      'menu header'
+      'menu area';
+    min-height: 100dvh;
+  }
+
+  .shell[data-collapsed] {
+    --shell-menu-width: var(--tec-shell-menu-collapsed-width);
+  }
+
+  /* Cabeçalho */
+  .shell-header {
+    grid-area: header;
+    position: sticky;
+    inset-block-start: 0;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    gap: var(--tec-space-3);
+    padding-inline: var(--tec-space-3) var(--tec-space-4);
+    background: var(--tec-shell-bg);
+    color: var(--tec-shell-text);
+    border-block-end: 1px solid var(--tec-shell-border);
+  }
+
+  .shell-header :focus-visible,
+  .shell-menu :focus-visible {
+    outline: 3px solid var(--tec-shell-accent);
+    outline-offset: -3px;
+  }
+
+  /*
+   * Marca: o logo horizontal tem largura mínima de 140 px (guia da marca); por isso mora no topo do menu, onde cabe a ~176 px.
+   * Menu recolhido e cabeçalho estreito usam só o símbolo (mínimo de 16 px). A versão para fundo claro ou escuro vem de variável.
+   * Os arquivos e as variáveis `--tec-brand-logo-light`, `--tec-brand-logo-dark`, `--tec-brand-symbol-light` e
+   * `--tec-brand-symbol-dark` vêm de `@tudoemcodigo/theme/brand.css` (importado por `@tudoemcodigo/ui/styles.css`). O sistema
+   * que usa outra marca redefine essas quatro em `:root`, sem camada. Aqui só se escolhe a versão pelo tema.
+   */
+  :root {
+    --shell-logo: var(--tec-brand-logo-light);
+    --shell-symbol: var(--tec-brand-symbol-light);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']) {
+      --shell-logo: var(--tec-brand-logo-dark);
+      --shell-symbol: var(--tec-brand-symbol-dark);
+    }
+  }
+
+  :root[data-theme='dark'] {
+    --shell-logo: var(--tec-brand-logo-dark);
+    --shell-symbol: var(--tec-brand-symbol-dark);
+  }
+
+  .shell-menu-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    min-height: 5.25rem;
+    border-radius: var(--tec-radius);
+  }
+
+  .shell-brand {
+    display: block;
+    width: 11rem;
+    aspect-ratio: 387 / 175;
+    background: var(--shell-logo) center / contain no-repeat;
+  }
+
+  .shell-header-symbol {
+    display: none;
+    width: 2rem;
+    height: 2rem;
+    background: var(--shell-symbol) center / contain no-repeat;
+  }
+
+  .shell[data-collapsed] .shell-menu-brand {
+    min-height: var(--tec-shell-header-height);
+  }
+
+  .shell[data-collapsed] .shell-brand {
+    width: 2rem;
+    aspect-ratio: 1;
+    background-image: var(--shell-symbol);
+  }
+
+  .shell-header button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--tec-space-2);
+    min-height: var(--tec-target-min);
+    min-width: var(--tec-target-min);
+    padding-inline: var(--tec-space-2);
+    border: 1px solid transparent;
+    border-radius: var(--tec-radius);
+    background: transparent;
+    color: var(--tec-shell-text);
+    cursor: pointer;
+  }
+
+  .shell-header button:hover {
+    background: var(--tec-shell-hover);
+    border-color: var(--tec-shell-border);
+  }
+
+  .shell-header .shell-header-menu {
+    display: none;
+  }
+
+  .shell-menu-backdrop {
+    display: none;
+  }
+
+  .shell-avatar {
+    display: inline-grid;
+    place-items: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    background: var(--tec-shell-active);
+    border: 1px solid var(--tec-shell-border);
+    color: var(--tec-shell-accent);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  .shell-avatar::before {
+    content: attr(data-initials);
+  }
+
+  .shell-user-name {
+    max-width: 16rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* Menu lateral */
+  .shell-menu {
+    grid-area: menu;
+    position: sticky;
+    inset-block-start: 0;
+    align-self: start;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    background: var(--tec-shell-bg);
+    color: var(--tec-shell-text);
+    border-inline-end: 1px solid var(--tec-shell-border);
+  }
+
+  .shell-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: var(--tec-space-3) var(--tec-space-2);
+    display: grid;
+    gap: var(--tec-space-1);
+  }
+
+  .shell-menu-item,
+  .shell-menu-collapse {
+    display: flex;
+    align-items: center;
+    gap: var(--tec-space-3);
+    min-height: var(--tec-control-height);
+    padding-inline: var(--tec-space-3);
+    border: 0;
+    border-radius: var(--tec-radius);
+    background: transparent;
+    color: var(--tec-shell-text-muted);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .shell-menu-item:hover,
+  .shell-menu-collapse:hover {
+    background: var(--tec-shell-hover);
+    color: var(--tec-shell-text);
+  }
+
+  .shell-menu-item[aria-current='page'] {
+    position: relative;
+    background: var(--tec-shell-active);
+    color: var(--tec-shell-text);
+    font-weight: 600;
+  }
+
+  /* Marca do item atual: barra à esquerda, no acento claro de ação (6,9:1 sobre o menu) */
+  .shell-menu-item[aria-current='page']::before {
+    content: '';
+    position: absolute;
+    inset-block: 0.5rem;
+    inset-inline-start: -0.5rem;
+    width: 3px;
+    border-radius: 0 3px 3px 0;
+    background: var(--tec-shell-accent);
+  }
+
+  .shell-menu-collapse {
+    margin: auto var(--tec-space-2) var(--tec-space-2);
+    border-block-start: 1px solid var(--tec-shell-border);
+    border-radius: 0 0 var(--tec-radius) var(--tec-radius);
+    padding-block: var(--tec-space-2);
+  }
+
+  .shell-icon {
+    display: inline-flex;
+    flex: none;
+    font-size: 1.125rem;
+    line-height: 1;
+  }
+
+  .shell-icon-small {
+    font-size: 0.75rem;
+  }
+
+  /* Área de trabalho */
+  .shell-area {
+    grid-area: area;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: calc(100dvh - var(--tec-shell-header-height));
+  }
+
+  .shell-main {
+    flex: 1;
+    width: 100%;
+    max-width: 90rem;
+    margin-inline: auto;
+    padding: var(--tec-space-6) var(--tec-space-8) var(--tec-space-8);
+  }
+
+  .shell-main:focus {
+    outline: none;
+  }
+
+  .shell-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--tec-space-2) var(--tec-space-6);
+    align-items: center;
+    min-height: var(--tec-shell-footer-height);
+    padding: var(--tec-space-1) var(--tec-space-6);
+    border-block-start: 1px solid var(--tec-color-border-subtle);
+    background: transparent;
+    color: var(--tec-color-text-muted);
+    font-size: 0.75rem;
+  }
+
+  /* Recolhido (telas largas): só o ícone fica visível; o rótulo segue disponível a leitores de tela */
+  @media (min-width: 48rem) {
+    .shell[data-collapsed] .shell-menu-label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
+    .shell[data-collapsed] .shell-menu-item,
+    .shell[data-collapsed] .shell-menu-collapse {
+      justify-content: center;
+      padding-inline: 0;
+    }
+  }
+
+  /* Gaveta (telas estreitas) */
+  @media (max-width: 47.999rem) {
+    .shell {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas:
+        'header'
+        'area';
+    }
+
+    .shell-header .shell-header-menu {
+      display: inline-flex;
+    }
+
+    .shell-header-symbol {
+      display: block;
+    }
+
+    /* Com o botão do menu à esquerda, um filete separa o nome do símbolo; abaixo de 20 rem o nome some */
+    .shell-app-name {
+      padding-inline-start: var(--tec-space-3);
+      border-inline-start: 1px solid var(--tec-shell-border);
+    }
+
+    .shell-menu-brand {
+      display: none;
+    }
+
+    .shell-user-name {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
+    .shell-menu {
+      justify-content: flex-start;
+      position: fixed;
+      inset-block: var(--tec-shell-header-height) 0;
+      inset-inline-start: 0;
+      z-index: 20;
+      width: min(18rem, 85vw);
+      height: calc(100dvh - var(--tec-shell-header-height));
+      transform: translateX(-100%);
+      visibility: hidden;
+      transition:
+        transform 0.18s ease-out,
+        visibility 0s linear 0.18s;
+    }
+
+    .shell-menu[data-open] {
+      transform: none;
+      visibility: visible;
+      transition-delay: 0s;
+    }
+
+    .shell-menu-collapse {
+      display: none;
+    }
+
+    .shell-menu-backdrop {
+      display: block;
+      position: fixed;
+      inset: var(--tec-shell-header-height) 0 0 0;
+      z-index: 10;
+      background: var(--ui-scrim);
+    }
+
+    .shell-main {
+      padding-inline: var(--tec-space-4);
+    }
+
+    .shell-footer {
+      padding-inline: var(--tec-space-4);
+    }
+  }
+
+  /* Nome do sistema: texto simples à esquerda do cabeçalho, trunca com reticências e nunca empurra as ações */
+  .shell-app-name {
+    flex: 0 1 auto;
+    min-width: 0;
+    margin: 0;
+    overflow: hidden;
+    font-family: var(--tec-font-heading);
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.25;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--tec-shell-text);
+  }
+
+  @media (max-width: 19.999rem) {
+    .shell-app-name {
+      display: none;
+    }
+  }
+
+  /* Ações do cabeçalho: busca, aparência e menu do usuário */
+  .shell-header-actions {
+    margin-inline-start: auto;
+    display: flex;
+    align-items: center;
+    gap: var(--tec-space-2);
+  }
+
+  .shell-user-trigger {
+    gap: var(--tec-space-2);
+  }
+
+  .shell-user-arrow {
+    display: inline-flex;
+    transform: rotate(90deg);
+  }
+
+  /* Busca global */
+  .shell-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .shell-search input {
+    width: 100%;
+    min-height: var(--tec-target-min);
+    padding-inline: var(--tec-space-3) 2.5rem;
+    border: 1px solid var(--tec-color-border);
+    border-radius: var(--tec-radius);
+    background: var(--tec-color-bg);
+    color: var(--tec-color-text);
+  }
+
+  .shell-search input::placeholder {
+    color: var(--tec-color-text-muted);
+    opacity: 1;
+  }
+
+  .shell-search .shell-search-submit {
+    border: 0;
+    background: transparent;
+    color: var(--tec-color-text);
+    cursor: pointer;
+    position: absolute;
+    inset-inline-end: 0;
+    min-width: var(--tec-target-min);
+    padding-inline: 0;
+    justify-content: center;
+  }
+
+  .shell-search-header {
+    width: 18rem;
+  }
+
+  .shell-search-drawer {
+    display: none;
+  }
+
+  /* Janela flutuante do usuário */
+  .shell-popup-position {
+    z-index: 60;
+  }
+
+  .shell-popup {
+    min-width: 15rem;
+    padding: var(--tec-space-1);
+    border: 1px solid var(--tec-color-border-subtle);
+    border-radius: var(--tec-radius-lg);
+    background: var(--ui-surface-raised);
+    color: var(--tec-color-text);
+    box-shadow: var(--ui-shadow-raised);
+  }
+
+  .shell-popup-group {
+    padding: var(--tec-space-2) var(--tec-space-3) var(--tec-space-1);
+    color: var(--tec-color-text-muted);
+    font-size: 0.75rem;
+  }
+
+  .shell-popup-item {
+    display: flex;
+    align-items: center;
+    gap: var(--tec-space-3);
+    min-height: 2.5rem;
+    padding-inline: var(--tec-space-3);
+    border-radius: var(--tec-radius);
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .shell-popup-item[data-highlighted] {
+    background: var(--tec-color-accent-subtle);
+    outline: 2px solid var(--tec-color-accent);
+    outline-offset: -2px;
+  }
+
+  .shell-popup-separator {
+    height: 1px;
+    margin: var(--tec-space-1) 0;
+    background: var(--tec-color-border-subtle);
+  }
+
+  /* Links de salto: três, lado a lado, só aparecem quando um deles recebe o foco */
+  .shell-skip {
+    position: absolute;
+    inset-inline-start: var(--tec-space-2);
+    inset-block-start: -10rem;
+    z-index: 70;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--tec-space-2);
+  }
+
+  .shell-skip:focus-within {
+    inset-block-start: var(--tec-space-2);
+  }
+
+  .shell-skip .ui-skip-link {
+    position: static;
+  }
+
+  /* Rodapé */
+  .shell-footer-links {
+    display: flex;
+    gap: var(--tec-space-4);
+  }
+
+  /* Voltar ao topo */
+  .shell-back-to-top {
+    position: fixed;
+    inset-block-end: calc(var(--tec-shell-footer-height) + var(--tec-space-4));
+    inset-inline-end: var(--tec-space-4);
+    z-index: 25;
+    display: inline-grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1px solid var(--tec-shell-border);
+    border-radius: var(--tec-radius);
+    background: var(--tec-shell-bg);
+    color: var(--tec-shell-text);
+    cursor: pointer;
+  }
+
+  .shell-back-to-top:hover {
+    background: var(--tec-shell-hover);
+  }
+
+  .shell-back-to-top:focus-visible {
+    outline: 3px solid var(--tec-shell-accent);
+    outline-offset: 2px;
+  }
+
+  /* Painel de aparência */
+  .shell-appearance-dialog {
+    width: min(40rem, calc(100vw - 2rem));
+  }
+
+  .shell-options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    gap: var(--tec-space-3);
+    margin-block-start: var(--tec-space-3);
+  }
+
+  .shell-options {
+    margin: 0 0 var(--tec-space-3);
+    padding: var(--tec-space-2) var(--tec-space-3);
+    border: 1px solid var(--tec-color-border-subtle);
+    border-radius: var(--tec-radius);
+  }
+
+  .shell-options legend {
+    padding-inline: var(--tec-space-1);
+    font-size: 0.875rem;
+  }
+
+  .shell-option {
+    display: flex;
+    align-items: center;
+    gap: var(--tec-space-2);
+    min-height: var(--tec-target-min);
+    cursor: pointer;
+  }
+
+  .shell-option input {
+    width: 1.125rem;
+    height: 1.125rem;
+    min-height: 0;
+    accent-color: var(--tec-color-accent);
+  }
+
+  .shell-kbd {
+    display: inline-block;
+    padding: 0 var(--tec-space-2);
+    border: 1px solid var(--tec-color-border);
+    border-radius: var(--tec-radius);
+    background: var(--tec-color-surface);
+    font-family: var(--tec-font-code);
+    font-size: 0.8125rem;
+    white-space: pre;
+  }
+
+  @media (max-width: 47.999rem) {
+    .shell-search-header,
+    .shell-skip-menu {
+      display: none;
+    }
+
+    .shell-menu-top {
+      padding: var(--tec-space-3) var(--tec-space-2) 0;
+    }
+
+    .shell-search-drawer {
+      display: flex;
+    }
+
+    .shell-user-arrow {
+      display: none;
+    }
+
+    .shell-footer-links {
+      order: 3;
+    }
+  }
+
+  /* Perfil */
+  .shell-profile-account {
+    display: flex;
+    align-items: center;
+    gap: var(--tec-space-6);
+  }
+
+  .shell-profile-account .ui-data-list {
+    flex: 1;
+  }
+
+  .shell-avatar-large {
+    flex: none;
+    width: 4rem;
+    height: 4rem;
+    background: var(--tec-color-accent);
+    border-color: var(--tec-color-accent);
+    color: var(--tec-color-on-accent);
+    font-size: 1.25rem;
+  }
+
+  .shell-permission-list {
+    margin: 0;
+    padding-inline-start: var(--tec-space-6);
+  }
+
+  .shell-permission-list li + li {
+    margin-block-start: var(--tec-space-2);
+  }
+
+  /* Sugestões da busca do cabeçalho */
+  .shell-search-suggestions {
+    position: absolute;
+    inset-block-start: calc(100% + var(--tec-space-2));
+    inset-inline: 0;
+    z-index: 40;
+    min-width: 20rem;
+    padding: var(--tec-space-2);
+    border: 1px solid var(--tec-color-border-subtle);
+    border-radius: var(--tec-radius-lg);
+    background: var(--ui-surface-raised);
+    color: var(--tec-color-text);
+    box-shadow: var(--ui-shadow-raised);
+  }
+
+  .shell-search-suggestions ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .shell-search-suggestions a {
+    display: grid;
+    gap: 0.125rem;
+    padding: var(--tec-space-2) var(--tec-space-3);
+    border-radius: var(--tec-radius);
+    color: var(--tec-color-text);
+    text-decoration: none;
+  }
+
+  .shell-search-suggestions a:hover,
+  .shell-search-suggestions a:focus-visible {
+    background: var(--tec-color-accent-subtle);
+  }
+
+  .shell-search-suggestions small {
+    color: var(--tec-color-text-muted);
+  }
+
+  .shell-search-suggestions .shell-search-status {
+    margin: 0;
+    padding: var(--tec-space-2) var(--tec-space-3);
+    color: var(--tec-color-text-muted);
+    font-size: 0.8125rem;
+  }
+
+  .shell-search-suggestions .shell-search-all {
+    margin-block-start: var(--tec-space-1);
+    border-block-start: 1px solid var(--tec-color-border-subtle);
+    border-radius: 0;
+    color: var(--tec-color-accent);
+    font-weight: 600;
+  }
+
+  .shell-search-drawer .shell-search-suggestions {
+    position: static;
+    margin-block-start: var(--tec-space-2);
+    box-shadow: none;
+  }
+
+  /*
+   * Contraste alto (data-contrast="high"): links da casca sem sublinhado fixo (o menu e o cabeçalho se distinguem pelo fundo e
+   * pela marca do item atual), exceto as sugestões da busca; campo da busca com borda de 2 px, como os demais campos.
+   */
+  :root[data-contrast='high'] .shell-menu-item,
+  :root[data-contrast='high'] .shell-header a,
+  :root[data-contrast='high'] .shell-popup-item {
+    text-decoration: none;
+  }
+
+  :root[data-contrast='high'] .shell-search-suggestions a {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  :root[data-contrast='high'] .shell-search input {
+    border-width: 2px;
+  }
+}

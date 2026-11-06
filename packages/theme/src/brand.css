@@ -1,0 +1,21 @@
+/*
+ * @tudoemcodigo/theme: marca da Tudo em Código (logo horizontal e símbolo), em duas versões cada: para fundo claro e para fundo escuro.
+ * Os SVG são os ORIGINAIS da pasta oficial da marca, sem alteração (src/brand/). Os `url()` são RELATIVOS de propósito: o Vite
+ * reescreve o caminho do CSS importado de pacote e emite o arquivo com hash em dist/assets (a CSP `img-src 'self'` é atendida;
+ * arquivo pequeno vira `data:`, que a CSP do TEC.Bff também permite). Nenhum sistema precisa copiar a marca para `public/`.
+ *
+ * Variáveis (contrato público, FRT-PKG-02):
+ *   --tec-brand-logo-light     logo horizontal para fundo claro (texto escuro)
+ *   --tec-brand-logo-dark      logo horizontal para fundo escuro (texto branco)
+ *   --tec-brand-symbol-light   símbolo para fundo claro
+ *   --tec-brand-symbol-dark    símbolo para fundo escuro
+ * Outra marca: defina as quatro em `:root`, sem camada, no CSS do sistema (vence esta camada).
+ */
+@layer tec-tokens {
+  :root {
+    --tec-brand-logo-light: url('./brand/tudoemcodigo-horizontal-transparente-texto-escuro.svg');
+    --tec-brand-logo-dark: url('./brand/tudoemcodigo-horizontal-transparente-texto-branco.svg');
+    --tec-brand-symbol-light: url('./brand/tudoemcodigo-simbolo-cores-fundo-claro.svg');
+    --tec-brand-symbol-dark: url('./brand/tudoemcodigo-simbolo-cores-fundo-escuro.svg');
+  }
+}

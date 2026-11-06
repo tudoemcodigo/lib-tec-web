@@ -1,0 +1,11 @@
+/*
+ * @tudoemcodigo/ui: ponto de entrada único dos estilos. Declara a ordem das camadas e traz tokens, animações,
+ * componentes e a base. O sistema importa só este arquivo (FRT-PKG-01) e escreve o seu CSS sem camada, que vence todas.
+ * Ordem: tokens < reset < componentes < base do sistema.
+ */
+@layer tec-tokens, tec-reset, tec-ui, tec-base;
+@import '@tudoemcodigo/theme/tokens.css';
+@import '@tudoemcodigo/theme/animations.css';
+@import '@tudoemcodigo/theme/brand.css';
+@import './ui.css';
+@import './base.css';

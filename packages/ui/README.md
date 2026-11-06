@@ -46,14 +46,35 @@ Alert · Toast · ErrorState · EmptyState · LoadingState · PageHeader · Sect
 
 ## 📦 O que tem dentro
 
-| Grupo      | Componentes                                                                                                                                                                                                                                                               |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Feedback   | `Alert`, `ToastProvider` e `useToast`, `ErrorState`, `EmptyState`, `LoadingState` (linhas ou `variant="table"`, com a geometria da tabela), `RefreshBar` (atualização em segundo plano), `BusyOverlay` e `BrandMark` (bloqueio total da tela com a marca animada)         |
-| Página     | `Pagination`, `PageHeader` (trilha, título, situação, ações), `Section`, `DataList`, `SummaryList`, `ScrollRegion` (com `stickyHeader`), `SortableHeader` e `nextSort` (cabeçalho de coluna ordenável)                                                                    |
-| Controles  | `Button` e `buttonAttributes`, `IconButton` e `iconButtonAttributes` (ação só com ícone), `ActionMenu` (menu suspenso de ações), `Badge` (texto, ícone do tom e cor), `ConfirmDialog`, `Sheet` (painel lateral modal), `CommandPalette` e `filterCommands` (`Ctrl/Cmd+K`) |
-| Formulário | `TextField`, `SelectField`, `TextAreaField`, `FormErrorSummary`, `RequiredLegend`                                                                                                                                                                                         |
-| Base       | `UiProvider`, `useUiLocale`, `useDebouncedValue` e `uiMessages` (textos pt-BR e en), ícones do Font Awesome Free (`FaIcon`, `IconSuccess`, `IconEye`, `IconSave`...)                                                                                                      |
-| CSS        | `@tudoemcodigo/ui/ui.css`, na camada `tec-ui` (CSS do sistema sem camada sempre vence)                                                                                                                                                                                    |
+| Grupo      | Componentes                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Feedback   | `Alert`, `ToastProvider` e `useToast`, `ErrorState`, `EmptyState`, `LoadingState` (linhas ou `variant="table"`, com a geometria da tabela), `RefreshBar` (atualização em segundo plano), `BusyOverlay` e `BrandMark` (bloqueio total da tela com a marca animada)                                                                                                                                                                    |
+| Página     | `Pagination`, `PageHeader` (trilha, título, situação, ações), `Section`, `DataList`, `SummaryList`, `ScrollRegion` (com `stickyHeader`), `SortableHeader`, `SortableColumn` e `nextSort` (cabeçalho de coluna ordenável), `parseSort`, `formatSort` e `nextSortValue` (ordenação na URL: `campo` ou `-campo`, só campos da lista fechada)                                                                                            |
+| Controles  | `Button` e `buttonAttributes`, `IconButton` e `iconButtonAttributes` (ação só com ícone), `ActionMenu` (menu suspenso de ações), `Badge` (texto, ícone do tom e cor), `ConfirmDialog`, `Sheet` (painel lateral modal), `CommandPalette` e `filterCommands` (`Ctrl/Cmd+K`), `LazyRowActions` (botão de ações da linha cujo menu só é baixado no primeiro clique), `CancelAnchor` ("Cancelar" como link; o sistema o liga ao roteador) |
+| Formulário | `TextField`, `SelectField`, `TextAreaField`, `FormErrorSummary`, `RequiredLegend`                                                                                                                                                                                                                                                                                                                                                    |
+| Base       | `UiProvider`, `useUiLocale`, `useDebouncedValue` e `uiMessages` (textos pt-BR e en), ícones do Font Awesome Free (`FaIcon`, `IconSuccess`, `IconEye`, `IconSave`...)                                                                                                                                                                                                                                                                 |
+| CSS        | `@tudoemcodigo/ui/styles.css` (entrada única: camadas, tokens, animações, componentes e base), ou separados `ui.css` (camada `tec-ui`) e `base.css` (camadas `tec-reset` e `tec-base`); CSS do sistema sem camada sempre vence                                                                                                                                                                                                       |
+
+---
+
+## 🧱 CSS: camadas e classes utilitárias
+
+`styles.css` declara `@layer tec-tokens, tec-reset, tec-ui, tec-base;` e importa `@tudoemcodigo/theme/tokens.css`, `animations.css`, `brand.css` (logo e símbolo da marca), `ui.css` e `base.css`. Quem usa o pacote importa só `styles.css` (FRT-PKG-01: o sistema não copia UI nem tokens). O CSS do sistema fica **sem camada** e vence todas; `tec-base` vence `tec-ui`, e `tec-reset` (cor de link, fonte dos controles) perde para tudo.
+
+`base.css` traz o reset, a tipografia (h1 24 px, h2 17 px, h3 15 px), a tabela, o foco visível, o movimento reduzido (`prefers-reduced-motion` e `data-motion="reduced"`), o contraste alto (`data-contrast="high"`) e as classes públicas, todas em inglês com prefixo `ui-` (FRT-PKG-03):
+
+| Classe                                                                 | Para quê                                                                                                     |
+| ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `ui-numeric`, `ui-code`                                                | número alinhado ao fim e código/documento em monoespaçado, ambos com dígitos de largura fixa                 |
+| `ui-help`                                                              | texto de apoio (dica, descrição, "nada aqui")                                                                |
+| `ui-skip-link`                                                         | aparência do link de salto; a posição e a exibição ficam com a casca do sistema                              |
+| `ui-toolbar`                                                           | barra da página: título ou filtros de um lado, ações do outro                                                |
+| `ui-prose`                                                             | texto corrido com linha de leitura de 48 rem                                                                 |
+| `ui-form-grid`, `ui-form-actions`                                      | campos em colunas; "Salvar" e o que mais a tela puser ao lado                                                |
+| `ui-repeat-item`                                                       | item de lista repetida (cartão dentro do cartão, sem sombra); use num `<fieldset>`                           |
+| `ui-filter-bar`, `ui-filter-panel`, `ui-filter-row`, `ui-filter-clear` | filtros de lista: busca simples, campos avançados (`hidden` esconde), alinhamento pela base e botão "Limpar" |
+| `ui-actions-column`                                                    | coluna de ações da tabela: estreita, à direita, sem quebra                                                   |
+| `ui-sr`                                                                | só para leitor de tela (já existia em `ui.css`)                                                              |
 
 ---
 
@@ -82,14 +103,14 @@ O contrato visual verificável está no padrão FRT-DSG da Doutrina (padrão 10 
 npm install @tudoemcodigo/ui
 ```
 
-`react` ^19, `react-dom` ^19 e `@base-ui/react` ^1.9 são peers.
+`react` ^19, `react-dom` ^19, `@base-ui/react` ^1.9 e `@tudoemcodigo/theme` (os tokens que o CSS lê) são peers.
 
 ---
 
 ## 🚀 Início rápido
 
 ```tsx
-import '@tudoemcodigo/ui/ui.css';
+import '@tudoemcodigo/ui/styles.css'; // tokens, animações, componentes e base, na ordem certa das camadas
 import { ToastProvider, UiProvider, useToast, Alert, PageHeader } from '@tudoemcodigo/ui';
 
 // Uma vez, acima do roteador: idioma dos textos dos componentes e a fila de notificações

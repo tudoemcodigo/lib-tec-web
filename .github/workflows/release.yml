@@ -15,6 +15,7 @@ on:
           - theme
           - i18n
           - ui
+          - shell
           - api-client
           - telemetry
       version:

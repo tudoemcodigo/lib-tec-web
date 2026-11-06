@@ -6,6 +6,7 @@ Todas as mudanças relevantes do **@tudoemcodigo/theme** são registradas aqui. 
 
 ### ✨ Adicionado
 
+- **Marca (`brand.css` e SVG):** `@tudoemcodigo/theme/brand.css` define `--tec-brand-logo-light`, `--tec-brand-logo-dark`, `--tec-brand-symbol-light` e `--tec-brand-symbol-dark` (camada `tec-tokens`) com `url()` relativo aos SVG do pacote, que o Vite reescreve e emite com hash (CSP `img-src 'self'`; arquivo pequeno vira `data:`, também permitido pelo TEC.Bff). Os quatro SVG são os originais da pasta oficial da marca, sem alteração, e também saem como `@tudoemcodigo/theme/brand/logo-light.svg`, `logo-dark.svg`, `symbol-light.svg` e `symbol-dark.svg`. Um teste confere o SHA-256 de cada um. Os sistemas deixam de manter cópia em `public/marca/`.
 - **Tokens de design system (FRT-DSG):** `--tec-color-info` (protegido, com par de contraste testado e versão de alto contraste), `--tec-control-height` (36 px), `--tec-control-height-dense` (32 px) e `--tec-radius-lg`.
 
 ### 🎨 Alterado

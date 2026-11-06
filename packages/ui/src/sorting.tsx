@@ -21,6 +21,36 @@ export function nextSort<Field extends string>(
   return current.direction === 'asc' ? { field, direction: 'desc' } : undefined;
 }
 
+/**
+ * Lê a ordenação da URL: `campo` (crescente) ou `-campo` (decrescente). O campo é nome de contrato com a API e só vale se
+ * estiver na lista fechada da tela; vazio, texto livre, campo desconhecido ou valor que não é texto voltam à ordem padrão
+ * (`undefined`), então o servidor nunca recebe um campo arbitrário.
+ */
+export function parseSort<Field extends string>(
+  value: unknown,
+  fields: readonly Field[],
+): SortState<Field> | undefined {
+  if (typeof value !== 'string') return undefined;
+  const descending = value.startsWith('-');
+  const name = descending ? value.slice(1) : value;
+  const field = fields.find((candidate) => candidate === name);
+  return field === undefined ? undefined : { field, direction: descending ? 'desc' : 'asc' };
+}
+
+/** Valor da URL para a ordenação (`campo`, `-campo` ou vazio para a ordem padrão); o inverso de `parseSort`. */
+export function formatSort(state: SortState | undefined): string {
+  return state === undefined ? '' : `${state.direction === 'desc' ? '-' : ''}${state.field}`;
+}
+
+/** Valor da URL depois de clicar no cabeçalho de `field`: crescente, decrescente e de volta à ordem padrão. */
+export function nextSortValue<Field extends string>(
+  current: unknown,
+  fields: readonly Field[],
+  field: Field,
+): string {
+  return formatSort(nextSort(parseSort(current, fields), field));
+}
+
 const ARIA_SORT = { asc: 'ascending', desc: 'descending' } as const;
 
 export interface SortableHeaderProps {
@@ -57,5 +87,35 @@ export function SortableHeader({ children, direction, onSort, className }: Sorta
         </span>
       </button>
     </th>
+  );
+}
+
+export interface SortableColumnProps<Field extends string> {
+  readonly field: Field;
+  /** Ordenação ativa da lista (a mesma para todas as colunas); só a coluna do `field` mostra o sentido. */
+  readonly sort: SortState<Field> | undefined;
+  readonly onSort: (field: Field) => void;
+  readonly className?: string;
+  readonly children: ReactNode;
+}
+
+/** Cabeçalho de coluna que ordena a lista pelo `field` ao clicar: liga a ordenação ativa da lista ao `SortableHeader`. */
+export function SortableColumn<Field extends string>({
+  field,
+  sort,
+  onSort,
+  className,
+  children,
+}: SortableColumnProps<Field>) {
+  return (
+    <SortableHeader
+      direction={sort?.field === field ? sort.direction : undefined}
+      onSort={() => {
+        onSort(field);
+      }}
+      {...(className === undefined ? {} : { className })}
+    >
+      {children}
+    </SortableHeader>
   );
 }

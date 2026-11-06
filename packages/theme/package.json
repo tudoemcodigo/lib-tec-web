@@ -23,6 +23,11 @@
     },
     "./tokens.css": "./dist/tokens.css",
     "./animations.css": "./dist/animations.css",
+    "./brand.css": "./dist/brand.css",
+    "./brand/logo-light.svg": "./dist/brand/tudoemcodigo-horizontal-transparente-texto-escuro.svg",
+    "./brand/logo-dark.svg": "./dist/brand/tudoemcodigo-horizontal-transparente-texto-branco.svg",
+    "./brand/symbol-light.svg": "./dist/brand/tudoemcodigo-simbolo-cores-fundo-claro.svg",
+    "./brand/symbol-dark.svg": "./dist/brand/tudoemcodigo-simbolo-cores-fundo-escuro.svg",
     "./schema/themes.schema.json": "./schema/themes.schema.json",
     "./package.json": "./package.json"
   },

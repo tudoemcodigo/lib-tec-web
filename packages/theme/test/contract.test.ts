@@ -18,6 +18,11 @@ describe('contrato público de @tudoemcodigo/theme', () => {
       './core',
       './tokens.css',
       './animations.css',
+      './brand.css',
+      './brand/logo-light.svg',
+      './brand/logo-dark.svg',
+      './brand/symbol-light.svg',
+      './brand/symbol-dark.svg',
       './schema/themes.schema.json',
       './package.json',
     ]);

@@ -10,6 +10,7 @@ Todas as mudanças relevantes do **lib-tec-web** são registradas aqui. O format
 - `scripts/check-packages.mjs`: confere o `package.json` de cada pacote contra FRT-PKG-04.
 - Pacote `@tudoemcodigo/tooling` `0.0.1`, publicado em 2026-11-04 (tag `tooling-v0.0.1`).
 - Pacote `@tudoemcodigo/theme` `0.0.1`, publicado em 2026-11-04 (tag `theme-v0.0.1`): tokens, preferências e tema sazonal por manifesto fechado, com E2E em Chromium, Firefox e WebKit.
+- Pacote `@tudoemcodigo/shell` `0.0.1` (ainda não publicado): casca configurável por props (`AppShell`), extraída do `web-templatetec`. `@tanstack/react-router` entra como devDependency do monorepo (peer do `shell`); as entradas do lock foram copiadas do lock do template e precisam ser conferidas com `npm install` em Node 24. `shell` entra nas opções do `release.yml`.
 - `npm run build` e `npm run e2e`.
 - Documentação no padrão dos componentes TEC: README, `docs/` (índice, uso, opções, erros, segurança, compatibilidade, tema e tema sazonal).
 

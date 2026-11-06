@@ -2,7 +2,16 @@
 import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { nextSort, SortableHeader, type SortDirection, type SortState } from '../src/index.js';
+import {
+  formatSort,
+  nextSort,
+  nextSortValue,
+  parseSort,
+  SortableColumn,
+  SortableHeader,
+  type SortDirection,
+  type SortState,
+} from '../src/index.js';
 
 afterEach(cleanup);
 
@@ -95,5 +104,100 @@ describe('SortableHeader', () => {
     render(<Tabela label={'<img src=x onerror=alert(1)>'} />);
     expect(document.querySelector('img')).toBeNull();
     expect(screen.getByRole('button').textContent).toContain('<img src=x onerror=alert(1)>');
+  });
+});
+
+const FIELDS = ['nome', 'valorTotal'] as const;
+
+describe('parseSort e formatSort: ordenação na URL', () => {
+  it('é uma ida e volta sem perda', () => {
+    for (const value of ['nome', '-nome', 'valorTotal', '-valorTotal']) {
+      expect(formatSort(parseSort(value, FIELDS))).toBe(value);
+    }
+  });
+
+  it('lê o sentido pelo sinal', () => {
+    expect(parseSort('nome', FIELDS)).toEqual({ field: 'nome', direction: 'asc' });
+    expect(parseSort('-nome', FIELDS)).toEqual({ field: 'nome', direction: 'desc' });
+  });
+
+  it('vazio é a ordem padrão e escrevê-la dá texto vazio', () => {
+    expect(parseSort('', FIELDS)).toBeUndefined();
+    expect(formatSort(undefined)).toBe('');
+  });
+
+  it.each([
+    ['campo fora da lista', 'documento'],
+    ['maiúscula errada', 'Nome'],
+    ['sinal duplo', '--nome'],
+    ['só o sinal', '-'],
+    ['injeção', 'nome;DROP TABLE Clientes--'],
+    ['protótipo', '__proto__'],
+    ['propriedade herdada', 'constructor'],
+    ['quebra de linha', 'nome\n'],
+    ['texto enorme', 'a'.repeat(5000)],
+    ['número', 42],
+    ['objeto', { nome: true }],
+    ['nulo', null],
+  ])('recusa %s e volta à ordem padrão', (_motivo, value) => {
+    expect(parseSort(value, FIELDS)).toBeUndefined();
+  });
+});
+
+describe('nextSortValue: ciclo do clique', () => {
+  it('padrão, crescente, decrescente e de volta ao padrão', () => {
+    const passo1 = nextSortValue('', FIELDS, 'nome');
+    expect(passo1).toBe('nome');
+    const passo2 = nextSortValue(passo1, FIELDS, 'nome');
+    expect(passo2).toBe('-nome');
+    expect(nextSortValue(passo2, FIELDS, 'nome')).toBe('');
+  });
+
+  it('outra coluna começa crescente nela; valor hostil conta como ordem padrão', () => {
+    expect(nextSortValue('-nome', FIELDS, 'valorTotal')).toBe('valorTotal');
+    expect(nextSortValue('__proto__', FIELDS, 'nome')).toBe('nome');
+  });
+});
+
+describe('SortableColumn', () => {
+  function Colunas({
+    sort,
+    onSort,
+  }: {
+    readonly sort: SortState | undefined;
+    readonly onSort: (field: string) => void;
+  }) {
+    return (
+      <table>
+        <thead>
+          <tr>
+            <SortableColumn field="nome" sort={sort} onSort={onSort} className="ui-numeric">
+              Nome
+            </SortableColumn>
+            <SortableColumn field="email" sort={sort} onSort={onSort}>
+              E-mail
+            </SortableColumn>
+          </tr>
+        </thead>
+      </table>
+    );
+  }
+
+  it('só a coluna ordenada leva aria-sort e o clique avisa o campo', async () => {
+    const onSort = vi.fn();
+    render(<Colunas sort={{ field: 'nome', direction: 'desc' }} onSort={onSort} />);
+    const nome = screen.getByRole('columnheader', { name: /Nome/ });
+    expect(nome.getAttribute('aria-sort')).toBe('descending');
+    expect(nome.className).toBe('ui-numeric');
+    expect(screen.getByRole('columnheader', { name: /E-mail/ }).hasAttribute('aria-sort')).toBe(
+      false,
+    );
+    await userEvent.click(screen.getByRole('button', { name: /E-mail/ }));
+    expect(onSort).toHaveBeenCalledExactlyOnceWith('email');
+  });
+
+  it('sem ordenação ativa nenhuma coluna leva aria-sort', () => {
+    render(<Colunas sort={undefined} onSort={() => undefined} />);
+    expect(document.querySelectorAll('[aria-sort]')).toHaveLength(0);
   });
 });

@@ -1,0 +1,421 @@
+/*
+ * @tudoemcodigo/ui: base dos sistemas (reset, tipografia, tabela, foco, movimento reduzido, alto contraste) e as classes
+ * utilitárias de formulário, tabela e filtros de lista. Só tokens --tec-*.
+ *
+ * Camadas (ordem em styles.css): `tec-reset` perde para os componentes (`tec-ui`); `tec-base` vem depois de `tec-ui`, então
+ * estas regras vencem os componentes, e o CSS do sistema, que fica sem camada, vence todas.
+ */
+
+/* Reset de elementos nativos: o mais baixo possível, para qualquer componente ou regra do sistema o sobrescrever */
+@layer tec-reset {
+  a {
+    color: var(--tec-color-accent);
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+    color: inherit;
+  }
+}
+
+@layer tec-base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    font-family: var(--tec-font-text);
+    background: var(--tec-color-bg);
+    color: var(--tec-color-text);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    -webkit-text-size-adjust: 100%;
+    scrollbar-color: var(--tec-color-border) transparent;
+  }
+
+  body {
+    margin: 0;
+    font-size: 0.875rem;
+    min-height: 100dvh;
+  }
+
+  /* Escala 1,125 sobre 14 px, títulos em Manrope: h1 24, h2 17, h3 15; texto 14, apoio 13 e 12 */
+  h1,
+  h2,
+  h3 {
+    font-family: var(--tec-font-heading);
+    font-weight: 700;
+    line-height: 1.25;
+    text-wrap: balance;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+
+  h2 {
+    font-size: 1.0625rem;
+    letter-spacing: -0.01em;
+  }
+
+  h3 {
+    font-size: 0.9375rem;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  code,
+  pre {
+    font-family: var(--tec-font-code);
+  }
+
+  /* Número, código, data e hora alinham em coluna: dígitos de largura fixa (FRT-DSG-04) */
+  table,
+  code,
+  kbd,
+  time,
+  .ui-code,
+  .ui-numeric {
+    font-variant-numeric: tabular-nums;
+  }
+
+  :focus-visible {
+    outline: var(--tec-focus);
+    outline-offset: 2px;
+  }
+
+  button,
+  [role='button'],
+  input:not([type='checkbox'], [type='radio']),
+  select {
+    min-height: var(--tec-target-min);
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    background: var(--tec-color-surface);
+  }
+
+  th,
+  td {
+    text-align: start;
+    padding: var(--tec-space-3) var(--tec-space-4);
+    border-block-end: 1px solid var(--tec-color-border-subtle);
+  }
+
+  thead th {
+    padding-block: 0.625rem;
+    background: var(--tec-color-table-header);
+    color: var(--tec-color-text-muted);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  /* Nome do registro na tabela: link em peso médio, sem sublinhado fixo (o sublinhado volta ao apontar e ao focar) */
+  :where(td, th) > a:only-child {
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  :where(td, th) > a:only-child:is(:hover, :focus-visible) {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  /* Densidade compacta (listas de dados): linha mais baixa, o texto continua legível e o alvo, acima de 24 px */
+  [data-density='compact'] :is(th, td) {
+    padding-block: var(--tec-space-2);
+  }
+
+  tbody th[scope='row'] {
+    font-weight: 600;
+  }
+
+  tbody tr:last-child > * {
+    border-block-end: 0;
+  }
+
+  tbody tr:hover > * {
+    background: var(--tec-color-row-hover);
+  }
+
+  /* Código e documento: monoespaçado e um tom abaixo do texto principal; a leitura é de conferência, não de título */
+  .ui-code {
+    white-space: nowrap;
+    font-family: var(--tec-font-code);
+    font-size: 0.8125rem;
+    color: var(--tec-color-text-muted);
+  }
+
+  /* Número em coluna: alinhado ao fim, dígitos de largura fixa */
+  .ui-numeric {
+    text-align: end;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Animações reduzidas: pela configuração do sistema ou por escolha da pessoa (data-motion="reduced") */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  :root[data-motion='reduced'] *,
+  :root[data-motion='reduced'] *::before,
+  :root[data-motion='reduced'] *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Contraste alto: links sempre sublinhados (menos o de salto, que é um botão) e campos com borda mais grossa */
+  :root[data-contrast='high'] a {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  :root[data-contrast='high'] .ui-skip-link {
+    text-decoration: none;
+  }
+
+  :root[data-contrast='high'] input,
+  :root[data-contrast='high'] select,
+  :root[data-contrast='high'] textarea {
+    border-width: 2px;
+  }
+
+  /* Texto de apoio (dica, descrição, "nada aqui") */
+  .ui-help {
+    color: var(--tec-color-text-muted);
+    font-size: 0.875rem;
+  }
+
+  /* Link de salto ("Pular para o conteúdo"): a posição e a exibição ficam com a casca do sistema */
+  .ui-skip-link {
+    background: var(--tec-color-accent);
+    color: var(--tec-color-on-accent);
+    padding: var(--tec-space-2) var(--tec-space-4);
+    border-radius: var(--tec-radius);
+  }
+
+  /* Barra de ferramentas da página: título ou filtros de um lado, ações do outro */
+  .ui-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--tec-space-2) var(--tec-space-4);
+    min-height: var(--tec-target-min);
+    margin-block-end: var(--tec-space-4);
+  }
+
+  /* Texto corrido (ajuda, acessibilidade): linhas de leitura, não da tela inteira */
+  .ui-prose {
+    max-width: 48rem;
+  }
+
+  .ui-prose h2 {
+    margin-block: var(--tec-space-6) var(--tec-space-2);
+  }
+
+  /* Formulário: campos em colunas que se ajustam à largura */
+  .ui-form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: 0 var(--tec-space-4);
+  }
+
+  fieldset {
+    border: 1px solid var(--tec-color-border-subtle);
+    border-radius: var(--tec-radius-lg);
+    margin-block-end: var(--tec-space-4);
+    padding: var(--tec-space-4);
+  }
+
+  legend {
+    font-family: var(--tec-font-heading);
+    font-weight: 700;
+    padding-inline: var(--tec-space-2);
+  }
+
+  /* Filtros de lista: busca simples numa linha e, abaixo, os campos avançados (combinam entre si) */
+  .ui-filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: var(--tec-space-3);
+    margin-block-end: var(--tec-space-4);
+  }
+
+  .ui-filter-bar .ui-field {
+    flex: 1 1 18rem;
+    max-width: 28rem;
+    margin: 0;
+  }
+
+  .ui-filter-panel {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: 0 var(--tec-space-4);
+    margin-block-end: var(--tec-space-4);
+    padding: var(--tec-space-4) var(--tec-space-4) 0;
+    border: 1px solid var(--tec-color-border-subtle);
+    border-radius: var(--tec-radius-lg);
+    background: var(--tec-color-surface);
+  }
+
+  /* Filtro em linha: os controles se alinham pela base do painel (por exemplo, com o botão "Limpar" ao lado) */
+  .ui-filter-row {
+    align-items: end;
+  }
+
+  .ui-filter-clear {
+    margin-block-end: var(--tec-space-4);
+  }
+
+  .ui-filter-panel[hidden] {
+    display: none;
+  }
+
+  /* Coluna de ações da tabela: estreita, à direita, sem quebra */
+  .ui-actions-column {
+    width: 1%;
+    white-space: nowrap;
+    text-align: end;
+  }
+
+  /* Ações do formulário: "Salvar" e o que mais a tela puser ao lado (por exemplo, "Cancelar") */
+  .ui-form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--tec-space-2);
+    padding-block-end: var(--tec-space-6);
+  }
+
+  /* Item de uma lista repetida (itens do pedido): cartão dentro do cartão, sem sombra */
+  .ui-repeat-item {
+    margin: 0 0 var(--tec-space-4);
+    padding: var(--tec-space-4);
+    border: 1px solid var(--tec-color-border-subtle);
+    border-radius: var(--tec-radius-lg);
+    background: var(--tec-color-bg);
+  }
+
+  .ui-repeat-item > legend {
+    padding-inline: var(--tec-space-2);
+    font-size: 0.875rem;
+  }
+
+  .ui-repeat-item:last-child {
+    margin-block-end: 0;
+  }
+
+  /* Destaque da página inicial (banner): aviso, comunicado ou campanha, com a barra de acento à esquerda */
+  .ui-banner {
+    margin-block-end: var(--tec-space-8);
+    padding: var(--tec-space-4) var(--tec-space-6);
+    border: 1px solid var(--tec-color-border-subtle);
+    border-inline-start: 4px solid var(--tec-color-accent);
+    border-radius: var(--tec-radius-lg);
+    background: var(--tec-color-surface);
+  }
+
+  .ui-banner h2 {
+    margin: 0 0 var(--tec-space-1);
+    font-size: 1.0625rem;
+  }
+
+  .ui-banner p {
+    margin: 0;
+    color: var(--tec-color-text-muted);
+  }
+
+  /* Título de seção da página, num degrau abaixo do h2 padrão */
+  .ui-section-title {
+    margin: 0 0 var(--tec-space-3);
+    font-size: 1rem;
+  }
+
+  /* Grade de espaços (indicadores, gráficos, listas): 4 colunas, 2 em telas médias e 1 em telas estreitas */
+  .ui-slot-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--tec-space-4);
+  }
+
+  .ui-slot {
+    grid-column: span 1;
+    min-height: 7.5rem;
+    padding: var(--tec-space-4);
+    border: 1px solid var(--tec-color-border-subtle);
+    border-radius: var(--tec-radius-lg);
+    background: var(--tec-color-surface);
+  }
+
+  .ui-slot[data-size='large'] {
+    grid-column: span 2;
+    min-height: 15rem;
+  }
+
+  /* Espaço ainda sem conteúdo: contorno tracejado e sem sombra, para parecer um lugar a preencher (não um cartão quebrado) */
+  .ui-slot[data-empty] {
+    border: 1px dashed var(--tec-color-border);
+    background: transparent;
+  }
+
+  .ui-slot h3 {
+    margin: 0 0 var(--tec-space-2);
+    color: var(--tec-color-text-muted);
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .ui-slot[data-empty] p {
+    color: var(--tec-color-text-muted);
+    font-size: 0.8125rem;
+  }
+
+  .ui-slot p {
+    margin: 0;
+  }
+
+  @media (max-width: 63.999rem) {
+    .ui-slot-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 39.999rem) {
+    .ui-slot-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .ui-slot[data-size='large'] {
+      grid-column: span 1;
+    }
+  }
+
+  :root[data-contrast='high'] .ui-banner,
+  :root[data-contrast='high'] .ui-slot {
+    border-width: 2px;
+  }
+}

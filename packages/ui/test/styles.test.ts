@@ -37,6 +37,15 @@ describe('contrato público de estilos de @tudoemcodigo/ui', () => {
   });
 });
 
+describe('ui.css: estado inválido do campo', () => {
+  // O Base UI põe data-invalid no rótulo e na mensagem do Field, não só no controle.
+  it('o contorno de erro vale só para o controle, nunca para o rótulo ou a mensagem', () => {
+    const css = code('src/ui.css');
+    expect(css).toContain('.ui-field :is(input, select, textarea)[data-invalid]');
+    expect(css).not.toMatch(/\.ui-field \[data-invalid\]/);
+  });
+});
+
 describe('styles.css: ordem das camadas e entrada única', () => {
   const styles = code('src/styles.css');
 

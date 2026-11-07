@@ -782,7 +782,7 @@
     color: var(--tec-color-text-muted);
   }
   .ui-field [aria-invalid='true'],
-  .ui-field [data-invalid] {
+  .ui-field :is(input, select, textarea)[data-invalid] {
     border-color: var(--tec-color-error);
     box-shadow: 0 0 0 1px var(--tec-color-error);
   }

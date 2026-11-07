@@ -14,6 +14,10 @@ Versão inaugural (`0.0.1`): feedback, página, controles e formulário padroniz
 
 - **Redesenho visual:** camadas flutuantes (menu, janela, painel lateral, paleta e notificação) usam uma superfície um degrau acima no escuro (`--ui-surface-raised`) e fundo de escurecimento fixo (`--ui-scrim`), pois a casca clara não serve de escurecimento; campos ficam um degrau abaixo do cartão no escuro (`--ui-input-bg`) e ganham borda de acento no foco; o selo `Badge` ganhou contorno do tom; cabeçalho de página em 24 px/700; a tabela com cabeçalho fixo cabe na janela (altura máxima por `dvh`) com a paginação à vista. Sem mudança de API.
 
+### 🐛 Corrigido
+
+- **Contorno vermelho em rótulo e mensagem de erro:** o seletor `.ui-field [data-invalid]` pegava também o rótulo e a mensagem, porque o Base UI marca `data-invalid` em todas as partes do `Field`. Agora vale só para `input`, `select` e `textarea`. Quem tinha contorno próprio de contenção no sistema pode retirá-lo.
+
 ### ✨ Adicionado
 
 - **Layout genérico da página inicial:** classes `ui-banner` (destaque com barra de acento), `ui-section-title`, `ui-slot-grid` (grade de 4, 2 e 1 colunas) e `ui-slot` (com `data-size="large"` e `data-empty`) em `base.css`, na camada `tec-base`, com contraste alto. Vieram do `web-templatetec` (`banner`, `titulo-secao`, `painel`, `espaco`), onde estavam sem camada.

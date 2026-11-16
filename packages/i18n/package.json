@@ -29,6 +29,6 @@
     "build": "tsc -p tsconfig.build.json"
   },
   "dependencies": {
-    "intl-messageformat": "^12.1.4"
+    "intl-messageformat": "^12.1.5"
   }
 }
